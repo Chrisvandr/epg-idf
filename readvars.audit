@@ -1,0 +1,24 @@
+ ReadVarsESO
+ Requested ESO file=eplusout.eso
+ does not exist.  ReadVarsESO program terminated.
+ ReadVarsESO program terminated.
+ ReadVarsESO
+ Requested ESO file=eplusout.eso
+ does not exist.  ReadVarsESO program terminated.
+ ReadVarsESO program terminated.
+ ReadVarsESO
+ Requested ESO file=eplusout.eso
+ does not exist.  ReadVarsESO program terminated.
+ ReadVarsESO program terminated.
+ ReadVarsESO
+ Requested ESO file=eplusout.eso
+ does not exist.  ReadVarsESO program terminated.
+ ReadVarsESO program terminated.
+ ReadVarsESO
+ processing:test.rvi
+ input file:CentralHouse_221_0.eso
+ output file:eplusout_ch.csv
+ getting all vars from:CentralHouse_221_0.eso
+  number variables requested for output=        2152
+ ReadVars Run Time=00hr 01min 12.56sec
+ ReadVarsESO program completed successfully.
