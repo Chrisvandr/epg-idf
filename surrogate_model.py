@@ -1,18 +1,28 @@
 import numpy as np
+from numpy import linspace
 import getpass
 import time
 import pandas as pd
+from datetime import datetime, timedelta
+import os
+import sys
+import csv
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+import matplotlib.cm as cm
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+#from mpl_toolkits.mplot3d import Axes3D
 
 #import scipy
-from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit, leastsq, least_squares, minimize
 from scipy.spatial.distance import pdist, squareform
-from scipy.stats import spearmanr, pearsonr
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from scipy.stats import spearmanr, pearsonr, sem
+from scipy.stats.kde import gaussian_kde
 
-#Sensitivity modulespip install
+#Sensitivity modules
 from SALib.sample import saltelli
-from SALib.analyze import sobol
+from SALib.analyze import sobol, delta, fast, morris, dgsm, ff
 from SALib.test_functions import Ishigami
 
 #Sci-kit modules
@@ -30,171 +40,521 @@ from sklearn.multioutput import MultiOutputRegressor
 
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, median_absolute_error
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, median_absolute_error, explained_variance_score
 
 UserName = getpass.getuser()
 DataPath = 'C:/Users/' + UserName + '\Dropbox/01 - EngD/07 - UCL Study/Legion and Eplus/SURROGATE/'
-df = pd.read_csv(DataPath+ 'test_data.csv', header=0)
-cols = df.columns.tolist()
 
-colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b','#d62728','#9467bd','#aec7e8','#ffbb78','#98df8a','#c49c94','#ff9896','#c5b0d5','#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b','#d62728','#9467bd','#aec7e8','#ffbb78','#98df8a','#c49c94','#ff9896','#c5b0d5']
+#DataPath_model_real = 'C:/Users/' + UserName + '\Dropbox/01 - EngD/07 - UCL Study/01_CentralHouse/Model/LegionRuns/'
+DataPath_model_real = 'C:/EngD_hardrive/UCL_DemandLogic/01_CentralHouse_Project/LegionRuns/'
 
-X_real = df.ix[:,0:20]
-X_real = X_real.as_matrix()
-Y_real = df.ix[:,21:23]
-Y_real = Y_real.as_matrix()
+floor_area = 5876 #model floor area?
+
+def GaussianDistMultiVariable(df): # works only with 15min data!!
+    print(len(df.shape))
+    plt.figure(figsize=(16/2.54, 8/2.54))
+    if len(df.shape) == 1: # if df only exists of one variable/columns
+        kde = gaussian_kde(df)
+        dist_space = linspace(min(df), max(df), 100)
+        plt.plot(dist_space, kde(dist_space), label="occupied")
+
+    elif len(df.shape)>1: # for multiple columns
+        cols = df.columns.tolist()
+        for i,v in enumerate(cols):
+            colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b','#d62728','#9467bd','#aec7e8','#ffbb78','#98df8a','#c49c94','#ff9896','#c5b0d5','red','green','blue','black', '#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b','#d62728','#9467bd','#aec7e8','#ffbb78','#98df8a','#c49c94','#ff9896','#c5b0d5','red','green','blue','black']
+            #print(df[v])
+            kde = gaussian_kde(df[v])
+            dist_space = linspace(min(df[v]), max(df[v]), 100)
+            #print(dist_space)
+            plt.plot(dist_space, kde(dist_space), label=v, color=colors[i])
+
+    plt.gcf().subplots_adjust(bottom=0.15)
+    #plt.tight_layout()
+    plt.legend(loc='best')
+    plt.ylabel('Distribution')
+    plt.xlabel('Energy [kWh/m2a]')
+    plt.show()
+def PlotAllArea(df):
+    plt.style.use('ggplot')
+    print('shape of df: ', len(df.shape))
+
+    if len(df.shape) == 1: # if df only exists of one variable/columns
+        df.plot(kind='area', stacked=True, color='#1f77b4', alpha=.5)
+
+    elif len(df.shape)>1: # for multiple columns
+        colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd', '#aec7e8', '#ffbb78', '#98df8a',
+                  '#c49c94', '#ff9896', '#c5b0d5']
+        cols = df.columns.tolist()
+        df.plot(kind='area', stacked=True, color=colors, legend='best', alpha=.5)
+
+    plt.legend(loc='best')
+    plt.ylabel('Energy [J]')
+    plt.show()
+def MultiBarPlot(df):
+    if len(df.shape) == 1: # if df only exists of one variable/columns
+        df.plot(kind='bar', stacked=True,legend='best', color='#1f77b4', alpha=.5)
+    elif len(df.shape)>1: # for multiple columns
+        colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd', '#aec7e8', '#ffbb78', '#98df8a',
+                  '#c49c94', '#ff9896', '#c5b0d5', 'red', 'green', 'blue', 'black']
+        cols = df.columns.tolist()
+        df.plot(kind='bar', stacked=True,legend='best', color=colors, alpha=.5)
+
+    plt.gcf().autofmt_xdate()
+    plt.ylabel('Energy (kWh)')
+    plt.show()
+def MultiBarBoxPlot(df):
+    if len(df.shape) == 1: # if df only exists of one variable/columns
+        df.plot.box()
+    elif len(df.shape)>1: # for multiple columns
+        colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd', '#aec7e8', '#ffbb78', '#98df8a',
+                  '#c49c94', '#ff9896', '#c5b0d5', 'red', 'green', 'blue', 'black']
+        cols = df.columns.tolist()
+        df.plot.box()
+
+    plt.legend(loc='best')
+    plt.ylabel('Energy (kWh)')
+    plt.show()
+def test_data(DataPath):
+    df = pd.read_csv(DataPath+ 'test_data.csv', header=0)
+
+    X_real = df.ix[:,0:20]
+    cols_inputs = X_real.columns.tolist()
+    X_real = X_real.as_matrix()
+    Y_real = df.ix[:,21:23]
+    cols_outputs = Y_real.columns.tolist()
+    Y_real = Y_real.as_matrix()
+
+    # X_train, X_test, Y_train, Y_test = train_test_split(X_real, Y_real) #randomly split your data
+    # print(X_train.shape, Y_train.shape)
+    # print(Y_train.ravel().shape)
+    # print(X_real)
+
+    return Y_real, X_real, cols_outputs, cols_inputs
+
+def import_outputs(DataPath_model_real):
+    runs = pd.DataFrame()
+    run_no = []
+    done = False
+    for i in range(300):
+        #print(str(format(i, '04')))
+        file_name = 'eplusmtr'+str(format(i, '04'))+'.csv'
+        rng = pd.date_range(start='1/1/2017 01:00:00', end='2/1/2017',freq='H')
+
+        #TODO if using actual weather file in comparison to real data, i have to set exact months isntead in rng.
+        df = pd.read_csv(os.path.join(DataPath_model_real, file_name), header=0, index_col=0)
+        df = df[48:] #exclude 2 design days
+        df = df.set_index(rng)
+        df.index = df.index - pd.DateOffset(hours=1) # !! set all hours back one, so that 01:00 = 00:00 and 24:00 becomes 23:00.
+        # So the energy use in the first hour is set at 00:00. This is in line with the submetered data
+        # Also, pandas works from 0-23hours, it would otherwise count 24 towards the next day.
+
+        plot_run = 1 # plotting single runs.
+        if plot_run == 0:
+            if i == 20: #plot which run
+                df = df[:24*7] #length 7 days
+                df = df.div(3600*1000*floor_area)
+                PlotAllArea(df)
+                done = True
+                break
+
+        df_year = df.resample('A').sum()
+        run_no.append(file_name[-8:-4]) # get run number
+        runs = pd.concat([runs, df_year], axis=0)
+
+        if done == True:
+            sys.exit('plotting single run and breaking')
+            break
+
+    cols = runs.columns.tolist()
+    cols_outputs = []
+    run_no = pd.DataFrame(pd.Series(run_no)) # create pandas dataframe of run numbers
+    #print(run_no)
+    run_no.columns = ['run_no']
+    run_no = run_no.ix[:, 0].str.replace("_", "0") # TODO for now replace run no undersscores
+    for i, v in enumerate(cols):
+        v = v[:10]
+        cols_outputs.append(v)
+    runs.reset_index(drop=True, inplace=True) # throw out the index (years)
+    runs.columns = cols_outputs  # rename columns
+    runs = pd.concat([run_no, runs], axis=1, ignore_index=False) # prepend the run numbers to existing dataframe
+
+    ## Output the energy predictions to .csv ##
+    runs.to_csv(DataPath_model_real + 'runs_outputs.csv')
+    runs.drop('run_no', axis=1, inplace=True)
+
+
+    ## Check convergence of outputs over iterations ##
+    plot_std = 0
+    if plot_std is 1:
+        print('standard error', sem(runs.iloc[:300]))
+        df_std, df_stderr = pd.DataFrame(), pd.DataFrame()
+        for i in range(9, 299, 10):
+            s1 = pd.Series(runs.iloc[:i].std(), name=str(i))
+            s2 = pd.Series(sem(runs.iloc[:i]), name=str(i))
+            df_std = pd.concat([df_std, s1], axis=1)
+            df_stderr = pd.concat([df_stderr, s2], axis=1)
+
+        print(runs.iloc[:300].mean() - (sem(runs.iloc[:300]) * 1.96))
+        print(runs.iloc[:300].mean() + (sem(runs.iloc[:300]) * 1.96))
+        df_std = df_std.transpose()
+        df_stderr = df_stderr.transpose()
+        df_stderr.columns = cols_outputs
+
+        ax1 = df_stderr.plot(figsize=(16/2.54, 8/2.54), title='Standard error')
+        ax1.set_ylabel('MWh')
+        ax1.set_xlabel('Iterations')
+
+        #df_std[[3]].plot() ## use df_std[[0]] to call a single column
+
+    runs = runs.div(3600*1000*floor_area) # convert Joules to kWh
+
+    ## BoxPlot multiple iterations in a boxplot to see distribution ##
+    #ax2 = runs.plot.box()
+    #ax2.set_ylabel('MWh')
+
+
+    #MultiBarPlot(runs)
+    #MultiBarBoxPlot(runs)
+    #GaussianDistMultiVariable(runs.ix[:,0:7]) # to look at a single end-use, do runs[[col-no]], for several use, runs.ix[:,5:7]
+
+    #runs.drop('WaterSyste', axis=1, inplace=True)
+    cols_outputs = runs.columns.tolist()
+    #print(runs.iloc[[20]]) # get row at index 20
+    Y_real = runs.as_matrix()
+    print('Y_real.shape', Y_real.shape)
+    plt.show()
+
+    return Y_real, cols_outputs
+
+def import_inputs(DataPath_model):
+    df = pd.read_csv(DataPath_model_real + 'inputs_CentralHouse_222backup2.csv', header=0) #TODO using backup file atm
+    cols_inputs = df.columns.tolist()
+    #print(["%.2d" % x for x in (np.arange(0, df.shape[0]))]) #zero pad a list of numbers
+    runs_no_inputs = pd.DataFrame(["%.2d" % x for x in (np.arange(0, df.shape[0]))])
+    df = pd.concat([runs_no_inputs, df], axis=1, ignore_index=True)
+    X_real = df.ix[:,:]
+    X_real = X_real.drop(df.columns[[0]], axis=1) #drop run_no column
+    print('X_real shape', X_real.shape)
+    X_real = X_real.as_matrix()
+
+    return X_real, cols_inputs
+
+Y_real, cols_outputs = import_outputs(DataPath_model_real) # real output data
+X_real, cols_inputs = import_inputs(DataPath_model_real) # real input data
+
+
+
+#Cut down data
+#Y_real = Y_real[:50]
+#X_real = X_real[:50]
 print(X_real.shape, Y_real.shape)
+#TEST DATA
+#Y_real, X_real, cols_outputs, cols_inputs = test_data(DataPath) # test data
 
-X_train, X_test, Y_train, Y_test = train_test_split(X_real, Y_real) #randomly split your data
-print(X_train.shape, Y_train.shape)
-print(Y_train.ravel().shape)
+X_real_data = np.vstack((cols_inputs, X_real))
+Y_real_data = np.vstack((cols_outputs,Y_real))
+X_train, X_test, Y_train, Y_test = train_test_split(X_real, Y_real) #randomly split data
 
+#put inputs and outputs in one csv file for review.
+input_outputs = np.hstack((X_real_data, Y_real_data))
+with open(DataPath_model_real+"input_outputs.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(input_outputs)
 
-def correlations():
+def visualise_outputs(Y_real, cols_outputs):
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd', '#aec7e8', '#ffbb78', '#98df8a',
+              '#c49c94', '#ff9896', '#c5b0d5', '#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd',
+              '#aec7e8', '#ffbb78', '#98df8a', '#c49c94', '#ff9896', '#c5b0d5']
     fig = plt.figure(0)
-    ax = plt.subplot(111)
+    ax1 = plt.subplot(111)
+    print(Y_real.shape[0])
+    ind = np.arange(Y_real.shape[0])
+    bar_width = .3
 
-    print(cols[0], cols[21])
-    print(spearmanr(X_real[:,0], Y_real[:,0])[0])
-    print(pearsonr(X_real[:, 0], Y_real[:, 0])[0])
-    bar_width = .4
-    spearman_list, pearsonr_list = [], []
-    y_pos = np.arange(X_real.shape[1])
-    for i in xrange(X_real.shape[1]):
-        spearman_list.append(spearmanr(X_real[:, i], Y_real[:, 0])[0])
-        pearsonr_list.append(pearsonr(X_real[:, i], Y_real[:, 0])[0])
+    # TODO make a second figure to plot the scores
+    #ax2.y_ticks(y_pos+bar_width /2, prediction.columns)
+    box = ax1.get_position()
+    ax1.set_position([box.x0, box.y0, box.width*.8, box.height])
 
-    ax.barh(y_pos, spearman_list, bar_width,
-            color='#1f77b4',
-            label='Spearman')
-    ax.barh(y_pos+bar_width, pearsonr_list, bar_width,
-            color='#ff7f0e',
-            label='Pearson')
+    # plot actual data
+    for i in range(len(cols_outputs)):
+        ax1.bar(ind+bar_width, Y_real[:,i], bar_width, color=colors[i], label=cols_outputs[i])
 
-    plt.xlabel('Correlation')
-    plt.yticks(y_pos + bar_width / 2, cols)
-    plt.legend()
+    ax1.legend(bbox_to_anchor=(1,.5), loc='center left')    #http://stackoverflow.com/questions/4700614/how-to-put-the-legend-out-of-the-plot
+    #ax2.legend(bbox_to_anchor=(1,.5), loc='center left')
     #plt.tight_layout()
     plt.show()
-#correlations()
+#visualise_outputs(Y_real, cols_outputs)
+
+#Correlation coefficients on real data
+
+def correlations(DataPath_model_real, X_real, Y_real, cols_outputs, cols_inputs):
+    #fig = plt.figure(0)
+    #ax = plt.subplot(111)
+
+    print('no. variables', len(cols_inputs))
+    print(spearmanr(X_real[:,0], Y_real[:,0])[0])
+    print(pearsonr(X_real[:,0], Y_real[:,0])[0])
+
+    df_corr = pd.DataFrame(cols_inputs)
+    df_corr.columns = ['variables']
+    for j in range(Y_real.shape[1]):
+        spearman_list, pearsonr_list = [], []
+        for i in range(X_real.shape[1]):
+            spearman_list.append(spearmanr(X_real[:, i], Y_real[:, j])[0])
+            pearsonr_list.append(pearsonr(X_real[:, i], Y_real[:, j])[0])
+        #append list to df
+        spear = pd.Series(spearman_list)
+        df_corr[cols_outputs[j]] = spear
+
+    df_corr.set_index('variables', inplace=True)
+    df_corr.to_csv(DataPath_model_real + 'correlations.csv')
+    print(df_corr.shape)
+
+    ## PLOT Check convergence of correlations coefficients over model iterations ##
+    plot_std = 0
+    if plot_std is 1:
+        df_stdcorr = pd.DataFrame()
+        output_variable = 4 # which output variable (energy use) to look at
+        for i in range(101, 110, 1): # looking at different input variables
+            df_std  = pd.DataFrame()
+            spearman_list = []
+            iterations = []
+            for j in range(9, 300, 10):
+                iterations.append(j)
+                spearman_list.append(spearmanr(X_real[:j, i], Y_real[:j,output_variable])[0]) #last 0 signifies the rho value (1 = p-value)
+            s1 = pd.Series(spearman_list) # put correlations in series
+            df_std = pd.concat([df_std, s1], axis=0) #combine empty dataframe with correlations from series
+            df_std.columns = [cols_outputs[output_variable]+'_'+cols_inputs[i]] #name column
+            df_stdcorr = pd.concat([df_stdcorr, df_std], axis=1) #combine multiple correlations
+
+        s_it = pd.Series(iterations, name='iterations')
+        df_stdcorr = pd.concat([df_stdcorr, s_it], axis=1)
+        df_stdcorr.set_index('iterations', inplace=True)
+        ax1 = df_stdcorr.plot(title='Spearman Correlation')
+        box = ax1.get_position()
+        ax1.set_position([box.x0, box.y0, box.width * .6, box.height])
+
+        ax1.legend(bbox_to_anchor=(1, .5), loc='center left')
+        ax1.set_ylabel('Correlation')
+        ax1.set_xlabel('Iterations')
+
+    #spearman_results.columns = ['correlation']  # rename columns
+    #spearman_results = spearman_results.sort_values(['correlation'], ascending='True')
+    #print(spearman_results.head())
+
+    # PLOT with Matplotlib
+    # y_pos = np.arange(X_real.shape[1])
+    # bar_width = .8
+    #ax.barh(y_pos, spearman_results['correlation'], bar_width,color='#1f77b4',label='Spearman'+cols_outputs[0])
+    # ax.barh(y_pos+bar_width, pearsonr_list, bar_width,
+    #         color='#ff7f0e',
+    #         label='Pearson')
+
+    #spearman_results = pd.DataFrame(pd.Series(df_corr, cols_inputs))
+    #df_corr.iloc[:,0].plot.barh(stacked=True)
+
+    ## PLOT Correlations ##
+    plot_corr = 0
+    if plot_corr == 1:
+        fig, ax = plt.subplots()
+        width = 1/len(cols_outputs)
+        df_corr = df_corr[abs(df_corr[cols_outputs[0]]) > 0.2]
+        print(df_corr.index)
+        print(df_corr)
+        #locs, labels = xticks()
+        ind = np.arange(len(df_corr))
+        for i in range(len(cols_outputs)):
+            ax.barh(ind+i*width, df_corr[cols_outputs[i]], width, label=cols_outputs[i])
+        ax.set_yticks(ind+.5) # set positions for y-labels, .5 to put the labels in the middle
+        ax.set_yticklabels(df_corr.index) # set y labels ('variables') from index
+        ax.set_xlabel('Correlation coefficient')
+        box = ax.get_position()
+        ax.legend(bbox_to_anchor=(1, .5), loc='center left') # bbox_to_anchor=(all the way next to the plot =1 if center left = loc, height 0.5 is in the middle)
+        plt.tight_layout(rect=[0, 0, 0.8, 1], pad=.75, w_pad=0.1, h_pad=0.1) # use rect to adjust the plot sides rects=[left, bottom, right, top]
+        # plt.xlabel('Correlation')
+        # plt.yticks(y_pos + bar_width / 2, spearman_results.index)
+        # plt.legend()
+
+    ## PLOT HEATMAP ##
+    plot_heatmap = 0
+    if plot_heatmap == 1:
+        df_corr = df_corr[abs(df_corr[cols_outputs[0]]) > 0.2]
+        heatmap = df_corr.as_matrix(columns=cols_outputs)
+        #print(heatmap)
+        #cm = plt.get_cmap('spectral')
+        fig, ax = plt.subplots()
+        im = ax.matshow(heatmap, cmap=cm.Spectral_r, interpolation='none')
+        ind = np.arange(len(df_corr))
+
+        ax.set_yticks(ind)  # set positions for y-labels, .5 to put the labels in the middle
+        ax.set_yticklabels(df_corr.index)  # set y labels ('variables') from index
+        ax.set_yticks(ind + .5, minor=True)
+        ax.set_xticklabels('')
+        ax.set_xticks(ind)  # set positions for y-labels, .5 to put the labels in the middle
+        ax.set_xticklabels(cols_outputs, rotation=90)  # set y labels ('variables') from index
+        ax.set_xticks(ind + .5, minor=True)
+        ax.grid(which='minor', linewidth=2)
+        ax.grid(False, which='major')
+
+        # annotating the data inside the heatmap
+        print('print heatmpa data', heatmap[0][0])
+        for y in range(df_corr.shape[0]):
+            for x in range(df_corr.shape[1]):
+                plt.text(x, y, '%.2f' % heatmap[y][x],
+                         horizontalalignment='center',
+                         verticalalignment='center',
+                         fontsize=9)
+
+        cbar = plt.colorbar(im, fraction=0.04555, pad=0.04)
+        cbar.ax.tick_params(labelsize=9)
+        #ax.legend(bbox_to_anchor=(1, .5), loc='center left')  # bbox_to_anchor=(all the way next to the plot =1 if center left = loc, height 0.5 is in the middle)
+        plt.tight_layout(rect=[0, 0, 0.8, 1], pad=.75, w_pad=0.1, h_pad=0.1)  # use rect to adjust the plot sides rects=[left, bottom, right, top]
+
+    plt.show()
+#correlations(DataPath_model_real, X_real, Y_real, cols_outputs, cols_inputs)
 
 
-#Sobol does not work for the test data as it is sampled by LHS and it needs to be sampled by saltelli sampling (which creates many more variables).
-def sobol_analysis():
-    # https://media.readthedocs.org/pdf/salib/latest/salib.pdf | http://salib.github.io/SALib/
-    # https://waterprogramming.wordpress.com/2013/08/05/running-sobol-sensitivity-analysis-using-salib/
-    print(df.ix[:,0:20].columns.tolist())
-    print(len(df.ix[:,0:20].columns.tolist()), X_real.shape[1])
 
-    problem = {
-        'num_vars': 3,
-        'names': ['x1', 'x2', 'x3'],
-        'bounds': [[-np.pi, np.pi]]*3
-    }
-
-    param_values = saltelli.sample(problem, 100, calc_second_order=True)
-    print(param_values.shape)
-
-    Y = Ishigami.evaluate(param_values)
-    Si = sobol.analyze(problem, Y, calc_second_order=False)
-    print(Si)
-
-    problem = {
-        'num_vars': X_real.shape[1],
-        'names': df.ix[:,0:20].columns.tolist(),
-        'bounds': [[-np.pi, np.pi]]*3
-    }
-
-    Si = sobol.analyze(problem, Y_real, calc_second_order=False)
-    print(Si)
-#sobol_analysis()
-
-
-def surrogate_model(X_train, X_test, Y_train, Y_test):
+def surrogate_model(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs):
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd', '#aec7e8', '#ffbb78', '#98df8a',
+              '#c49c94', '#ff9896', '#c5b0d5', '#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd',
+              '#aec7e8', '#ffbb78', '#98df8a', '#c49c94', '#ff9896', '#c5b0d5']
 
     lr = LinearRegression()
     lasso = Lasso()
     rr = Ridge()
     pls = PLSRegression() # is really inaccurate, can I increase its accuracy??
     knn = KNeighborsRegressor(5, weights='uniform')
-    nn = MLPRegressor(hidden_layer_sizes=(10,), solver='lbfgs')
+    nn = MLPRegressor(hidden_layer_sizes=(100,), solver='lbfgs')
     rf = RandomForestRegressor()
 
     #ransac = RANSACRegressor()
     #hr = HuberRegressor()
+
+    print(X_train.shape, Y_train.shape)
 
     # do not support multivariate regression, use MultiOutputRegressor
     bayesm = BayesianRidge()
     svrm = SVR(kernel='linear', C=1000) # takes about 100s
     gpr = GaussianProcessRegressor(C(1.0, (1e-3, 1e3)) * RBF(10, (1e-2, 1e2)))
 
-    #("PLS", pls), ("SVR", svrm)
-    models = [("LR",lr), ("Lasso", lasso), ("rr", rr),  ("k-NN", knn), ("NN", nn), ("RF", rf), ("BR", bayesm), ("GPR", gpr)]
+    #("PLS", pls), ("SVR", svrm), # take too long
+    #, ("rr", rr),  ("k-NN", knn), ("NN", nn), ("RF", rf), ("BR", bayesm), ("Lasso", lasso), ("NN", nn), ("GPR", gpr)
+    models = [("LR", lr), ("rr", rr)] # is of type list #print(type(models))
 
     x=0
     fig = plt.figure()
-    ax1, ax2 = plt.subplot(211), plt.subplot(212)
+    ax1 = plt.subplot(111)
+    y_pos = np.arange(len(models)) # no. of models/methods i am using.
+    r2_list, mse_list, time_list, mae_list, evar_list = [], [], [], [], [] # fill lists with evaluation scores
 
-    r2_list, mse_list, time_list, mae_list = [], [], [], []
+    predictions = pd.DataFrame()
+    for i in range(len(cols_outputs)):
+        true_series = pd.Series(Y_test[:,i], name=cols_outputs[i]+'_true')
+        predictions = pd.concat([predictions, true_series], axis=1)
+    model_names = []
+
+    ##
     for name, model in models:
-        if model in {bayesm, svrm, gpr}:
+        model_names.append(name)
+        if model in {bayesm, svrm, gpr}: # use multioutputregressor for these methods
             # tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4], 'C': [1, 10, 100, 1000]},
             #                         {'kernel': ['linear'], 'C': [1, 10, 100, 1000]}]
             # surrogate = GridSearchCV(svrm, tuned_parameters)
-            model = MultiOutputRegressor(model)
+            multi_model = MultiOutputRegressor(model)
 
         stime = time.time()
-        prediction = model.fit(X_train, Y_train).predict(X_test)
-        print("Time for", name, ": %.3f" %(time.time() - stime))
-        time_list.append((time.time() - stime))
-        r2_list.append(r2_score(Y_test, prediction, multioutput='uniform_average'))
-        mse_list.append(mean_squared_error(Y_test, prediction))
-        mae_list.append(mean_absolute_error(Y_test, prediction))
-        print("mean-squared-error:", mean_squared_error(Y_test, prediction))
 
+        # fitting
+        if model in {bayesm, svrm, gpr}:
+            prediction = multi_model.fit(X_train, Y_train).predict(X_test)
+        elif model in {lr, rr, nn, knn, rf, lasso, nn, pls}:
+            prediction = model.fit(X_train, Y_train).predict(X_test)
+        #print(prediction[:,1])
+
+        # timing / scoring
+        time_list.append("{0:.4f}".format(((time.time() - stime))))
+        r2_list.append("{0:.4f}".format((r2_score(Y_test, prediction, multioutput='uniform_average'))))
+        mse_list.append("{0:.4f}".format((mean_squared_error(Y_test, prediction))))
+        mae_list.append("{0:.4f}".format((mean_absolute_error(Y_test, prediction))))
+        evar_list.append("{0:.4f}".format((explained_variance_score(Y_test, prediction))))
         #print "r2:", model.score(X_test, Y_test)
 
-        if model == svrm:
-            print("hi")
-            print(model.score())
-        prediction = prediction[prediction[:, 0].argsort()] # sort the predicted data
-        ax1.plot(prediction[:,0], color=colors[x], label=name+' T1') # plot first column
-        ax1.plot(prediction[:,1], color=colors[x])
+        print(name)
+        if model in {bayesm, svrm, gpr}:
+            print('coef_', models[x][1].score)
+            #print('params', models[x][1].get_params)
+        elif model in {lr, rr, nn, knn, rf, lasso, nn, pls}:
+            df_coef = pd.DataFrame(models[x][1].coef_, cols_outputs)
+            df_intercept = pd.DataFrame(models[x][1].intercept_, cols_outputs)
+            #print('coef_', models[x][1].coef_)
+            #print('shape coef_', models[x][1].coef_.shape) # for each output Y there and input variables X, there are X by Y number of coefficients.
+            #print('intercept_', models[x][1].intercept_) # and for each output Y there are Y number of intercepts
+
+        #print(df_coef.head())
+        ## Send function coefficients and intercept for each model to csv ##
+        df_coef.to_csv(DataPath_model_real + name +'_coef.csv')
+        df_intercept.to_csv(DataPath_model_real + name + '_intercept.csv')
+
+        ## Plotting ##
+        for i in range(len(cols_outputs)):
+            prediction_series = pd.Series(prediction[:,i], name=cols_outputs[i]+'_'+name)
+            predictions = pd.concat([predictions, prediction_series], axis=1)
+
+            #print(cols_outputs[i], name, prediction[:5], Y_test[:5])
+            ax1.plot(prediction[:,i], color=colors[x], label=name if i == 0 else "") # plot first column, and label once
         x+=1
 
-    y_pos = np.arange(len(models))
-    bar_width = .3
-    print(y_pos)
-    print(r2_list)
-    print(mae_list)
-    print(time_list)
-    ax2.barh(y_pos, r2_list)
-    ax2.barh(y_pos, mae_list)
-    ax2.barh(y_pos, mse_list)
 
+    #print(X_test[0])
+    #x0 = np.array(X_test[0])  # single run of test_data
+    #print(x0)
+    #print(df_coef)
+    #f(x0, df_coef, df_intercept)
+    #x, cov, infodict, mesg, ier = minimize(f, x0[:], args=(df_coef, df_intercept), method='SLSQP')
+    #print('calibrated variables', x)
+
+
+    for i in range(len(cols_outputs)):
+        ax1.plot(Y_test[:, i], 'o', color=colors[i], label=cols_outputs[i])
+
+    #print(predictions[:5])
+    predictions.to_csv(DataPath_model_real+'predictions.csv')
+
+    #Y_test = Y_test[Y_test[:,0].argsort()] # sort test data based on frist column
+    bar_width = .3
+
+    #print('time [s]:', time_list)
+    df_scores = pd.DataFrame(np.column_stack([[x[0] for x in models], r2_list, mae_list, mse_list, time_list]),
+                             columns=['Algorithms','$\mathregular{r^{2}}$', 'Mean absolute error', '$\mathregular{Mean squared error [kWh/m^{2}a]}$', 'Training time [s]'])
+    df_scores.set_index('Algorithms', inplace=True)
+    df_scores=df_scores.astype(float) #change data back to floats..
+    df_scores.plot.bar(stacked=False)
+    #print(df_scores)
 
     box = ax1.get_position()
     ax1.set_position([box.x0, box.y0, box.width*.8, box.height])
-    Y_test = Y_test[Y_test[:,0].argsort()]
-    ax1.plot(Y_test, 'o', color='black', label='actual')
-    ax1.legend(bbox_to_anchor=(1,.5), loc='center left') #http://stackoverflow.com/questions/4700614/how-to-put-the-legend-out-of-the-plot
+
+    ax1.legend(bbox_to_anchor=(1,.5), loc='center left')    #http://stackoverflow.com/questions/4700614/how-to-put-the-legend-out-of-the-plot
+    ax1.set_ylabel('[kWh/m2a]')
     #plt.tight_layout()
     plt.show()
-surrogate_model(X_train, X_test, Y_train, Y_test)
+#surrogate_model(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs)
+
+
 
 # TODO sensitivity analysis / sobol indices / uncertainty decomposition
 # TODO for GPR, what kernel to use?
 # TODO MARS not implemented in sklearn it seems, could use pyearth https://statcompute.wordpress.com/2015/12/11/multivariate-adaptive-regression-splines-with-python/
-# TODO http://scikit-learn.org/stable/modules/model_evaluation.html
 # TODO http://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py
 # TODO have to cross-validate SVR the choice of parameters to increase regression accuracy
 
-# TODO timeseries
+# TODO timeseries / monthly data.
 # http://stackoverflow.com/questions/20841167/how-to-predict-time-series-in-scikit-learn
 # http://stackoverflow.com/questions/30346605/time-series-forecasting-with-scikit-learn
 # http: // machinelearningmastery.com / arima - for -time - series - forecasting -with-python /
 # http: // stackoverflow.com / questions / 31379845 / forecasting - with-time - series - in -python
-
 
 # TODO Polynomial regression
 # TODO Logistic Regression is a classifier not a regressor....
@@ -203,223 +563,3 @@ surrogate_model(X_train, X_test, Y_train, Y_test)
 # http://stats.stackexchange.com/questions/82050/principal-component-analysis-and-regression-in-python
 # http://scikit-learn.org/stable/auto_examples/plot_digits_pipe.html#sphx-glr-auto-examples-plot-digits-pipe-py
 
-
-
-
-
-# # Run this once to see which is the best fit
-# tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4], 'C': [1, 10, 100, 1000]},
-#                     {'kernel': ['linear'], 'C': [1, 10, 100, 1000]}]
-# svr_bestfit = GridSearchCV(SVR(kernel='rbf', C=1, degree=3, gamma='auto', tol=0.001), tuned_parameters)
-#
-# svr_bestfit = svr_bestfit.fit(X_train, Y_train.ravel())
-# Y_SVR_bestfit = svr_bestfit.predict(X_test)
-# print svr_bestfit.best_params_, svr_bestfit.best_score_
-#Results: {'kernel': 'linear', 'C': 1000} 0.873165196262
-#print X_train.shape, Y_train.shape
-# Support Vector Regression with linear and rbf kernel
-#stime = time.time()
-#Y_SVR_LR = LinearSVR().fit(X_train, Y_train).predict(X_test)
-#Y_SVR_RBF = SVR(kernel='rbf', C=1000, degree=3, gamma=0.0001, tol=0.001).fit(X_train, Y_train.ravel()).predict(X_test)
-# print("Time for SVR linear prediction: %.3f" % (time.time() - stime))
-
-#Multiregressor  http://scikit-learn.org/stable/modules/generated/sklearn.multioutput.MultiOutputRegressor.html#sklearn.multioutput.MultiOutputRegressor
-
-#model evaluation
-#http://scikit-learn.org/stable/modules/model_evaluation.html
-
-
-# print Y_test[:5]
-# Y = np.hstack((Y_test, Y_knn)) # Y_lr, Y_ridge, Y_knn, Y_nn, Y_pls concatenate the arrays, real and predicted results
-# #print 'True data\n',Y[:5]
-#
-# # PLOT RESULTS
-# plt.figure(0)
-# for i in xrange(len(Y[0])):
-#     plt.plot(Y[:,i], label=i)
-# plt.legend(loc='best')
-#
-# Y = Y[Y[:,0].argsort()] # sort the arrays based on the real results from low to high
-# plt.figure(1)
-# for i in xrange(len(Y[0])):
-#     plt.plot(Y[:,i], label=i)
-#
-# #plt.title("MSE: %s\n R^2: %s" % (mean_squared_error(Y_test, Y_lr), r2_score(Y_test, Y_lr)))
-# plt.legend(loc='best')
-# plt.show()
-
-
-
-#Linear Regression
-# stime = time.time()
-# lr = LinearRegression()
-# Y_lr = lr.fit(X_train, Y_train).predict(X_test)
-# print("Time for Linear Regression: %.3f" % (time.time() - stime))
-# #print 'Linear Regression Coefficients\n', lr.coef_ # what is lr.coef_[0] ? the features? http://stackoverflow.com/questions/26951880/scikit-learn-linear-regression-how-to-get-coefficients-respective-features
-# print 'MSE Linear Regression = ', mean_squared_error(Y_test, Y_lr)
-# print 'R^2 = ', lr.score(X_test, Y_test)
-
-
-
-# Ridge Regression
-# stime = time.time()
-# ridge = Ridge()
-# Y_ridge = ridge.fit(X_train, Y_train).predict(X_test)
-# print("Time for Ridge Regression fitting: %.3f" % (time.time() - stime))
-# print 'MSE Ridge Regression = ', mean_squared_error(Y_test, Y_ridge)
-# print 'R^2 = ', ridge.score(X_test, Y_test)
-
-# Partial Least Squares Regression
-# stime = time.time()
-# pls = PLSRegression(X_train.shape[1]).fit(X_train, Y_train)
-# Y_pls = pls.predict(X_test)
-# print("Time for PLS Regression fitting: %.3f" % (time.time() - stime))
-# #print 'model coefficients: \n', pls.coef_
-# print 'intercepts: \n', pls.y_mean_ - np.dot(pls.x_mean_, pls.coef_)
-# print 'MSE PLS =', mean_squared_error(Y_test, Y_pls)
-# print 'R^2 PLS =', pls.score(X_test, Y_test)
-#
-# # PLSCanonical (univariate)
-
-# ! Kernel ridge regression is really slow...
-# X_plot = np.linspace(0, 20, 10000)[:, None]
-# stime = time.time()
-# Y_kr = kr.predict(X_test)
-# print Y_kr
-# print("Time for KRR prediction: %.3f" % (time.time() - stime))
-
-#print 'MSE Support Vector Regression with RBF kernel: ', mean_squared_error(Y_test, Y_SVR_RBF)
-#print 'MSE Support Vector Regression with Linear kernel: ', mean_squared_error(Y_test, Y_SVR_LR)
-
-
-# k-Nearest Neighbors Regression
-# http://scikit-learn.org/stable/auto_examples/neighbors/plot_regression.html#sphx-glr-auto-examples-neighbors-plot-regression-py
-# n_neighbors = 5
-# # weights = ['uniform', 'distance']
-# stime = time.time()
-# knn = KNeighborsRegressor(n_neighbors, weights='uniform')
-# Y_knn = knn.fit(X_train, Y_train).predict(X_test)
-# print("Time for k-Nearest Neighbors: %.3f" % (time.time() - stime))
-# print 'MSE KNN = ', mean_squared_error(Y_test, Y_knn)
-# print 'R^2 KNN = ', knn.score(X_test, Y_test)
-# print 'Y_knn', Y_knn.shape
-
-
-# """ Neural Network """
-# # http://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html#sklearn.neural_network.MLPRegressor
-# solvers = ['lbfgs', 'sgd', 'adam'] # adam is also stochastic gradient
-# nn = MLPRegressor(hidden_layer_sizes=(50,), solver='lbfgs')
-# print Y_train.shape
-# stime = time.time()
-# if Y_train.shape[1] > 1:
-#     Y_nn = nn.fit(X_train, Y_train).predict(X_test) # Y needs to be in shape of y to (n_samples, ) print y.shape to see what it looks like
-# else:
-#     Y_nn = nn.fit(X_train, Y_train.ravel()).predict(X_test)
-# print("Time for Neural Network: %.3f" % (time.time() - stime))
-# print 'MSE NN = ', mean_squared_error(Y_test, Y_nn)
-# print 'R^2 NN = ', nn.score(X_test, Y_test) #r2_score(Y_test, Y_nn)
-# Y_nn = Y_nn[:,np.newaxis] # have to create a new axis to add dimension to the array
-# print 'Y_nn',Y_nn.shape
-# print Y_nn[:5]
-# #scaling? http://scikit-learn.org/stable/modules/neural_networks_supervised.html#tips-on-practical-use
-
-
-
-""" #It seems that the current version of sklearn does notn allow for multiple inputs to the same target output (http://stackoverflow.com/questions/34723703/gaussian-process-scikit-learn-exception)
-kernel = 1.0 * RBF(length_scale=100.0, length_scale_bounds=(1e-2, 1e3)) \
-    + WhiteKernel(noise_level=1, noise_level_bounds=(1e-10, 1e+1))
-gp = GaussianProcessRegressor(kernel=kernel,
-                              alpha=0.0).fit(X, y)
-X_ = np.linspace(0, 5, 100)
-y_mean, y_cov = gp.predict(X_test, return_cov=True)
-Y_gp = gp.predict(X_test)
-
-plt.figure(0)
-plt.plot(X_real, Y_real, 'k', lw=3, zorder=9)
-# plt.fill_between(X_, y_mean - np.sqrt(np.diag(y_cov)),
-#                  y_mean + np.sqrt(np.diag(y_cov)),
-#                  alpha=0.5, color='k')
-plt.plot(X_real, Y_gp, 'r', lw=3, zorder=9)
-#plt.scatter(X[:, 0], y, c='r', s=50, zorder=10)
-plt_show()
-"""
-
-""" # GAUSSIAN PROCESS REGRESSION
-# First run
-plt.figure(0)
-kernel = 1.0 * RBF(length_scale=100.0, length_scale_bounds=(1e-2, 1e3)) \
-    + WhiteKernel(noise_level=1, noise_level_bounds=(1e-10, 1e+1))
-gp = GaussianProcessRegressor(kernel=kernel,
-                              alpha=0.0).fit(X, y)
-X_ = np.linspace(0, 5, 100)
-y_mean, y_cov = gp.predict(X_[:, np.newaxis], return_cov=True)
-plt.plot(X_, y_mean, 'k', lw=3, zorder=9)
-plt.fill_between(X_, y_mean - np.sqrt(np.diag(y_cov)),
-                 y_mean + np.sqrt(np.diag(y_cov)),
-                 alpha=0.5, color='k')
-plt.plot(X_, 0.5*np.sin(3*X_), 'r', lw=3, zorder=9)
-plt.scatter(X[:, 0], y, c='r', s=50, zorder=10)
-plt.title("Initial: %s\nOptimum: %s\nLog-Marginal-Likelihood: %s"
-          % (kernel, gp.kernel_,
-             gp.log_marginal_likelihood(gp.kernel_.theta)))
-plt.tight_layout()
-
-# Second run
-plt.figure(1)
-kernel = 1.0 * RBF(length_scale=1.0, length_scale_bounds=(1e-2, 1e3)) \
-    + WhiteKernel(noise_level=1e-5, noise_level_bounds=(1e-10, 1e+1))
-gp = GaussianProcessRegressor(kernel=kernel,
-                              alpha=0.0).fit(X, y)
-X_ = np.linspace(0, 5, 100)
-y_mean, y_cov = gp.predict(X_[:, np.newaxis], return_cov=True)
-plt.plot(X_, y_mean, 'k', lw=3, zorder=9)
-plt.fill_between(X_, y_mean - np.sqrt(np.diag(y_cov)),
-                 y_mean + np.sqrt(np.diag(y_cov)),
-                 alpha=0.5, color='k')
-plt.plot(X_, 0.5*np.sin(3*X_), 'r', lw=3, zorder=9)
-plt.scatter(X[:, 0], y, c='r', s=50, zorder=10)
-plt.title("Initial: %s\nOptimum: %s\nLog-Marginal-Likelihood: %s"
-          % (kernel, gp.kernel_,
-             gp.log_marginal_likelihood(gp.kernel_.theta)))
-plt.tight_layout()
-plt.show()
-"""
-
-"""
-X1 = np.linspace(0,100,101)
-Y1 = np.array([(100*np.random.rand(1)+num) for num in (5*X1+10)])
-print X1.shape, Y1.shape
-print X1
-
-# TODO also look into principal components regression
-n = 1000 # n_samples
-q = 3 # n_outputs
-p = 10 # n_inputs
-
-X = np.random.normal(size=n * p).reshape((n, p)) # n_samples (n) of random n_inputs (p)
-B = np.array([[1, 2] + [0] * (p - 2)] * q).T # create noise for the outputs and function to determine Y based on X values
-# each Yj = 1*X1 + 2*X2 + noize
-Y = np.dot(X, B) + np.random.normal(size=n * q).reshape((n, q)) + 5 # n_samples (n) of random n_outputs with noise
-print X.shape, Y.shape
-"""
-
-
-## linear regression and cross validation with scikit learn
-
-#Gaussian Process Modelling
-# http://scikit-learn.org/stable/modules/gaussian_process.html#gaussian-process-regression-gpr
-
-# Gaussian kernel, what is this?
-# http://stats.stackexchange.com/questions/15798/how-to-calculate-a-gaussian-kernel-effectively-in-numpy
-# this is an NxD matrix, where N is number of items and D its dimensionalites
-# sigma=5
-# pairwise_dists = squareform(pdist(X, 'euclidean'))
-# K = np.exp(-pairwise_dists ** 2 / sigma ** 2)
-# print K
-
-# def fn(x, a, b, c):
-#     return a+ b*x[0] + c*x[1]
-#
-# popt, pcov = curve_fit(fn, x, y)
-# print popt
-# print pcov

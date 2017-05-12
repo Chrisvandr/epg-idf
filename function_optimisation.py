@@ -8,59 +8,63 @@ import getpass
 import time
 import pickle
 import matplotlib.pyplot as plt
-#import networkx as nx
 import pandas as pd
-#from scipy.optimize import minimize, basinhopping, least_squares, leastsq
 from deap import base
 from deap import benchmarks
 from deap import creator
 from deap import tools
 from deap import algorithms
 
-individual_mus = [8, 10, 0.4, 1.2]
-individual_sigmas = [2, 3, 0.09, 0.2]
-intercept = [2, 1, 3] # per objective
-coefs = [[0.4, 0.6, 0.23, 0.16], [0.1, 0.9, 0.53, 0.26], [0.6, 0.1, 0.25, 0.2]] # per variable
-targets = [5, 2, 3] # per objective
-targets = [0.728198335,	0.478837711,	1.507051668,	1.688731628,	0.21321589,	3.550106898,	1.180567061,	0.018584588]
+# individual_mus = [8, 10, 0.4, 1.2]
+# individual_sigmas = [2, 3, 0.09, 0.2]
+# intercept = [2, 1, 3] # per objective
+# coefs = [[0.4, 0.6, 0.23, 0.16], [0.1, 0.9, 0.53, 0.26], [0.6, 0.1, 0.25, 0.2]] # per variable
+
+targets = [1, 0.5, 1.5, 1.7, .2, 3.5, 1.2, 0.02]
+#0.728198335	0.478837711	1.507051668	1.688731628	0.21321589	3.550106898	1.180567061	0.018584588
 
 UserName = getpass.getuser()
 DataPath = 'C:/Users/' + UserName + '\Dropbox/01 - EngD/07 - UCL Study/Legion and Eplus/SURROGATE/'
 DataPath_model_real = 'C:/EngD_hardrive/UCL_DemandLogic/01_CentralHouse_Project/LegionRuns/'
 
-#models = [("LR", lr), ("rr", rr)]
 df_coefs = pd.read_csv(DataPath_model_real+ 'LR_coef.csv', header=0, index_col=0)
 df_intercepts = pd.read_csv(DataPath_model_real+ 'LR_intercept.csv', header=0, index_col=0)
 df_inputs = pd.read_csv(DataPath_model_real+ 'input_outputs.csv', header=0)
 
-#print(df_coefs.iloc[0])
-print(df_coefs.shape[0], df_coefs.shape[1]) # no outputs, no of variables
+# TODO allow for excluding variables with little influence
 
-## Function for calculating the energy end uses based on the coefficients and intercepts from machine learning (The surrogate model)
-def calculate(individual):
-    outputs = []
-    for y in range(df_coefs.shape[0]):
-        output = []  # refill every parameter iteration
-        for x in range(df_coefs.shape[1]):  # for each input variable in the individual/parameter inputs
-            output.append(df_coefs.iloc[y][x] * individual[x])
-        output = sum(output)
-        output = output + df_intercepts.iloc[y][0]
-        outputs.append(output)  # diff
-    return outputs
+print(len(targets), df_coefs.shape[1]) # no outputs, no of variables
+cols = df_inputs.columns.tolist()
+cols_objectives = cols[df_coefs.shape[1]:df_coefs.shape[1]+len(targets)]
+print(cols_objectives)
 
-## Generate normally distributed inputs, set at 10% at the moment..
-def elements(df_inputs):
-    elements = []
-    for x in range(df_coefs.shape[1]):
-            elements.append(random.gauss(df_inputs.iloc[0][x], df_inputs.iloc[0][x]*(1/10))) # set to 10% variation currently...
 
-    #print(elements[113:120])
-    return elements
 
 sigmas = df_inputs.iloc[0, :df_coefs.shape[1]]*(1/10)
 sigmas = sigmas.tolist()
+print('inputs', df_inputs.iloc[0, :df_coefs.shape[1]].tolist())
+inputs = df_inputs.iloc[0, :df_coefs.shape[1]].tolist()
+bound = [float(i)*3 for i in sigmas]
+lower_bound = [i - j for i, j in zip(inputs, bound)]
+upper_bound = [i + j for i, j in zip(inputs, bound)]
+print('lower bound', lower_bound)
 
-creator.create('Fitness', base.Fitness, weights=(-1.0,)*df_coefs.shape[0]) # number of objective functions
+
+## Generate normally distributed inputs, set at 10% at the moment..
+## TODO inputs are now based on an initial run, they should be based on the actual mu's and sigma's!!!
+# control individual bounds http://deap.readthedocs.io/en/master/tutorials/basic/part2.html#tool-decoration
+def elements(df_inputs, lower_bound, upper_bound):
+    elements = [random.uniform(a, b) for a, b in zip(lower_bound, upper_bound)]
+    #elements = []
+    # for x in range(df_coefs.shape[1]):
+    #         elements.append(random.gauss(df_inputs.iloc[0][x], df_inputs.iloc[0][x]*(1/10))) # set to 10% variation currently... #TODO change
+    return elements
+
+
+#print(np.normalize(targets))
+print('weights normalized to target',[-float(i)/sum(targets) for i in targets])
+#TODO define weight by amount of energy per use? e.a. targets[x]/max(targets) or normalize targets
+creator.create('Fitness', base.Fitness, weights=[-float(i)/sum(targets) for i in targets]) # (-1.0,)*len(targets) # number of objective functions
 creator.create('Individual', array.array, typecode="d", fitness=creator.Fitness) #set or list??
 
 toolbox = base.Toolbox()
@@ -69,17 +73,25 @@ toolbox = base.Toolbox()
 #toolbox.register('individual', tools.initRepeat, creator.Individual, toolbox.attr_float, n=len(individual_mus))
 
 ## using custom function for input generation
-toolbox.register('expr', elements, df_inputs)
+toolbox.register('expr', elements, df_inputs, lower_bound, upper_bound)
 ## importing the array type individual here, needed for evaluation
 toolbox.register('individual', tools.initIterate, creator.Individual, toolbox.expr)
 toolbox.register('population', tools.initRepeat, list, toolbox.individual)
 
-#print(toolbox.individual()[1], coefs[1][1])
-
-#TODO there is something wrong with the cleaner hot water schedule coefficients... I could remove them, they should have minor influence on energy
+# TODO there is something wrong with the cleaner hot water schedule coefficients... I could remove them, they should have minor influence on energy
 
 # evaluate based on the coefficients and intercept
+# TODO there needs to be constraint handling on the input parameters, because it's more realistic if some inputs don't change at all. Or for example the office heating setpoint seems to change to 31, which makes no sense in reality...
 # Constraint handling _> http://deap.gel.ulaval.ca/doc/dev/tutorials/advanced/constraints.html
+
+## Function for calculating the energy end uses based on the coefficients and intercepts from machine learning (The surrogate model)
+def calculate(individual):
+    outputs = []
+    for y in range(len(targets)):
+        outputs.append(sum(np.array(df_coefs.iloc[y])* individual)+df_intercepts.iloc[y][0])
+        #outputs.append(output)
+    return outputs
+
 def evaluate(individual):
     ## The machine learning created function (each output and variable has a separate coefficient)
     ##          outp1_c outp2_c outp[i]_c   variable    outp[i]_result
@@ -89,32 +101,47 @@ def evaluate(individual):
     ## This is then evaluated against the actual data and minimized.
     diff = []
     outputs = []
-    for y in range(df_coefs.shape[0]): # number of outputs
+    for y in range(len(targets)): # number of outputs
         output = []
-        for x in range(df_coefs.shape[1]): # for each input variable in the individual/parameter inputs
-            output.append(df_coefs.iloc[y][x] * individual[x]) # multiply the surrogate model coefficient by the input variable
-        output = sum(output)
-        output = output + df_intercepts.iloc[y][0]
-        outputs.append(output)
-        output = (targets[y] - output) ** 2 # take the square root and minimize to 0
+        output = sum(np.array(df_coefs.iloc[y]) * individual) + df_intercepts.iloc[y][0]
+        # outputs.append(output) # append output from one objective
+        ## RMSE = sqrt(((measured - simulated)^2)/N months) CV = RMSE/sum(measured over 12 months)
+        output = math.sqrt((targets[y] - output) ** 2) # take the root mean square error and minimize
+        #output = abs(targets[y]-output)
         diff.append(output)
+
+    #normalize output
+    #s = sum(diff)
+    #diff = [float(i)/s for i in diff]
     return diff
 
-#print(toolbox.individual())
-#evaluate(toolbox.individual())
+# test_individual = toolbox.individual()
+# # print(test_individual)
+# test_eval = evaluate(test_individual)
+# calculate_invdividual = calculate(test_individual)
+# print('evaluate', test_eval)
+# print('calculate', calculate_invdividual)
 
 #Register functions to toolbox and use within main()
+# TODO try different selection criteria/mutate/mate
+
 toolbox.register('mate', tools.cxTwoPoint)
-toolbox.register('mutate', tools.mutGaussian, mu=0, sigma=sigmas, indpb=0.2) # sigmas are set to a sequence, #TODO retrieve the right values, they are now based on 1/10 of some initial sample
+#toolbox.register("mate", tools.cxUniform, indpb=0.1)
+#toolbox.register("mate", tools.cxSimulatedBinaryBounded, low=lower_bound, up=upper_bound, eta=20.0)
+
+#toolbox.register("mutate", tools.mutPolynomialBounded, low=lower_bound, up=upper_bound, eta=20.0, indpb=0.05) #TODO can't divide by zero, need to remove variables that are 0
+toolbox.register('mutate', tools.mutGaussian, mu=0, sigma=sigmas, indpb=0.01) # sigmas are set to a sequence, #TODO retrieve the right values, they are now based on 1/10 of some initial sample
+
 toolbox.register('select', tools.selNSGA2)
+#toolbox.register('select', tools.selSPEA2)
 toolbox.register('evaluate', evaluate) # add the evaluation function
 
 def main():
     random.seed(20)
 
-    NGEN = 40 # is the number of generation for which the evolution runs
+    NGEN = 144 # is the number of generation for which the evolution runs
     # For selTournamentDCD, NGEN has to be a multiple of four the population size
-    population_size = 10 # no of individuals/samples
+    population_size = 44 # no of individuals/samples
     CXPB = 0.9 # is the probability with which two individuals are crossed
 
     stats = tools.Statistics(lambda ind: ind.fitness.values)
@@ -122,14 +149,13 @@ def main():
     stats.register('min', np.min, axis=0)
     stats.register('max', np.max, axis=0)
     stats.register('std', np.std, axis=0)
+    stats.register('avg', np.average, axis=0)
 
     logbook = tools.Logbook()
-    logbook.header = "gen", "min", "max" #'inputs', 'std', 'avg', 'evals'
-
+    logbook.header = "gen", "avg", "inputs" #, "max", "avg" #'inputs', 'std', 'avg', 'evals'
 
     # Create an initial population of size n.
     pop = toolbox.population(n=population_size)
-    #print(pop)
     pareto_front = tools.ParetoFront()
 
     # Evaluate the individuals with an invalid fitness
@@ -145,7 +171,7 @@ def main():
     record = stats.compile(pop)
     logbook.record(gen=0, evals=len(invalid_ind), **record)
 
-    best_inds = []
+    best_inds, best_inds_fitness = [], []
     # Begin the generational process
     for gen in range(1, NGEN):
         # Vary the population
@@ -173,56 +199,94 @@ def main():
         record = stats.compile(pop)
         fits = [ind.fitness.values[0] for ind in pop]
 
-        best_inds.append(tools.selBest(pop, 1)[0]) # add the best individual for each generation
-        best_ind_stream = best_ind = max(pop, key=lambda ind: ind.fitness)
-        logbook.record(gen=gen, evals=len(invalid_ind), **record) #, inputs=best_ind_stream
+        best_ind = tools.selBest(pop, 1)[0]
+        print('calculated prediction best individual', calculate(best_ind))
+        best_inds.append(best_ind) # add the best individual for each generation
+        best_inds_fitness.append(best_ind.fitness.values)
+        logbook.record(gen=gen, inputs=best_ind.fitness.values,  evals=len(invalid_ind), **record) #, inputs=best_inds_fitness
         print(logbook.stream)
 
         #with open("logbook.pkl", "wb") as lb_file: pickle.dump(logbook, lb_file)
 
 
-    #print("Best individual is ", pareto_front[0], pareto_front[0].fitness.values[0])
     print("  Evaluated %i individuals" % len(invalid_ind))
     print("-- End of (successful) evolution --")
-    best_ind = max(pop, key=lambda ind: ind.fitness)
-    #best_ind2 = tools.selBest(pop, 1)[0]
+    #best_ind = max(pop, key=lambda ind: ind.fitness)
+    best_ind = tools.selBest(pop, 1)[0]
+
     print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values))
     #print("Best individual is %s, %s" % (best_ind2, best_ind2.fitness.values))
-    #print("Final population hypervolume is %f" % benchmarks.hypervolume(pop, [11.0, 11.0]))
-    # hypervolume is not yet available, used in some scripts, but in the 1.1 dev version.
-    return pop, logbook, pareto_front, best_inds
+    return pop, logbook, pareto_front, best_inds, best_inds_fitness
 
 if __name__ == '__main__':
-    pop, logbook, pareto_front, best_inds = main()
-    logbook.chapters["fitness"].header = "min", "max"
+    pop, logbook, pareto_front, best_inds, best_inds_fitness = main()
+    logbook.chapters["fitness"].header = "min", "max", "avg"
 
     #TODO when tolerance is achieved (say 5% within result), i can calculate for example the CV(RMSE) by combining all results from a generation with the target objectives.
     #TODO http://deap.readthedocs.io/en/master/api/tools.html#deap.tools.ParetoFront
     #TODO plot best fitness in each generation. (which may sometimes be worse than the next gen)
-
+    print('best inds', best_inds)
     gen = logbook.select("gen")
-    fit_maxs = logbook.select("max")
-    print(gen)
+    fit_mins = logbook.select("min")
+    fit_avgs = logbook.select("avg")
+    print('no. generations', len(gen))
     #print('best inds', best_inds)
+    #print(fit_avgs)
+    front = np.array([ind.fitness.values for ind in pop])
 
-    # plot objective differences...
-    fig, ax1 = plt.subplots()
+    ## PLOTTING ##
+    #fig1 = plt.figure(1)
+    fig2, fig3  = plt.figure(2), plt.figure(3)
+    #ax1 = fig1.add_subplot(111)
+    ax2, ax3 = fig2.add_subplot(111), fig3.add_subplot(111)
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd', '#aec7e8', '#ffbb78', '#98df8a',
+              '#c49c94', '#ff9896', '#c5b0d5', '#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd',
+              '#aec7e8', '#ffbb78', '#98df8a', '#c49c94', '#ff9896', '#c5b0d5']
+
+    #ax1.scatter(front[:, 0], front[:, 1])
+
+    # PLOT: Plot predictions based on best individuals in each generation
     result = []
-    for i,v in enumerate(best_inds):
+    for i, v in enumerate(best_inds):
         prediction = calculate(best_inds[i])
         result.append(prediction)
         #print('best indices used array:', best_inds[i])
         #print('best indices used for prediction', prediction)
-
+    print('best individual prediction', calculate(best_inds[-1])) # print out the best individuals prediction
     for i,v in enumerate(result):
         alp = 1-(i/50)
-        plt.plot(v, color='blue', label=gen[i], alpha=alp)
+        ax2.plot(v, label=gen[i], alpha=alp)
+    ax2.plot(targets, 'o', color='black', label='Target')
+    ax2.legend(loc='best')
+    ax2.set_title('ax2, best individual per generation')
 
-    plt.plot(targets, 'o', color='black', label='Target')
-    plt.legend(loc='best')
+    # PLOT: Plot sum off RMSE objective differences
+
+
+    for i, v in enumerate(best_inds_fitness):
+        ax3.plot(gen[i], sum(v), 'o', color='black', label='avg' if i == 0 else "")
+        #ax3.plot(gen[i], sum(best_inds_fitness[i]), 'o', color='blue', label='max' if i == 0 else "")
+        #ax3.plot(gen[i], sum(best_inds_fitness[i]), 'o', color='blue', label='min' if i == 0 else "")
+    ax3.legend(loc='best')
+    ax3.set_ylabel('RMSE')
+    ax3.set_xlabel('Generations')
+    ax3.set_title('ax3')
+
+    # PLOT: Plot energy use for the objectives with increasing generation
+    df_result = pd.DataFrame(result, columns=cols_objectives)
+    ax4 = df_result.plot(title='Prediction of the best individual per generation', color=colors)
+    targets = ([targets,])*len(result) #duplicate targets list
+    df_target = pd.DataFrame(targets, columns=cols_objectives)
+    df_target.plot(ax=ax4, style='--', color=colors)
+
+    # PLOT: Plot objective differences using RMSE
+    df_avg = pd.DataFrame(fit_avgs, columns=cols_objectives)
+    df_inds_fit = pd.DataFrame(best_inds_fitness, columns=cols_objectives)
+    print(df_inds_fit)
+    ax5 = df_avg.plot(color=colors, title='avg')
+    ax5.set_ylabel("RMSE or absolute difference")
+
     plt.show()
-
     #print(pareto_front)
     #print(logbook)
     #print(pop)
-# control individual bounds http://deap.readthedocs.io/en/master/tutorials/basic/part2.html#tool-decoration

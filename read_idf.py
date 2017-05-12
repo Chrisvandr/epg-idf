@@ -75,7 +75,7 @@ def replace_materials():
                                 data[num + i] = str(v) + ',\n'
         outf.writelines(data)
 
-def replace_schedules(run_file, input_values, input_names, var_num, run_no):
+def replace_schedules(run_file, input_values, input_names, var_num, run_no, building_abr):
 
     # IN ORDER
     # 1. ScheduleTypeLimits
@@ -87,37 +87,39 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no):
 
     scheds = unp.unpick_house_schedules(rootdir)
     scheddict = defaultdict(list)
-    rand = int(round(5*lhd[run_no, var_num]))
-    var_num += 1
-    if rand == 0:
-        HeatingSched = scheds['h_sched_21']
-        CoolingSched = scheds['c_sched_23']
-        hp, db = 21, 2
-    elif rand == 1:
-        HeatingSched = scheds['h_sched_21']
-        CoolingSched = scheds['c_sched_24']
-        hp, db = 21, 3
-    elif rand == 2:
-        HeatingSched = scheds['h_sched_21']
-        CoolingSched = scheds['c_sched_25']
-        hp, db = 21, 4
-    elif rand == 3:
-        HeatingSched = scheds['h_sched_22']
-        CoolingSched = scheds['c_sched_24']
-        hp, db = 22, 2
-    elif rand == 4:
-        HeatingSched = scheds['h_sched_22']
-        CoolingSched = scheds['c_sched_25']
-        hp, db = 22, 3
-    elif rand == 5:
-        HeatingSched = scheds['h_sched_23']
-        CoolingSched = scheds['c_sched_25']
-        hp, db = 23, 2
-    print(hp, db)
-    input_names.append('OfficeHeatingSetPoint')
-    input_values.append(hp)
-    input_names.append('OfficeHeatingDeadBand')
-    input_values.append(db)
+
+    if building_abr == 'CH':
+        rand = int(round(5*lhd[run_no, var_num]))
+        var_num += 1
+        if rand == 0:
+            HeatingSched = scheds['h_sched_21']
+            CoolingSched = scheds['c_sched_23']
+            hp, db = 21, 2
+        elif rand == 1:
+            HeatingSched = scheds['h_sched_21']
+            CoolingSched = scheds['c_sched_24']
+            hp, db = 21, 3
+        elif rand == 2:
+            HeatingSched = scheds['h_sched_21']
+            CoolingSched = scheds['c_sched_25']
+            hp, db = 21, 4
+        elif rand == 3:
+            HeatingSched = scheds['h_sched_22']
+            CoolingSched = scheds['c_sched_24']
+            hp, db = 22, 2
+        elif rand == 4:
+            HeatingSched = scheds['h_sched_22']
+            CoolingSched = scheds['c_sched_25']
+            hp, db = 22, 3
+        elif rand == 5:
+            HeatingSched = scheds['h_sched_23']
+            CoolingSched = scheds['c_sched_25']
+            hp, db = 23, 2
+        print(hp, db)
+        input_names.append('OfficeHeatingSetPoint')
+        input_values.append(hp)
+        input_names.append('OfficeHeatingDeadBand')
+        input_values.append(db)
 
     #as inf, open(run_file[:-4]+"s.idf", 'w') as outf
     with open(run_file[:-4]+".idf", 'a') as inf:
@@ -131,7 +133,7 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no):
         # go through the schedule.csv and assign a sched to a list
         for key in scheds.keys():
             if scheds[key].dline[2] in {'Multiple'}:
-                continue #skip heating cooling profiles to be added, will be added later
+                continue #skip heating cooling profiles to be added, are added below
 
             elif key == 'ScheduleTypeLimits':
                 SchedProperties = ['ScheduleTypeLimits', scheds[key].dline[1], scheds[key].dline[8], scheds[key].dline[9], scheds[key].dline[2], scheds[key].dline[3]]
@@ -160,6 +162,7 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no):
 
                 input_values.append(var_sched)
                 input_names.append(key+"_Value")
+                print(var_num, scheds[key].dline[0])
                 var_num+=1
 
                 SchedProperties = ['Schedule:Compact', scheds[key].name, scheds[key].dline[3]]
@@ -195,120 +198,127 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no):
 
                 scheddict[key].append(SchedProperties)
 
-        # INSERT TEMPERATURE SCHEDULES
-        office_c_scheds = ['LectureTheatre_Cooling', 'Meeting_Cooling', 'Office_Cooling', 'PrintRoom_Cooling',
-                           'Circulation_Cooling', 'Library_Cooling', 'Kitchen_Cooling', 'ComputerCluster_Cooling', 'Reception_Cooling']
-        temp_sched = [CoolingSched, HeatingSched]
-        for sched in temp_sched:
-            hours = copy.copy(sched.dline[8:])
-            if '' in hours:
-                linx = hours.index('')
-                hours = np.array(copy.copy(hours[0:linx]))
-            else:
-                hours = np.array(copy.copy(hours))
 
-            if sched == CoolingSched:
-                for y in office_c_scheds:
-                    SchedProperties = []
-                    SchedProperties = ['Schedule:Compact', y, CoolingSched.dline[3]]
-                    SchedProperties.append('Through: 12/31')
-                    SchedProperties.append('For: Weekdays WinterDesignDay SummerDesignDay')
-                    for i, v in enumerate(hours):
-                        if i == 48:
-                            SchedProperties.append('For: Weekends Holiday')
-                        SchedProperties.append('Until: ' + timeline[i])
-                        SchedProperties.append(v)
-
-                    scheddict[y].append(SchedProperties)
-
-                    #print CoolingSched.dline[40], SchedProperties
-            elif sched == HeatingSched:
-                for y in office_c_scheds:
-                    SchedProperties = []
-                    SchedProperties = ['Schedule:Compact', y[:-8] + "_Heating", HeatingSched.dline[3]]
-                    SchedProperties.append('Through: 12/31')
-                    SchedProperties.append('For: Weekdays WinterDesignDay SummerDesignDay')
-                    for i, v in enumerate(hours):
-                        if i == 48:
-                            SchedProperties.append('For: Weekends Holiday')
-                        SchedProperties.append('Until: ' + timeline[i])
-                        SchedProperties.append(v)
-
-                    scheddict[y[:-8] + "_Heating"].append(SchedProperties)
-                    #print HeatingSched.dline[40], SchedProperties
-
-
-        #FOR OCCUPANCY PROFILES TO INSERT STANDARD DEVIATION FROM THE SCHEDULES
-        hwheaters = ["HWSchedule_Cleaner", "HWSchedule_Kitchenettes", "HWSchedule_Showers", "HWSchedule_Toilets"]
-        for heater in hwheaters:
-            heater_profile = []
-            hprofile = scheds[heater].dline[8:8 + 48+48]
-            for i, v in enumerate(hprofile):
-                mu = float(hprofile[i])
-                sigma = mu*20/100
-                lower, upper = 3 * sigma, 1
-                if sigma != 0:
-                    hw_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+        # STOCHASTIC HEATING AND COOLING TEMPERATURE SCHEDULES
+        if building_abr == 'CH':
+            office_c_scheds = ['LectureTheatre_Cooling', 'Meeting_Cooling', 'Office_Cooling', 'PrintRoom_Cooling',
+                               'Circulation_Cooling', 'Library_Cooling', 'Kitchen_Cooling', 'ComputerCluster_Cooling', 'Reception_Cooling']
+            temp_sched = [CoolingSched, HeatingSched]
+            for sched in temp_sched:
+                hours = copy.copy(sched.dline[8:])
+                if '' in hours:
+                    linx = hours.index('')
+                    hours = np.array(copy.copy(hours[0:linx]))
                 else:
-                    hw_sched = 0
-                heater_profile.append(hw_sched)
+                    hours = np.array(copy.copy(hours))
 
-            var_num += 1
+                if sched == CoolingSched:
+                    for y in office_c_scheds:
+                        SchedProperties = []
+                        SchedProperties = ['Schedule:Compact', y, CoolingSched.dline[3]]
+                        SchedProperties.append('Through: 12/31')
+                        SchedProperties.append('For: Weekdays WinterDesignDay SummerDesignDay')
+                        for i, v in enumerate(hours):
+                            if i == 48:
+                                SchedProperties.append('For: Weekends Holiday')
+                            SchedProperties.append('Until: ' + timeline[i])
+                            SchedProperties.append(v)
 
-            l = len(heater_profile)
-            rand4 = int(round(2 * lhd[run_no, var_num]))
-            var_num += 1
-            offset = [1,2,3]
+                        scheddict[y].append(SchedProperties)
 
-            heater_profile_off = []
-            for x, val in enumerate(heater_profile):
-                if x > 0 and x < (l - offset[rand4]):
-                    if val < heater_profile[x-offset[rand4]]:
-                        heater_profile_off.append(heater_profile[x-offset[rand4]])
-                        continue
-                    if val < heater_profile[x+offset[rand4]]:
-                        heater_profile_off.append(heater_profile[x+offset[rand4]])
-                        continue
+                        #print CoolingSched.dline[40], SchedProperties
+                elif sched == HeatingSched:
+                    for y in office_c_scheds:
+                        SchedProperties = []
+                        SchedProperties = ['Schedule:Compact', y[:-8] + "_Heating", HeatingSched.dline[3]]
+                        SchedProperties.append('Through: 12/31')
+                        SchedProperties.append('For: Weekdays WinterDesignDay SummerDesignDay')
+                        for i, v in enumerate(hours):
+                            if i == 48:
+                                SchedProperties.append('For: Weekends Holiday')
+                            SchedProperties.append('Until: ' + timeline[i])
+                            SchedProperties.append(v)
+
+                        scheddict[y[:-8] + "_Heating"].append(SchedProperties)
+                        #print HeatingSched.dline[40], SchedProperties
+
+        #HOT WATER HEATER SCHEDULES
+        if building_abr == 'CH':
+            hwheaters = ["HWSchedule_Cleaner", "HWSchedule_Kitchenettes", "HWSchedule_Showers", "HWSchedule_Toilets"]
+            for heater in hwheaters:
+                heater_profile = []
+                hprofile = scheds[heater].dline[8:8 + 48+48]
+                for i, v in enumerate(hprofile):
+                    mu = float(hprofile[i])
+                    sigma = mu*20/100
+                    lower, upper = 3 * sigma, 1
+                    if sigma != 0:
+                        hw_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                    else:
+                        hw_sched = 0
+                    heater_profile.append(hw_sched)
+
+                print(var_num, heater, hw_sched)
+                var_num += 1
+
+                l = len(heater_profile)
+                rand4 = int(round(2 * lhd[run_no, var_num]))
+
+                offset = [1,2,3]
+                print(var_num, heater, offset, rand4)
+                var_num += 1
+
+                heater_profile_off = []
+                for x, val in enumerate(heater_profile):
+                    if x > 0 and x < (l - offset[rand4]):
+                        if val < heater_profile[x-offset[rand4]]:
+                            heater_profile_off.append(heater_profile[x-offset[rand4]])
+                            continue
+                        if val < heater_profile[x+offset[rand4]]:
+                            heater_profile_off.append(heater_profile[x+offset[rand4]])
+                            continue
+                        else:
+                            heater_profile_off.append(heater_profile[x])
                     else:
                         heater_profile_off.append(heater_profile[x])
-                else:
-                    heater_profile_off.append(heater_profile[x])
 
-            input_names.append(heater+'_Offset')
-            input_values.append(offset[rand4])
+                input_names.append(heater+'_Offset')
+                input_values.append(offset[rand4])
 
-            week_heater_tot, weekend_heater_tot = sum(heater_profile_off[:48]), sum(heater_profile_off[48:96])
-            input_names.append(heater+'_WeekProfile_TotalHours')
-            input_values.append(week_heater_tot)
-            input_names.append(heater + '_WeekendProfile_TotalHours')
-            input_values.append(weekend_heater_tot)
+                week_heater_tot, weekend_heater_tot = sum(heater_profile_off[:48]), sum(heater_profile_off[48:96])
+                input_names.append(heater+'_WeekProfile_TotalHours')
+                input_values.append(week_heater_tot)
+                input_names.append(heater + '_WeekendProfile_TotalHours')
+                input_values.append(weekend_heater_tot)
 
-            week_heater_oh, weekend_heater_oh = week_heater_tot - sum(heater_profile_off[13:37]), weekend_heater_tot - sum(heater_profile_off[61:85]) # 7 to 7?
-            input_names.append(heater+'_WeekProfile_OH')
-            input_values.append(week_heater_oh)
-            input_names.append(heater + '_WeekendProfile_OH')
-            input_values.append(weekend_heater_oh)
+                week_heater_oh, weekend_heater_oh = week_heater_tot - sum(heater_profile_off[13:37]), weekend_heater_tot - sum(heater_profile_off[61:85]) # 7 to 7?
+                input_names.append(heater+'_WeekProfile_OH')
+                input_values.append(week_heater_oh)
+                input_names.append(heater + '_WeekendProfile_OH')
+                input_values.append(weekend_heater_oh)
 
-            SchedProperties = []
-            for sched, sname in enumerate(heater_profile_off):
-                SchedProperties = ['Schedule:Compact', heater, scheds[heater].dline[3]]
-                SchedProperties.append('Through: 12/31')
-                SchedProperties.append('For: Weekdays WinterDesignDay SummerDesignDay')
-                for i, v in enumerate(heater_profile_off):
-                    if i == 48:
-                        SchedProperties.append('For: Weekends Holiday')
-                    SchedProperties.append('Until: ' + timeline[i])
-                    SchedProperties.append(v)
-            scheddict[heater].append(SchedProperties)
+                SchedProperties = []
+                for sched, sname in enumerate(heater_profile_off):
+                    SchedProperties = ['Schedule:Compact', heater, scheds[heater].dline[3]]
+                    SchedProperties.append('Through: 12/31')
+                    SchedProperties.append('For: Weekdays WinterDesignDay SummerDesignDay')
+                    for i, v in enumerate(heater_profile_off):
+                        if i == 48:
+                            SchedProperties.append('For: Weekends Holiday')
+                        SchedProperties.append('Until: ' + timeline[i])
+                        SchedProperties.append(v)
+                scheddict[heater].append(SchedProperties)
 
-        # fig = plt.figure()
-        # ax = fig.add_subplot(111)
-        # ax.plot(hprofile, label='hprofile')
-        # ax.plot(heater_profile, label='heater_dev')
-        # ax.plot(heater_profile_off, label='heater_off')
-        # plt.legend()
-        # #plt.show()
+            # fig = plt.figure()
+            # ax = fig.add_subplot(111)
+            # ax.plot(hprofile, label='hprofile')
+            # ax.plot(heater_profile, label='heater_dev')
+            # ax.plot(heater_profile_off, label='heater_off')
+            # plt.legend()
+            # #plt.show()
 
+
+        # FOR OCCUPANCY PROFILES TO INSERT STANDARD DEVIATION FROM THE SCHEDULES
         rand2 = int(round(2 * lhd[run_no, var_num]))
         var_num += 1
         week = ['Weekday', 'Weekend']
@@ -340,20 +350,28 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no):
                     #print mu, sigma, lower, upper
                     if sigma != 0:
                         var_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+
                     else:
                         var_sched = 0
                     occ_profile.append(var_sched)
+                    #print(occ_profile)
                     overtime = float(max(profile))*overtime_hours_perc[rand2]/100
 
                     if var_sched < overtime:
                         var_sched = overtime
                     equip_profile.append(var_sched)
+
+                var_num += 1 # TODO check if the profiles make sense, previously this var_num was in the for loop for creating a profile, likely causing a very random profile
+                print(var_num, var_sched, 'k 0 = light, 1=equip:', k)
                 #print var_sched, overtime, max(profile), overtime_hours_perc[rand2]
 
                 ## Creating an offset from previous profile
-                l = len(equip_profile)
                 rand3 = int(round(2 * lhd[run_no, var_num]))
-                offset = [0,1,2,3]
+                print(var_num, 'offset from previous profile:', rand3)
+                var_num += 1
+
+                offset = [0, 1, 2, 3]
+                l = len(equip_profile)
                 for x, val in enumerate(equip_profile):
                     if x > 0 and x < (l - offset[rand3]):
                         if val < equip_profile[x-offset[rand3]]:
@@ -374,15 +392,19 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no):
                 elif k == 1:
                     equip_week.extend(equip_profile_offset)
 
-            occ_week.extend(occ_profile[0:47])
+        #print(len(equip_profile_offset), equip_profile_offset) # offset is the one I want to have i think, but it seems that it is only 48 long now (and low so for the weekend?)
+        occ_week.extend(occ_profile[0:47]) #occ profile and occ_week exactly the same????
+        #print(len(occ_week)) # 47 long?
 
         # fig = plt.figure()
         # ax = fig.add_subplot(111)
-        # ax.plot(equip_week, label='equip')
-        # ax.plot(light_week, label='light')
+        # #ax.plot(equip_week, label='equip')
+        # ax.plot(equip_profile, label='light')
+        # ax.plot(equip_profile_offset, label='light_offset')
         # ax.plot(occ_week, label='occ')
+        # ax.plot(occ_profile, label='occ_profile')
         # plt.legend()
-        #plt.show()
+        # plt.show()
 
         #print 'offset [no*30Min] = ', offset[rand3]
         #print 'overtime equip multiplier [%] = ', overtime_hours_perc[rand2]
@@ -394,14 +416,14 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no):
         office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched'] # has to align with previous profiles
         #print len(timeline)
 
-
         for sched, sname in enumerate(office_scheds_names):
             SchedProperties = []
             SchedProperties = ['Schedule:Compact', sname, 'Fraction']
             SchedProperties.append('Through: 12/31')
             SchedProperties.append('For: Weekdays WinterDesignDay SummerDesignDay')
-            for i, v in enumerate(office_scheds[sched]):
 
+            # TODO there is no weekendday schedule for equipment and lighting in the CentralHouse idfs???
+            for i, v in enumerate(office_scheds[sched]):
                 if i == 48:
                     SchedProperties.append('For: Weekends Holiday')
 
@@ -440,9 +462,6 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no):
                     inf.write('\n')
                     inf.write(str(v) + ',')
 
-
-
-    print(var_num)
     return input_values, input_names, var_num
 
 def remove_schedules():
@@ -459,10 +478,10 @@ def remove_existing_outputs():
     output_types = ["OUTPUT:VARIABLE", "OUTPUT:METER:METERFILEONLY"]
     for y in output_types:
         existing_outputs = idf1.idfobjects[y]
-        print(len(existing_outputs), "existing output objects removed in ", y)
+        print(len(existing_outputs), "existing output objects removed in", y)
         length_object = len(existing_outputs)
         if length_object == 0:
-            print("no existing outputs to remove")
+            print("no existing outputs to remove in", y)
         for i in range(0, length_object):
             idf1.popidfobject(y,0)
 
@@ -536,20 +555,22 @@ def replace_materials_eppy(input_values, input_names, var_num, run_no):
                         eq_mats = 0
                     material.Slat_Conductivity = eq_mats
                     input_values.append(eq_mats)
-            print(var_num)
-            var_num +=1
+                print(var_num, mats[material.Name].name, round(eq_mats,3))
+                var_num +=1
     return input_values, input_names, var_num
 
-def replace_equipment_eppy(input_values, input_names, var_num, run_no):
+def replace_equipment_eppy(equip_types, input_values, input_names, var_num, run_no):
     equips = unp.unpick_equipments(rootdir)
+    #equip_types = ['ELECTRICEQUIPMENT', 'PEOPLE', 'LIGHTS','ZONEINFILTRATION:DESIGNFLOWRATE', 'ZONEVENTILATION:DESIGNFLOWRATE', 'AIRCONDITIONER:VARIABLEREFRIGERANTFLOW', 'BOILER:HOTWATER', 'FAN:ZONEEXHAUST', 'WATERUSE:EQUIPMENT', 'DESIGNSPECIFICATION:OUTDOORAIR']
 
-    equip_types = ['ELECTRICEQUIPMENT', 'PEOPLE', 'LIGHTS', 'ZONEINFILTRATION:DESIGNFLOWRATE', 'ZONEVENTILATION:DESIGNFLOWRATE', 'AIRCONDITIONER:VARIABLEREFRIGERANTFLOW', 'BOILER:HOTWATER', 'FAN:ZONEEXHAUST', 'WATERUSE:EQUIPMENT', 'ZONEHVAC:UNITHEATER']
     x = 0
     for equip_type in equip_types: # For every type, create an object with its material then run through loop
         equip_idf = idf1.idfobjects[equip_type]
+
         print(equip_type)
         for equip in equip_idf: # For each instance of object replace content with that defined in csv files
             # for all ventilation objects, change to the same value
+
             if equip_type == 'ZONEVENTILATION:DESIGNFLOWRATE':
                 len_zonevent = len(idf1.idfobjects[equip_type])
                 object_name = "ZoneVentilation"
@@ -589,28 +610,7 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     equip.Fan_Total_Efficiency = eq_efficiency
                     input_values.append(eq_efficiency)
                     input_names.append(object_name)
-                    print(eq_efficiency, var_num)
-                    var_num += 1
-
-            elif equip_type == 'ZONEHVAC:UNITHEATER':
-                len_objects = len(idf1.idfobjects[equip_type])
-                ep_object = "UnitHeater" #TODO should just pick it up through dline[0]? see if that works.
-
-                sigma = float(equips[ep_object].dline[30])
-                lower, upper = float(equips[ep_object].dline[31]), float(equips[ep_object].dline[32])
-                mu = float(equips[ep_object].dline[7])
-                if sigma > 0:
-                    eq_efficiency = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
-                        lhd[run_no, var_num])
-                    equip.Fan_Total_Efficiency = eq_efficiency
-                    x+=1
-                else:
-                    eq_efficiency = 0
-                if x == len_objects:
-                    equip.Fan_Total_Efficiency = eq_efficiency
-                    input_values.append(eq_efficiency)
-                    input_names.append(object_name)
-                    print(eq_efficiency, var_num)
+                    #print(eq_efficiency, var_num)
                     var_num += 1
 
             else:
@@ -618,6 +618,8 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     equip_name = equip.Heat_Pump_Name
                 else:
                     equip_name = equip.Name
+
+                print('name',equips[equip_name].name, equips[equip_name].purpose)
 
                 if equips[equip_name].name == equip_name and equips[equip_name].purpose == 'ElectricEquipment':
                     equip.Design_Level_Calculation_Method = equips[equip_name].calculation_method #dline[19]
@@ -674,6 +676,21 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     equip.Flow_per_Exterior_Surface_Area = eq_infil
                     input_values.append(eq_infil)
                     input_names.append(equips[equip_name].name)
+                    var_num += 1
+
+                elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'DesignSpecification:OutdoorAir':
+                    equip.Outdoor_Air_Method = equips[equip_name].calculation_method  # dline[19]
+                    sigma = float(equips[equip_name].dline[30])
+                    lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
+                    mu = float(equips[equip_name].dline[28])
+                    if sigma > 0:
+                        eq_oa = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                    else:
+                        eq_oa = 0
+                    equip.Outdoor_Air_Flow_Air_Changes_per_Hour = eq_oa
+                    input_values.append(eq_oa)
+                    input_names.append(equips[equip_name].name)
+                    var_num += 1
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'AirConditioner:VariableRefrigerantFlow':
                     print(equips[equip_name].name) # equips[equip_name].dline
@@ -696,6 +713,7 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     equip.Gross_Rated_Heating_COP = hcop
                     input_values.append(hcop)
                     input_names.append(equips[equip_name].name+"hcop")
+
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'Boiler:HotWater':
                     sigma = float(equips[equip_name].dline[30])
@@ -723,7 +741,10 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     input_names.append(equips[equip_name].name)
                     var_num += 1
 
-                print(var_num)
+                else:
+                    continue
+
+                print(var_num, equip_name)
                 #input_names.append(equips[equip_name].name)
     return input_values, input_names, var_num
 
@@ -743,12 +764,12 @@ def add_groundtemps():
     out.December_Ground_Temperature =11
 
 def add_outputs(): # add outputvariables and meters as new idf objects
-    output_variables = ["Pump Electric Energy",
-                        "Fan Electric Power",
-                        "Site Outdoor Air Drybulb Temperature",
+    output_variables = ["Site Outdoor Air Drybulb Temperature",
                         "Site Direct Solar Radiation Rate per Area",
                         "Site Diffuse Solar Radiation Rate per Area",
                         "Site Outdoor Air Relative Humidity"]
+    # "Pump Electric Energy",
+    # "Fan Electric Power",
     # "Zone Ventilation Mass Flow Rate",
     # "Zone Infiltration Mass Flow Rate",
     # "VRF Heat Pump Cooling Electric Energy",
@@ -763,6 +784,7 @@ def add_outputs(): # add outputvariables and meters as new idf objects
     # "Zone Thermostat Heating Setpoint Temperature",
     # "Zone Thermostat Cooling Setpoint Temperature",
     # "Zone Air Temperature",
+
     for name in output_variables:
         outvar = idf1.newidfobject("Output:Variable".upper())
         outvar.Key_Value = ''
@@ -794,11 +816,15 @@ def remove_comments(run_file):
         f.writelines(data)
         f.truncate()
 
-
-
-
-def run_lhs(idf1, building_name):
+def run_lhs(idf1, building_name, building_abr):
     idf1.popidfobject('Output:SQLite'.upper(), 0) # remove sql output, have all the outputs in the .eso and meter data in .mtr
+    idf1.popidfobject('Output:VariableDictionary'.upper(), 0)
+    idf1.popidfobject('Output:Table:SummaryReports'.upper(), 0)
+    idf1.popidfobject('OutputControl:Table:Style'.upper(), 0)
+    #TODO don't create html and eso outputs...
+    #ifd1.popidfobject('Output:Table:SummaryReports'.upper(), 0)
+    #http: // bigladdersoftware.com / epx / docs / 8 - 0 / input - output - reference / page - 088.
+    #html  # outputmeter-and-outputmetermeterfileonly
     # change the base idf first by adding ground temps, and removing existing objects before adding new ones.
 
     add_groundtemps()
@@ -806,7 +832,14 @@ def run_lhs(idf1, building_name):
     remove_existing_outputs()
     add_outputs()
 
-
+    if building_abr == 'CH':
+        equip_types = ['ELECTRICEQUIPMENT', 'PEOPLE', 'LIGHTS', 'ZONEINFILTRATION:DESIGNFLOWRATE',
+                   'ZONEVENTILATION:DESIGNFLOWRATE', 'AIRCONDITIONER:VARIABLEREFRIGERANTFLOW', 'BOILER:HOTWATER',
+                   'FAN:ZONEEXHAUST', 'WATERUSE:EQUIPMENT']
+    elif building_abr == 'MPEB':
+        equip_types = ['ELECTRICEQUIPMENT', 'PEOPLE', 'LIGHTS', 'ZONEINFILTRATION:DESIGNFLOWRATE',
+                       'ZONEVENTILATION:DESIGNFLOWRATE', 'AIRCONDITIONER:VARIABLEREFRIGERANTFLOW', 'BOILER:HOTWATER',
+                       'FAN:ZONEEXHAUST', 'WATERUSE:EQUIPMENT', 'DESIGNSPECIFICATION:OUTDOORAIR']
     # Explanation
     # 1. replace_materials_eppy uses mat_props.csv, replace_equipment_eppy uses equipment_props.csv, replace_schedules uses house_scheds.csv
     # 2. adds ground temperatures and output variables
@@ -820,21 +853,34 @@ def run_lhs(idf1, building_name):
         input_names = []
         input_values = []
 
-        input_values, input_names, var_num = replace_equipment_eppy(input_values, input_names, var_num, run_no)
+        input_values, input_names, var_num = replace_equipment_eppy(equip_types, input_values, input_names, var_num, run_no)
+
         var_equip = var_num
         print("number of variables changed for equipment ", var_equip)
         input_values, input_names, var_num = replace_materials_eppy(input_values, input_names, var_num, run_no)
+
         var_mats = var_num-var_equip
         print("number of variables changed for materials ", var_mats)
 
         # TODO output all used schedules to a file for easy review
+        # format the run_no to zero pad to be four values always
+        save_dir = rootdir+"/IDFs/"+ building_name
+        if not os.path.exists(save_dir): # check if folder exists
+            os.makedirs(save_dir) # create new folder
+        run_file = save_dir+"/"+building_name+"_" + str(format(run_no, '04')) + ".idf" # use new folder for save location, zero pad to 4 numbers
 
-        run_file = rootdir+"/IDFs/"+building_name+"_" + str(run_no) + ".idf"
         idf1.saveas(run_file)
         remove_comments(run_file)
 
-        #replace_schedules append to file instead of using eppy.
-        input_values, input_names, var_num = replace_schedules(run_file, input_values, input_names, var_num, run_no)
+        #replace_schedules append to file instead of using eppy, it will open the written idf file
+        var_scheds = var_num-var_mats-var_equip
+        input_values, input_names, var_num = replace_schedules(run_file,
+                                                               input_values,
+                                                               input_names,
+                                                               var_num,
+                                                               run_no,
+                                                               building_abr) #create_schedules = the heating and coolign profiles. Which are not to be created for MPEB (however, the remove_schedules shouldn't delete existing ones. Or create them...
+        print("number of variables changed for schedules", var_scheds)
 
         collect_inputs.append(input_values)
 
@@ -844,27 +890,34 @@ def run_lhs(idf1, building_name):
 
     #Write inputs to csv file
     collect_inputs.insert(0, input_names) # prepend names to list
-    csv_outfile = "{0}/inputs.csv".format(rootdir)
+    csv_outfile = rootdir+"/inputs_" + building_name + ".csv"
+    # TODO a blank line is written every other row
     with open(csv_outfile, 'w') as outf:
-        writer = csv.writer(outf)
+        writer = csv.writer(outf, lineterminator='\n')
         writer.writerows(collect_inputs)
 
+# TODO make the script independent off the unpickdata epg scripts.
 #uniform dist
-n_samples = 1
-no_variables = 120
-lhd = doe_lhs.lhs(no_variables, samples=n_samples)
-#print lhd
 
+# TODO rewrite to SOOBOL/?
 iddfile = "C:/EnergyPlusV8-6-0/Energy+.idd"
 IDF.setiddname(iddfile)
 
+# 'MalletPlace_139', 'CentralHouse_222' # building_name
+# 'CH', 'MPEB' # building_abr
+building_abr = 'CH'
 building_name = 'CentralHouse_222'
 idf1 = IDF("{}".format(rootdir) + "/" + building_name + ".idf")
 
-run_lhs(idf1, building_name)
+n_samples = 50
+if building_abr == 'MPEB':
+    no_variables = 300
+elif building_abr == 'CH':
+    no_variables = 150
+lhd = doe_lhs.lhs(no_variables, samples=n_samples)
+#print lhd
 
-
-
+run_lhs(idf1, building_name, building_abr)
 
 ## TODO When I have set up all the replacements blocks of text and values, I need to create the Latin hypercube sampling before creating every new idf, based on the input values.
 ## TODO Or sobol:

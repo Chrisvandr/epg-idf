@@ -7,15 +7,13 @@ import copy
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
-import tools.unpickdata as unp
-#TODO import schedules without the dependencies.
-import properties.schedule as sched
 import datetime as dt
 from pyDOE import doe_lhs
 import scipy.stats as stats
 from collections import defaultdict
 import random
 import eppy
+from time import gmtime, strftime
 from eppy import modeleditor
 from eppy.modeleditor import IDF
 
@@ -27,20 +25,17 @@ if sys.platform=='win32':
     #print("Operating System: Windows")
     #rootdir="/".join(__file__.split('\\')[:-1])
     rootdir=os.path.dirname(os.path.abspath(__file__))
+    harddrive_idfs="C:/EngD_hardrive/UCL_DemandLogic"
     idfdir=os.path.dirname(os.path.abspath(__file__))+"\IDFs"
     epdir="C:/EnergyPlusV8-6-0"
 else:
     print("rootdir not found")
 
-class Equipment():
+class DLine(): #use .dline[x] to access different columns in the csv files
     def __init__(self, dline):
         self.dline = dline
         self.name = dline[0]
-        self.purpose = dline[1]
-        self.useful = (dline[2])
-        self.latent = (dline[3])
-        self.power = dline[4]
-        self.calculation_method = dline[19]
+
 class Material():
     def __init__(self, dline):  # initialised from line of csv file
 
@@ -114,11 +109,14 @@ class Material():
 #epdir="C:/Users/cvdronke/Dropbox/01 - EngD/07 - UCL Study/01_CentralHouse\Model"
 #csvfile="{0}/{1}/{2}.csv".format(rootdir,indir,fname)
 #iddfile="{0}/Energy+.idd".format(epdir)
-def read_sheet(rootdir, fname=None):
+def read_sheet(rootdir, building_abr, fname=None):
     sheet = []
 
     if fname != None:
-        csvfile = "{0}/data_files/{1}".format(rootdir, fname)
+        if building_abr == 'CH':
+            csvfile = "{0}/data_files/CentralHouse/{1}".format(rootdir, fname)
+        elif building_abr == 'MPEB':
+            csvfile = "{0}/data_files/MalletPlace/{1}".format(rootdir, fname)
         print(csvfile)
         with open(csvfile, 'r') as inf:
 
@@ -127,8 +125,8 @@ def read_sheet(rootdir, fname=None):
                 datas = row.split(',')
                 sheet.append(datas)
     return sheet
-def unpick_equipments(rootdir):
-    sheet = read_sheet(rootdir, fname="equipment_props.csv")
+def unpick_equipments(rootdir, building_abr):
+    sheet = read_sheet(rootdir, building_abr, fname="equipment_props.csv")
 
     for nn, lline in enumerate(sheet):
         if len(lline) > 0 and 'Appliance' in lline[0]:
@@ -141,14 +139,47 @@ def unpick_equipments(rootdir):
     for dline in sheet[d_start:]:
         if len(dline) > 1:
             if dline[0] != '' and dline[1] != '':
-                equip = Equipment(dline)
+                equip = DLine(dline)
             equips[dline[0]] = equip
 
     return equips
+def unpick_schedules(rootdir, building_abr):
+    sheet = read_sheet(rootdir, building_abr, fname="house_scheds.csv")
 
-def unpick_materials(rootdir):
+    for nn, lline in enumerate(sheet):
+        if len(lline) > 0 and 'Name' in lline[0]:
+            d_start = nn + 1
+            break
+
+    sched_groups = {}
+    hgroup = None
+    for dline in sheet[d_start:]:
+        if len(dline) > 1:
+            if dline[0] != '':
+
+                #sname = dline[0]
+                sched = DLine(dline)
+                sched_groups[sched.name] = sched
+
+                # if sname not in list(sched_groups.keys()):
+                #     hgroup = sched.HGroup(dline)
+                #     sched_groups[sname] = hgroup
+                # hgroup = sched_groups[sname]
+                #
+                # # Loop her over zones so that can reduce the size of the house_sched csv
+                # zones = dline[1].split(":")
+                # if (len(zones) > 1):
+                #     for zone in zones:
+                #         zonesched = sched.ZoneSched(dline, zone)
+                #         hgroup.zones_scheds.append(zonesched)
+                # else:
+                #     zonesched = sched.ZoneSched(dline, dline[1])
+                #     hgroup.zones_scheds.append(zonesched)
+
+    return sched_groups
+def unpick_materials(rootdir, building_abr):
     # open material properties file and puts everything into sheet
-    sheet = read_sheet(rootdir, fname="mat_props.csv")
+    sheet = read_sheet(rootdir, building_abr, fname="mat_props.csv")
 
     # find the material properties from csv file
     for nn, lline in enumerate(sheet):
@@ -178,7 +209,7 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no, buil
     # 5. WaterHeaters
     # 6. Occupancy / Equip / Lights
 
-    scheds = unp.unpick_house_schedules(rootdir)
+    scheds = unpick_schedules(rootdir, building_abr)
     scheddict = defaultdict(list)
 
     if building_abr == 'CH':
@@ -378,7 +409,7 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no, buil
                 input_names.append(heater+'_Offset')
                 input_values.append(offset[rand4])
 
-                week_heater_tot, weekend_heater_tot = sum(heater_profile_off[:48]), sum(heater_profile_off[48:96])
+                week_heater_tot, weekend_heater_tot = sum(heater_profile_off[:48]), sum(heater_profile_off[48:96]) #TODO change to sum weekend and weekday? should be in line with coefficient machine learning function
                 input_names.append(heater+'_WeekProfile_TotalHours')
                 input_values.append(week_heater_tot)
                 input_names.append(heater + '_WeekendProfile_TotalHours')
@@ -443,7 +474,6 @@ def replace_schedules(run_file, input_values, input_names, var_num, run_no, buil
                     #print mu, sigma, lower, upper
                     if sigma != 0:
                         var_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-
                     else:
                         var_sched = 0
                     occ_profile.append(var_sched)
@@ -578,8 +608,8 @@ def remove_existing_outputs():
         for i in range(0, length_object):
             idf1.popidfobject(y,0)
 
-def replace_materials_eppy(input_values, input_names, var_num, run_no):
-    mats = unpick_materials(rootdir)
+def replace_materials_eppy(input_values, input_names, var_num, run_no, building_abr):
+    mats = unpick_materials(rootdir, building_abr)
 
     print(mats.keys())
     materials, material_types = [], []
@@ -591,7 +621,7 @@ def replace_materials_eppy(input_values, input_names, var_num, run_no):
     print(materials)
     print(material_types)
 
-    mats_types = ['MATERIAL', 'MATERIAL:NOMASS', 'MATERIAL:AIRGAP', 'WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM','WINDOWMATERIAL:BLIND']
+    mats_types = ['MATERIAL', 'MATERIAL:NOMASS', 'MATERIAL:AIRGAP', 'WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM','WINDOWMATERIAL:BLIND','WINDOWPROPERTY:SHADINGCONTROL']
 
     for mats_type in material_types: # For every material type, create an object with its material then run through loop
         mats_idf = idf1.idfobjects[mats_type]
@@ -603,7 +633,7 @@ def replace_materials_eppy(input_values, input_names, var_num, run_no):
                 sigma = float(mats[material.Name].dline[62])
                 lower, upper = float(mats[material.Name].dline[63]), float(mats[material.Name].dline[64])
                 input_names.append(mats[material.Name].name)
-                if mats[material.Name].name == material.Name and mats[material.Name].ep_type == 'Material:NoMass':
+                if mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'Material:NoMass':
                     material.Roughness = mats[material.Name].roughness
                     material.Thermal_Absorptance = mats[material.Name].thermal_abs
                     material.Solar_Absorptance = mats[material.Name].solar_abs
@@ -616,7 +646,7 @@ def replace_materials_eppy(input_values, input_names, var_num, run_no):
                         eq_mats = 0
                     material.Thermal_Resistance = eq_mats
                     input_values.append(eq_mats)
-                elif mats[material.Name].name == material.Name and mats[material.Name].ep_type == 'Material:AirGap':
+                elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'Material:AirGap':
                     mu = float(mats[material.Name].thermal_res)
                     if sigma > 0:
                         eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
@@ -624,7 +654,7 @@ def replace_materials_eppy(input_values, input_names, var_num, run_no):
                         eq_mats = 0
                     material.Thermal_Resistance = eq_mats
                     input_values.append(eq_mats)
-                elif mats[material.Name].name == material.Name and mats[material.Name].ep_type == 'Material':
+                elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'Material':
                     material.Roughness = mats[material.Name].roughness
                     material.Thickness = mats[material.Name].thickness_abs
                     material.Density = mats[material.Name].density
@@ -639,19 +669,21 @@ def replace_materials_eppy(input_values, input_names, var_num, run_no):
                         eq_mats = 0
                     material.Conductivity = eq_mats
                     input_values.append(eq_mats)
-                elif mats[material.Name].name == material.Name and mats[material.Name].ep_type == 'WindowMaterial:SimpleGlazingSystem':
-                    material.UFactor = mats[material.Name].ufactor
+
+                elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'WindowMaterial:SimpleGlazingSystem':
+                    material.UFactor = mats[material.Name].dline[61] #ufactor
                     material.Solar_Heat_Gain_Coefficient = mats[material.Name].shgc
                     material.Visible_Transmittance = mats[material.Name].vis_ref
 
-                    mu = float(mats[material.Name].ufactor)
+                    mu = float(mats[material.Name].dline[61]) #ufactor
                     if sigma > 0:
                         eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
                     else:
                         eq_mats = 0
                     material.UFactor = eq_mats
                     input_values.append(eq_mats)
-                elif mats[material.Name].name == material.Name and mats[material.Name].ep_type == 'WindowMaterial:Blind':
+
+                elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'WindowMaterial:Blind':
                     mu = float(mats[material.Name].conductivity)
                     if sigma > 0:
                         eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
@@ -660,14 +692,24 @@ def replace_materials_eppy(input_values, input_names, var_num, run_no):
                         eq_mats = 0
                     material.Slat_Conductivity = eq_mats
                     input_values.append(eq_mats)
+
+                elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'WindowProperty:ShadingControl':
+                    mu = float(mats[material.Name].conductivity) # is actually solar radiation set point control
+                    if sigma > 0:
+                        eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
+                            lhd[run_no, var_num])
+                    else:
+                        eq_mats = 0
+                    material.Setpoint = eq_mats
+                    input_values.append(eq_mats)
                 print(var_num, mats[material.Name].name, round(eq_mats,3))
                 var_num +=1
 
     return input_values, input_names, var_num
 
 
-def replace_equipment_eppy(input_values, input_names, var_num, run_no):
-    equips = unpick_equipments(rootdir)
+def replace_equipment_eppy(input_values, input_names, var_num, run_no, building_abr):
+    equips = unpick_equipments(rootdir, building_abr)
     appliances, app_purposes = [], []
     for key, val in equips.items():
         appliances.append(key)
@@ -734,8 +776,8 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
 
                 #print('name', equips[equip_name].name, equips[equip_name].purpose)
 
-                if equips[equip_name].name == equip_name and equips[equip_name].purpose == 'ElectricEquipment':
-                    equip.Design_Level_Calculation_Method = equips[equip_name].calculation_method #dline[19]
+                if equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'ElectricEquipment':
+                    equip.Design_Level_Calculation_Method = equips[equip_name].dline[19] #dline[19]
                     sigma = float(equips[equip_name].dline[30])
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[21])
@@ -748,8 +790,8 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     input_names.append(equips[equip_name].name)
                     var_num += 1
 
-                elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'People':
-                    equip.Number_of_People_Calculation_Method = equips[equip_name].calculation_method #dline[19]
+                elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'People':
+                    equip.Number_of_People_Calculation_Method = equips[equip_name].dline[19] #dline[19]
                     sigma = float(equips[equip_name].dline[30])
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[25])
@@ -762,8 +804,8 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     input_names.append(equips[equip_name].name)
                     var_num += 1
 
-                elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'Lights':
-                    equip.Design_Level_Calculation_Method = equips[equip_name].calculation_method  # dline[19]
+                elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'Lights':
+                    equip.Design_Level_Calculation_Method = equips[equip_name].dline[19]  # dline[19]
                     sigma = float(equips[equip_name].dline[30])
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[21])
@@ -776,9 +818,9 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     input_names.append(equips[equip_name].name)
                     var_num += 1
 
-                elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'ZoneInfiltration:DesignFlowRate':
+                elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'ZoneInfiltration:DesignFlowRate':
                     ## TODO Should infiltration values be the same everywhere, each spacetype.
-                    equip.Design_Flow_Rate_Calculation_Method = equips[equip_name].calculation_method  # dline[19]
+                    equip.Design_Flow_Rate_Calculation_Method = equips[equip_name].dline[19]  # dline[19]
                     sigma = float(equips[equip_name].dline[30])
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[26])
@@ -791,8 +833,8 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     input_names.append(equips[equip_name].name)
                     var_num += 1
 
-                elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'DesignSpecification:OutdoorAir':
-                    equip.Outdoor_Air_Method = equips[equip_name].calculation_method  # dline[19]
+                elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'DesignSpecification:OutdoorAir':
+                    equip.Outdoor_Air_Method = equips[equip_name].dline[19]  # dline[19]
                     sigma = float(equips[equip_name].dline[30])
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[28])
@@ -805,20 +847,24 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     input_names.append(equips[equip_name].name)
                     var_num += 1
 
-                elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'AirConditioner:VariableRefrigerantFlow':
+                elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'AirConditioner:VariableRefrigerantFlow':
                     print(equips[equip_name].name) # equips[equip_name].dline
-                    if sigma > 0:
-                        mu = float(equips[equip_name].dline[5])
-                        lower, upper = mu - (3 * sigma), mu + (3 * sigma)
-                        ccop = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                        var_num += 1
-                        mu = float(equips[equip_name].dline[6])
-                        lower, upper = mu - (3 * sigma), mu + (3 * sigma)
-                        hcop = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
-                            lhd[run_no, var_num])
-                        var_num += 1
-                    else:
-                        ccop = 0
+
+                    #ccop
+                    mu = float(equips[equip_name].dline[5])
+                    sigma = float(equips[equip_name].dline[33])/100*mu
+                    print('sigma in AC units', sigma)
+                    lower, upper = mu - (3 * sigma), mu + (3 * sigma)
+                    ccop = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                    var_num += 1
+
+                    #hcop
+                    mu = float(equips[equip_name].dline[6])
+                    sigma = float(equips[equip_name].dline[33]) / 100 * mu
+                    lower, upper = mu - (3 * sigma), mu + (3 * sigma)
+                    hcop = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
+                        lhd[run_no, var_num])
+                    var_num += 1
 
                     equip.Gross_Rated_Cooling_COP = ccop
                     input_values.append(ccop)
@@ -828,7 +874,7 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     input_names.append(equips[equip_name].name+"hcop")
 
 
-                elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'Boiler:HotWater':
+                elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'Boiler:HotWater':
                     sigma = float(equips[equip_name].dline[30])
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[7])
@@ -841,7 +887,7 @@ def replace_equipment_eppy(input_values, input_names, var_num, run_no):
                     input_names.append(equips[equip_name].name)
                     var_num += 1
 
-                elif equips[equip_name].name == equip_name and equips[equip_name].purpose == 'WaterUse:Equipment':
+                elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'WaterUse:Equipment':
                     sigma = float(equips[equip_name].dline[30])
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[8])
@@ -958,18 +1004,30 @@ def run_lhs(idf1, building_name, building_abr):
         input_names = []
         input_values = []
 
-        input_values, input_names, var_num = replace_equipment_eppy(input_values, input_names, var_num, run_no)
+        input_values, input_names, var_num = replace_equipment_eppy(input_values,
+                                                                    input_names,
+                                                                    var_num,
+                                                                    run_no,
+                                                                    building_abr)
 
         var_equip = var_num
         print("number of variables changed for equipment ", var_equip)
-        input_values, input_names, var_num = replace_materials_eppy(input_values, input_names, var_num, run_no)
+        input_values, input_names, var_num = replace_materials_eppy(input_values,
+                                                                    input_names,
+                                                                    var_num,
+                                                                    run_no,
+                                                                    building_abr)
 
         var_mats = var_num-var_equip
         print("number of variables changed for materials ", var_mats)
 
         # TODO output all used schedules to a file for easy review
         # format the run_no to zero pad to be four values always
-        save_dir = rootdir+"/IDFs/"+ building_name
+        if building_abr == 'CH':
+            save_dir = harddrive_idfs+"/01_CentralHouse_Project/IDFs/"
+        elif building_abr == 'MPEB':
+            save_dir = harddrive_idfs + "05_MaletPlaceEngineering_Project/IDFs/"
+
         if not os.path.exists(save_dir): # check if folder exists
             os.makedirs(save_dir) # create new folder
         run_file = save_dir+"/"+building_name+"_" + str(format(run_no, '04')) + ".idf" # use new folder for save location, zero pad to 4 numbers
@@ -995,12 +1053,11 @@ def run_lhs(idf1, building_name, building_abr):
 
     #Write inputs to csv file
     collect_inputs.insert(0, input_names) # prepend names to list
-    csv_outfile = rootdir+"/inputs_" + building_name + ".csv"
+    csv_outfile = save_dir+"/inputs_" + building_name + strftime("%d_%m_%H_%M", gmtime()) + ".csv"
     with open(csv_outfile, 'w') as outf:
         writer = csv.writer(outf, lineterminator='\n')
         writer.writerows(collect_inputs)
 
-# TODO make the script independent off the unpickdata epg scripts.
 #uniform dist
 
 # TODO rewrite to SOOBOL/?
@@ -1009,11 +1066,11 @@ IDF.setiddname(iddfile)
 
 # 'MalletPlace_139', 'CentralHouse_222' # building_name
 # 'CH', 'MPEB' # building_abr
-building_abr = 'MPEB'
-building_name = 'MaletPlace_139'
+building_abr = 'CH'
+building_name = 'CentralHouse_222'
 idf1 = IDF("{}".format(rootdir) + "/" + building_name + ".idf")
 
-n_samples = 1
+n_samples = 300
 if building_abr == 'MPEB':
     no_variables = 300
 elif building_abr == 'CH':

@@ -1,3 +1,7 @@
+IDF creation for existing buildings
+read_idf.py by Chris van Dronkelaar
+uses bits from EPGP2 by authors below.
+
 Operating EP2
 Original by Jon Taylor
 Additional edits from Phillip Biddulph and Phil Symonds
