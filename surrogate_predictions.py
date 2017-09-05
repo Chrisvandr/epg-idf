@@ -24,26 +24,77 @@ from SALib.analyze import sobol, delta, fast, morris, dgsm, ff
 from SALib.test_functions import Ishigami
 from decimal import *
 
+UserName = getpass.getuser()
+#own scripts
+sys.path.append('C:/Users/' + UserName + '\Dropbox/01 - EngD/07 - UCL Study/UCLDataScripts')
+from PlotSubmetering import ReadRuns
+from PlotSubmetering import lineno
+
+
 def elements(df_inputs, lower_bound, upper_bound):
     #elements = [random.uniform(a, b) for a, b in zip(lower_bound, upper_bound)]
     elements = []
     for x in range(df_coefs.shape[1]):
-            mu, sigma = df_inputs.iloc[0][x], df_inputs.iloc[0][x] * (1 / 10)
+            mu, sigma = df_inputs.iloc[0][x], df_inputs.iloc[0][x] * (1 / 20)
             elements.append(random.gauss(mu, sigma)) # set to 10% variation currently... #TODO change
-    print([float(Decimal("%.2f" % e)) for e in elements])
+    #print([float(Decimal("%.2f" % e)) for e in elements])
     #data = [float(Decimal("%.2f" % e)) for e in mylist]
     #myRoundedList = [round(elem, 2) for elem in myList]
-    print([float(Decimal("%.2f" % e)) for e in df_inputs.iloc[0, :df_coefs.shape[1]].tolist()])
+    #print([float(Decimal("%.2f" % e)) for e in df_inputs.iloc[0, :df_coefs.shape[1]].tolist()])
     return elements
-
 
 # Load the pickle surrogate model made by 'surrogate_model.py' and calculate with new inputs
 def calculate(individual):
-    model = joblib.load(DataPath_model_real + 'rr_model.pkl')
+    model = joblib.load(DataPath_model_real + 'rr_'+TIME_STEP+'_model.pkl')
     individual = np.array(individual).reshape((1,-1))
     prediction = model.predict(individual)[0]
     #print(prediction)
     return prediction
+
+
+def compare_runs_boxplot(runs, time_step): # for multiple runs
+    if time_step == 'year':
+        # This boxplot works only for yearly data!!
+        # df = df.resample('A').sum()
+        # print('boxplot', df)
+        # df = df.values.sum()
+        # #runs = runs.sum(axis=1)
+        runs = pd.DataFrame(runs)
+
+        ax = runs.plot(kind='box', figsize=(10 / 2.54, 14 / 2.54), widths=(.8))
+        #plt.plot(1, df, color='blue', mec='k', ms=7, marker="o", linestyle="None")
+
+        #todo plot several boxplots next to each other for different end-uses in different figures...
+        x = np.random.normal(1, 0.04, size=len(runs)) # to show the red dots at different places on the x-axis
+        print(runs.shape[1])
+        if runs.shape[1] == 1: # if only single column in df
+            plt.scatter(x, runs.loc[:, :], c='r', alpha=0.2)
+        else: # multiple columns, then select first column...
+            plt.scatter(x, runs.loc[:, 0], c='r', alpha=0.2)
+        ax.set_ylabel('Energy $\mathregular{(kWh/m^{2}a)}$')
+
+        # Finally, add a basic legend
+        plt.figtext(0.8, 0.5, 'Measured', color='blue', weight='bold', size='medium', rotation='vertical')
+        plt.tight_layout(rect=[0.05, 0, 0.95, 1], pad=.85, w_pad=0.1,
+                         h_pad=0.1)  # [left, bottom, right, top] in normalized (0, 1) figure coordinates.
+        plt.grid(linestyle='None')
+
+    if time_step == 'month':
+        #df = df.resample('M').sum()
+        runs = pd.DataFrame(runs)
+
+        #print(df.head())
+        print(runs.head())
+
+        ax = runs.plot(kind='box')
+        x = np.arange(1, len(runs.columns.tolist())+1)
+
+        #df = df.sum(axis=1)
+        plt.plot(x, targets_month)
+
+        #ticklabels = [item.strftime('%b %y') for item in df.index]
+        #ax.xaxis.set_major_formatter(ticker.FixedFormatter(ticklabels))
+        ax.set_ylabel('Energy $\mathregular{(kWh/m^{2}a)}$')
 
 ## Uses calculation function and creates both dataframes and matrix for inputs/outputs
 def surrogate_model(no_runs, df_inputs, lower_bound, upper_bound, cols_outputs, cols_inputs):
@@ -52,15 +103,13 @@ def surrogate_model(no_runs, df_inputs, lower_bound, upper_bound, cols_outputs, 
 
     for x in range(no_runs):
         individual = elements(df_inputs, lower_bound, upper_bound)
-        print('first individual input', individual)
         individuals.append(individual)
         prediction = calculate(individual)
-        print(prediction)
         predictions.append(prediction)
         if x % 10 == 0:
             print(x)
 
-    df_predicted = pd.DataFrame(predictions, columns=cols_outputs)
+    df_predicted = pd.DataFrame(predictions)
     df_population = pd.DataFrame(individuals, columns=cols_inputs)
 
     Y_real = df_predicted.as_matrix()
@@ -173,8 +222,7 @@ def sensitivity_analysis(cols_outputs, cols_inputs):
     plt.legend()
 
 ## Plotting the surrogate model predictions and
-def objective_plots():
-    X_real, Y_real, df_predicted, df_population = surrogate_model(30, df_inputs, lower_bound, upper_bound, cols_outputs, cols_inputs)
+def objective_plots(df_predicted):
 
     fig, axes = plt.subplots(nrows=5,ncols=5, figsize=(20/2.54, 20/2.54)) #sharex=True, sharey=True
 
@@ -184,7 +232,7 @@ def objective_plots():
         for j in range(len(targets)):
             if i == j: # Plot gaussian distribution graphs
                 kde = gaussian_kde(df_predicted[cols_outputs[i]])
-                axes[i,j].scatter(dist_space, kde(dist_space), c=kCOLORS)
+                axes[i, j].scatter(dist_space, kde(dist_space), c=kCOLORS)
 
                 if j == 0: # add ylabel at first plot 0,0
                     axes[i,j].set_ylabel(cols_outputs[0])
@@ -196,7 +244,7 @@ def objective_plots():
                 if j != 0: # remove labels and ticks for inner plots
                     axes[i, j].get_yaxis().set_ticklabels([])
 
-            else: # Plot scatterplots comparing two objectives
+            elif i != j: # Plot scatterplots comparing two objectives
                 sCOLORS = [COLORS[1] if targets[i] - (valuex / 10) < valuex < targets[i] + valuex / 10 and
                                     targets[j] - valuey / 10 < valuey < targets[j] + valuey / 10 else
                                     COLORS[0] for valuex, valuey in zip(df_predicted[cols_outputs[i]], df_predicted[cols_outputs[j]])]
@@ -217,32 +265,33 @@ def objective_plots():
     plt.tight_layout(pad=0.3, w_pad=0.2, h_pad=0.2)
 
 def main():
-
-    no_runs = 2
+    no_runs = 20
     X_real, Y_real, df_predicted, df_population = surrogate_model(no_runs, df_inputs, lower_bound, upper_bound,
                                                                   cols_outputs,
                                                                   cols_inputs)
 
+    #print(Y_real)
+    #compare_runs_boxplot(Y_real, TIME_STEP)
     # sensitivity_analysis(cols_outputs, cols_inputs)
-    # objective_plots()
+    objective_plots(df_predicted)
 
     plt.show()
 
 if __name__ == '__main__':
-    TIME_STEP = 'year'  # 'year', 'month', 'day', 'hour', 'half-hour'
+
     COLORS = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd', '#aec7e8', '#ffbb78', '#98df8a',
-              '#c49c94',
-              '#ff9896', '#c5b0d5', 'red', 'green', 'blue', 'black', '#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b',
-              '#d62728',
-              '#9467bd', '#aec7e8', '#ffbb78', '#98df8a', '#c49c94', '#ff9896', '#c5b0d5', 'red', 'green', 'blue',
-              'black']
+              '#c49c94', '#ff9896', '#c5b0d5', '#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd',
+              '#aec7e8', '#ffbb78', '#98df8a', '#c49c94', '#ff9896', '#c5b0d5']
 
     UserName = getpass.getuser()
     DataPath = 'C:/Users/' + UserName + '\Dropbox/01 - EngD/07 - UCL Study/Legion and Eplus/SURROGATE/'
     DataPath_model_real = 'C:/EngD_hardrive/UCL_DemandLogic/01_CentralHouse_Project/Run1000/'
 
-    df_coefs = pd.read_csv(DataPath_model_real + 'LR_coef_' + TIME_STEP + '.csv', header=0, index_col=0)
-    df_intercepts = pd.read_csv(DataPath_model_real + 'LR_intercept_' + TIME_STEP + '.csv', header=0, index_col=0)
+    TIME_STEP = 'month'  # 'year', 'month', 'day', 'hour', 'half-hour'
+    targets_month = [57150, 62704, 72635, 81437, 83785, 74560, 83954, 78379]
+
+    df_coefs = pd.read_csv(DataPath_model_real + 'rr_coef_' + TIME_STEP + '.csv', header=0, index_col=0)
+    df_intercepts = pd.read_csv(DataPath_model_real + 'rr_intercept_' + TIME_STEP + '.csv', header=0, index_col=0)
     df_inputs = pd.read_csv(DataPath_model_real + 'input_outputs_' + TIME_STEP + '.csv', header=0)
 
     cols = df_inputs.columns.tolist()
@@ -250,6 +299,7 @@ if __name__ == '__main__':
     print(cols_outputs)
 
     targets = [.7, 0.5, 1.5, 1.7, .2]  # , 3.5, 1.2, 0.02]
+
 
     mus = df_inputs.iloc[0, :df_coefs.shape[1]]
     sigmas = df_inputs.iloc[0, :df_coefs.shape[1]] * (1 / 10)

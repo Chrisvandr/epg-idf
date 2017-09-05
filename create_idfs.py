@@ -17,10 +17,15 @@ import eppy
 from time import gmtime, strftime
 from eppy import modeleditor
 from eppy.modeleditor import IDF
-
+import getpass
 # pathnameto_eppy = 'c:/eppy'
 pathnameto_eppy = '../'
 sys.path.append(pathnameto_eppy)
+UserName = getpass.getuser()
+
+#own scripts
+sys.path.append('C:/Users/' + UserName + '\Dropbox/01 - EngD/07 - UCL Study/UCLDataScripts')
+from PlotSubmetering import lineno
 
 if sys.platform=='win32':
     #print("Operating System: Windows")
@@ -145,6 +150,8 @@ def unpick_equipments(rootdir, building_abr):
             if dline[0] != '' and dline[1] != '':
                 equip = DLine(dline)
             equips[dline[0]] = equip
+    print(lineno(), [v for v in equips.keys()])
+    # exit()
 
     return equips
 def unpick_schedules(rootdir, building_abr):
@@ -224,11 +231,11 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
     # print timeline
 
     #Randomly pick a schedule for zone set-point temperatures
-    if building_abr == 'CH':
+    if building_abr in {'CH'}: #'MPEB'
         rand = int(round(21*lhd[run_no, var_num])) # the number signifies how many options there are minus 1?
         if base_case == True:
-            rand = 4 #23,23
-
+            #rand = 4 # 23,23
+            rand = 11 # 23,24
         var_num += 1
 
         if rand == 0:
@@ -369,8 +376,9 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                     hours=np.array(copy.copy(hours))
 
                 new_hours = []
+                #print(lineno(), scheds[key].dline[0], scheds[key].dline[4], type(scheds[key].dline[4]))
+                sigma = abs(float(scheds[key].dline[4]))
                 for i, v in enumerate(hours):
-                    sigma = abs(float(scheds[key].dline[4]))
                     if base_case is True:
                         sigma=0
                     mu = abs(float(hours[i]))
@@ -426,7 +434,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                                'Circulation_Cooling', 'Library_Cooling', 'Kitchen_Cooling', 'ComputerCluster_Cooling', 'Reception_Cooling']
 
         # elif building_abr == 'MPEB':
-        #         office_c_scheds = ['Office_Cooling','Laboratory_Cooling']
+        #     office_c_scheds = ['Office_Cooling']
 
             temp_sched = [CoolingSched, HeatingSched]
             for sched in temp_sched:
@@ -475,7 +483,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
         elif building_abr == 'MPEB':
             hwheaters = ["CWS_Sched", "HWS_Labs_Sched"]
 
-        elif building_abr == 'BH71':
+        elif building_abr == '71':
             hwheaters = ["EWH_Fraction", "EWH_Kitchen_Fraction", "EWH_Shower_Fraction"]
 
         for heater in hwheaters:
@@ -553,14 +561,6 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                     SchedProperties.append(v)
             scheddict[heater].append(SchedProperties)
 
-            # fig = plt.figure()
-            # ax = fig.add_subplot(111)
-            # ax.plot(hprofile, label='hprofile')
-            # ax.plot(heater_profile, label='heater_dev')
-            # ax.plot(heater_profile_off, label='heater_off')
-            # plt.legend()
-            # #plt.show()
-
 
         # FOR OCCUPANCY PROFILES TO INSERT STANDARD DEVIATION FROM THE SCHEDULES
         if building_abr in {'CH', 'MPEB'}:
@@ -580,7 +580,6 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                     lhd[run_no, var_num])
             var_num += 1
 
-
             # offset variable
             rand3 = int(round(2 * lhd[run_no, var_num]))
             var_num += 1
@@ -588,8 +587,6 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
             occ_week = []
             equip_week = []
             light_week = []
-            overtime_light_weekday = []
-            overtime_equip_weekday = []
             week = ['Weekday', 'Weekend']
 
             # fill occ_profile for week and weekend
@@ -618,25 +615,27 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                         var_sched = mu
                     occ_profile.append(var_sched) #append values
                 occ_week.extend(occ_profile) #extend list
-                print(day, len(occ_profile), occ_profile)
+                print(lineno(), day, len(occ_profile), occ_profile)
 
                 ## EQUIPMENT PROFILES - BASED ON OCCUPANCY ##
                 for k in range(2): #zero for light, one for equip
                     LP_profile = []
                     equip_profile_offset = []
-                    if k == 0:
-                        if day == 'Weekday':
-                            overtime = float(max(occ_profile)) * overtime_multiplier_light / 100
-                            overtime_light_weekday.append(overtime) # this makes sure that the weekend overtime is as high as during the week, which is typical...
-                        if day == 'Weekend':
-                            overtime = overtime_light_weekday[0] # this makes sure that the weekend overtime is as high as during the week, which is typical...
+                    if k == 0: #Lighting
 
-                    if k == 1:
                         if day == 'Weekday':
-                            overtime = float(max(occ_profile)) * overtime_multiplier_equip / 100
-                            overtime_equip_weekday.append(overtime) # this makes sure that the weekend overtime is as high as during the week, which is typical...
+                            overtime_light_weekday = float(max(occ_profile)) * overtime_multiplier_light / 100
+                            overtime = overtime_light_weekday
+                            #overtime_light_weekday.append(overtime) # this makes sure that the weekend overtime is as high as during the week, which is typical...
                         if day == 'Weekend':
-                            overtime = overtime_equip_weekday[0] # this makes sure that the weekend overtime is as high as during the week instead of a fraction of highest during weekend, which is typical...
+                            overtime = overtime_light_weekday # this makes sure that the weekend overtime is as high as during the week, which is typical...
+
+                    if k == 1: #Equipment
+                        if day == 'Weekday':
+                            overtime_equip_weekday = float(max(occ_profile)) * overtime_multiplier_equip / 100
+                            overtime = overtime_equip_weekday # this makes sure that the weekend overtime is as high as during the week, which is typical...
+                        if day == 'Weekend':
+                            overtime = overtime_equip_weekday # this makes sure that the weekend overtime is as high as during the week instead of a fraction of highest during weekend, which is typical...
 
                     for i, v in enumerate(occ_profile): #replace values which are lower than the overtime
                         if v < overtime:
@@ -644,7 +643,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                         LP_profile.append(v)
 
                     print('LP 1st profile', len(LP_profile), LP_profile)
-                    print(var_num, 'actual overtime:', overtime, 'k is', k, '(0 = light, 1 = equip)', 'day=', day)
+                    print(var_num, day, 'actual overtime:', overtime, 'k is', k, '(0 = light, 1 = equip)', 'day=', day)
 
                     ## Creating an offset from previous profile
                     offset = [1, 2, 3, 4, 5]
@@ -699,38 +698,54 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                 plt.show()
             #plot_schedules()
 
-            #print 'offset [no*30Min] = ', offset_LP
-            #print 'overtime equip multiplier [%] = ', overtime_hours_perc[rand2]
-            #print 'overtime light multiplier [%] = ', overtime_hours_light
+            if base_case is not True:
 
-            # Schedule: Compact,
-            # Office_OccSched,
-            # Fraction,
-            # Through: 12 / 31,
-            # For: Weekdays
-            # WinterDesignDay
-            # SummerDesignDay,
-            # Until: 00:30,
-            # 0.0833151378091,
-            # Until: 01:00,
-            # 0.0220954262158,
-            # .....
-            # For: Weekends
-            # Holiday,
-            # Until: 00:30,
-            # 0.0882701864911,
+                seasons = [seasonal_occ_factor_week, seasonal_occ_factor_weekend]
+                for q, x in enumerate(seasons):
+                    seasonal_occ_factor_varied = []
+                    sigmas = [i * (20 / 100) for i in x]
+                    lower, upper = [x[v] - (2 * i) for v, i in enumerate(sigmas)], [x[v] + (2 * i) for v, i in enumerate(sigmas)]
+                    for i in range(len(sigmas)):
+                        replace_seasonal = stats.truncnorm((lower[i]-x[i])/sigmas[i], (upper[i]-x[i])/sigmas[i], loc=x[i], scale=sigmas[i]).ppf(lhd[run_no, var_num])
+                        seasonal_occ_factor_varied.append(replace_seasonal)
+                        var_num += 1
+
+                    # seasonal_occ_factor_varied = [i if i < 1 else 1 for i in seasonal_occ_factor_varied]
+                    # seasonal_occ_factor_varied = [i if i > 0 else 0.1 for i in seasonal_occ_factor_varied]
+
+                    seasonal_occ_factor_varied = [i / np.max(seasonal_occ_factor_varied) for i in seasonal_occ_factor_varied]
+
+                    if q == 0:
+                        seasonal_occ_factor_week = seasonal_occ_factor_varied
+                    if q == 1:
+                        seasonal_occ_factor_weekend = seasonal_occ_factor_varied
+
+            months_in_year = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            seasonal_occ_factor_week_names = [str('SeasonWeekOccFactor_') + str(month) for month in months_in_year]
+            seasonal_occ_factor_weekend_names = [str('SeasonWeekendOccFactor_') + str(month) for month in months_in_year]
+            print(seasonal_occ_factor_week)
+            print(seasonal_occ_factor_weekend)
+
+            [input_values.append(i) for i in seasonal_occ_factor_week]
+            [input_names.append(i) for i in seasonal_occ_factor_week_names]
+            [input_values.append(i) for i in seasonal_occ_factor_weekend]
+            [input_names.append(i) for i in seasonal_occ_factor_weekend_names]
+
 
             office_scheds = [occ_week, equip_week, light_week]
             if building_abr == 'CH':
                 office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched'] # has to align with previous profiles
             elif building_abr == 'MPEB':
-                office_scheds_names = ['Office_OccSched', 'Office_EquipSched',
-                                       'Office_LightSched']  # has to align with previous profiles
+                office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched']  # has to align with previous profiles
 
             days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] # typical 365 year
             print('days in year', sum(days_in_month))
             seasonal_factor = [] # 12 monthly values, with seasonal max factor of unity
             for sched, sname in enumerate(office_scheds_names):
+
+                # this to prevent the overtime factors to be overridden by the seasonal weekend occupancy changes?
+                if sname in {'Office_EquipSched', 'Office_LightSched'}:
+                    seasonal_occ_factor_weekend = seasonal_occ_factor_week
                 SchedProperties = []
                 SchedProperties = ['Schedule:Compact', sname, 'Fraction']
 
@@ -747,8 +762,8 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                         elif i >= 48: #  if element 48 is reached, then start appending the weekends and holidays profile
                             SchedProperties.append(v*seasonal_occ_factor_weekend[t_month])  # monthly seasonal factor
 
-                print('Office', len(SchedProperties), SchedProperties)
 
+                print('Office', len(SchedProperties), SchedProperties)
                 scheddict[sname].append(SchedProperties)
 
                 week_sched_tot, weekend_sched_tot = sum(office_scheds[sched][:48]), sum(office_scheds[sched][48:96])
@@ -783,11 +798,43 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
 
 def remove_schedules(idf1, building_abr): #todo should I have the option where I remove only the schedules that are going to be replaced?
     # remove existing schedules and make compact ones from scheds sheet
+    scheds = unpick_schedules(rootdir, building_abr)
+
     schedule_types = ["SCHEDULE:DAY:INTERVAL", "SCHEDULE:WEEK:DAILY", "SCHEDULE:YEAR"]
+
+    # for sched_type in schedule_types:
+    #     scheds_idf = idf1.idfobjects[sched_type]
+    #     print(len(scheds_idf))
+    #
+    #     for i, v in enumerate(scheds_idf):
+    #         print(i)
+    #         # if v.Name in scheds.keys() and scheds[v.Name].dline[2] == 'OpenStudioSchedule':
+    #         #         print('Did not remove schedule:', v.Name) #scheds[v.Name].dline[0]
+    #         #
+    #         # else:
+    #         print('remove', v.Name)
+    #         idf1.popidfobject(sched_type, 0)
+    # Warning when popping objects with eppy, the number objects decreases so the list will end at half if all are being popped.
+    # Instead use a for loop that counts backwards through the objects.
     for y in schedule_types:
-        print(len(idf1.idfobjects[y]), "existing schedule objects removed in ", y)
-        for i in range(0, len(idf1.idfobjects[y])):
-            idf1.popidfobject(y, 0)
+        #print(len(idf1.idfobjects[y]), "existing schedule objects removed in ", y)
+        no_of_objects = len(idf1.idfobjects[y])
+        to_remove = []
+        for i in range(0, no_of_objects):
+            if idf1.idfobjects[y][i].Name in scheds.keys() and scheds[idf1.idfobjects[y][i].Name].dline[2] == 'OpenStudioSchedule':
+                print('Did not remove schedule:', idf1.idfobjects[y][i].Name)  # scheds[v.Name].dline[0]
+            else:
+                to_remove.append(i)
+        for i in to_remove[::-1]:
+            print('remove', idf1.idfobjects[y][i].Name)
+            idf1.popidfobject(y, i)
+
+
+    # for y in schedule_types:
+    #     print(len(idf1.idfobjects[y]), "existing schedule objects removed in ", y)
+    #     for i in range(0, len(idf1.idfobjects[y])):
+    #         idf1.popidfobject(y, 0)
+
 
 def remove_existing_outputs(idf1):
     output_types = ["OUTPUT:VARIABLE", "OUTPUT:METER:METERFILEONLY"]
@@ -798,7 +845,6 @@ def remove_existing_outputs(idf1):
             print("no existing outputs to remove in", y)
         for i in range(0, len(existing_outputs)):
             idf1.popidfobject(y, 0)
-
 def replace_materials_eppy(idf1, lhd, input_values, input_names, var_num, run_no, building_abr, base_case):
     mats = unpick_materials(rootdir, building_abr)
 
@@ -834,7 +880,6 @@ def replace_materials_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                     mu = float(mats[material.Name].thermal_res)
                     if sigma > 0:
                         eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-
                     else:
                         eq_mats = mu
                     material.Thermal_Resistance = eq_mats
@@ -916,7 +961,7 @@ def replace_materials_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                     material.Setpoint = eq_mats
                     input_values.append(eq_mats)
 
-                print(var_num, mats[material.Name].name, round(eq_mats,3))
+                print(lineno(), var_num, mats[material.Name].name, round(eq_mats,3))
                 var_num +=1
 
     return input_values, input_names, var_num
@@ -950,7 +995,7 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
     for equip_type in app_purposes: # For every type, create an object with its material then run through loop
         equip_idf = idf1.idfobjects[equip_type]
 
-        print(equip_type)
+        print(lineno(), equip_type)
         for equip in equip_idf: # For each instance of object replace content with that defined in csv files
             # for all ventilation objects, change to the same value
             #print(equip)
@@ -1008,8 +1053,8 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                 else:
                     equip_name = equip.Name
 
-                #print('name', equips[equip_name].name, equips[equip_name].purpose)
-
+                #print(equip_name)
+                print(lineno(), 'name', equips[equip_name].name,)
                 if equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'ElectricEquipment':
                     equip.Design_Level_Calculation_Method = equips[equip_name].dline[19] #dline[19]
                     sigma = float(equips[equip_name].dline[30])
@@ -1039,7 +1084,8 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                         eq_people = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
                     else:
                         eq_people = mu
-                    equip.People_per_Zone_Floor_Area = eq_people
+                    equip.Zone_Floor_Area_per_Person = eq_people
+                    #equip.People_per_Zone_Floor_Area = eq_people
                     input_values.append(eq_people)
                     input_names.append(equips[equip_name].name)
                     var_num += 1
@@ -1061,7 +1107,7 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                     input_names.append(equips[equip_name].name)
                     var_num += 1
 
-                #todo zoneinfiltration needs to be the same in every space type?
+
                 elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'ZoneInfiltration:DesignFlowRate':
                     equip.Design_Flow_Rate_Calculation_Method = equips[equip_name].dline[19]  # dline[19]
                     sigma = float(equips[equip_name].dline[30])
@@ -1091,13 +1137,15 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                         eq_oa = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
                     else:
                         eq_oa = mu
+                    #todo is this right???
                     equip.Outdoor_Air_Flow_Air_Changes_per_Hour = eq_oa
+                    #equip.Outdoor_Air_Flow_per_Zone = eq_oa
                     input_values.append(eq_oa)
                     input_names.append(equips[equip_name].name)
                     var_num += 1
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'AirConditioner:VariableRefrigerantFlow':
-                    print(equips[equip_name].name) # equips[equip_name].dline
+                    print(lineno(), equips[equip_name].name) # equips[equip_name].dline
 
                     #ccop
                     mu = float(equips[equip_name].dline[5])
@@ -1105,7 +1153,10 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                     if base_case is True:
                         sigma = 0
                     print('sigma in AC units', sigma)
-                    lower, upper = mu - (3 * sigma), mu + (3 * sigma)
+                    if mu > 0:
+                        lower, upper = mu - (3 * sigma), mu + (3 * sigma)
+                    else:
+                        lower, upper, sigma = 0, 0, 0
 
                     if sigma > 0:
                         ccop = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
@@ -1166,7 +1217,7 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                 else:
                     continue
 
-                print(var_num, equip_name)
+                print(lineno(), var_num, equip_name)
                 #input_names.append(equips[equip_name].name)
     return input_values, input_names, var_num
 
@@ -1185,50 +1236,671 @@ def add_groundtemps(idf1):
     out.November_Ground_Temperature =13.8
     out.December_Ground_Temperature =11
 
-def add_outputs(idf1, base_case): # add outputvariables and meters as new idf objects
-    output_variables = ["Site Outdoor Air Drybulb Temperature",
-                        "Site Direct Solar Radiation Rate per Area",
-                        "Site Diffuse Solar Radiation Rate per Area",
-                        "Site Outdoor Air Relative Humidity"]
+#From City of London weatherfile
+#	3	0.5				6.65	6.05	7.12	8.8	13.19	16.58	18.87	19.56	18.38	15.75	12.23	8.96	2	8.88	7.8	8.02	8.91	11.85	14.51	16.63	17.77	17.53	16.04000	13.61000	11.05	4				10.72	9.61	9.37	9.71	11.37	13.16	14.8	15.94	16.21	15.56	14.14	12.4
+
+def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvariables and meters as new idf objects
+    # add variables only when base case is simulated
 
     if base_case is True:
         output_variables = ["Site Outdoor Air Drybulb Temperature",
                             "Site Outdoor Air Relative Humidity",
-                            "Zone Ventilation Mass Flow Rate",
-                            "Zone Infiltration Mass Flow Rate",
-                            "VRF Heat Pump Cooling Electric Energy",
-                            "VRF Heat Pump Heating Electric Energy",
-                            "Zone VRF Air Terminal Cooling Electric Energy",
-                            "Zone VRF Air Terminal Heating Electric Energy",
-                            "Zone Cooling Setpoint Not Met Time",
-                            "Zone Heating Setpoint Not Met Time",
-                            "Zone Air Temperature",
-                            "System Node Temperature",
-                            "System Node Mass Flow Rate",
+                            "Site Diffuse Solar Radiation Rate per Area",
+                            "Site Direct Solar Radiation Rate per Area"
                             ]
-    # "Pump Electric Energy",
-    # "Fan Electric Power",
-    # "Zone Ventilation Mass Flow Rate",
-    # "Zone Infiltration Mass Flow Rate",
-    # "VRF Heat Pump Cooling Electric Energy",
-    # "VRF Heat Pump Heating Electric Energy",
-    # "VRF Heat Pump Cooling Electric Energy",
-    # "VRF Heat Pump Heating Electric Energy",
-    # "VRF Heat Pump Operating Mode",
-    # "Zone VRF Air Terminal Cooling Electric Energy",
-    # "Zone VRF Air Terminal Heating Electric Energy",
-    # "Zone Cooling Setpoint Not Met Time",
-    # "Zone Heating Setpoint Not Met Time",
-    # "Zone Thermostat Heating Setpoint Temperature",
-    # "Zone Thermostat Cooling Setpoint Temperature",
-    # "Zone Air Temperature",
 
-    for name in output_variables:
-        outvar = idf1.newidfobject("Output:Variable".upper())
-        outvar.Key_Value = ''
-        outvar.Variable_Name = name
-        outvar.Reporting_Frequency = 'hourly'
+        if add_variables is True:
+            extra_variables = [#"Zone Infiltration Mass Flow Rate",
+                                "Zone Ventilation Mass Flow Rate"
+                                "VRF Heat Pump Cooling Electric Energy",
+                                "VRF Heat Pump Heating Electric Energy",
+                                "Zone VRF Air Terminal Cooling Electric Energy",
+                                "Zone VRF Air Terminal Heating Electric Energy",
+                                "Zone Cooling Setpoint Not Met Time",
+                                "Zone Heating Setpoint Not Met Time",
+                                "Zone Air Temperature",
+                                "System Node Temperature",
+                                "Zone Ventilation Air Change Rate",
+                                "Zone Mechanical Ventilation Air Changes per Hour",
+                                "System Node Mass Flow Rate",
+                                "Air System Gas Energy",
+                                "Air System Heating Coil Gas Energy",
+                                ]
+            output_variables.extend(extra_variables)
 
+        # "Pump Electric Energy",
+        # "Fan Electric Power",
+        # "Zone Ventilation Mass Flow Rate",
+        # "Zone Infiltration Mass Flow Rate",
+        # "VRF Heat Pump Cooling Electric Energy",
+        # "VRF Heat Pump Heating Electric Energy",
+        # "VRF Heat Pump Cooling Electric Energy",
+        # "VRF Heat Pump Heating Electric Energy",
+        # "VRF Heat Pump Operating Mode",
+        # "Zone VRF Air Terminal Cooling Electric Energy",
+        # "Zone VRF Air Terminal Heating Electric Energy",
+        # "Zone Cooling Setpoint Not Met Time",
+        # "Zone Heating Setpoint Not Met Time",
+        # "Zone Thermostat Heating Setpoint Temperature",
+        # "Zone Thermostat Cooling Setpoint Temperature",
+        # "Zone Air Temperature",
+
+        output_diagnostics = []
+        # "ReportDuringWarmup"
+        # "DisplayAllWarnings",
+        # "ReportDuringWarmup",
+        # "ReportDuringWarmupConvergence",
+        # "ReportDuringHVACSizingSimulation"
+        if not output_diagnostics:
+            print('No output diagnostics')
+        else:
+            for name in output_diagnostics:
+                outvar = idf1.newidfobject("Output:Diagnostics".upper())
+                outvar.Key_1 = name
+
+        for name in output_variables:
+            outvar = idf1.newidfobject("Output:Variable".upper())
+            outvar.Key_Value = ''
+            outvar.Variable_Name = name
+            if base_case is True:
+                outvar.Reporting_Frequency = 'timestep'  # 'timestep', 'hourly', 'detailed',
+            else:
+                outvar.Reporting_Frequency = 'hourly' #'timestep', 'hourly', 'detailed',
+
+    # First create any CUSTOM METERS, these also need to be added to the MeterFileOnly object
+    if building_abr == 'MPEB':
+        custom_meter_names = ['Plant_Fans', 'AHU_Fans', 'Workshops_Power', 'Workshops_Lights', 'Chillers']
+        custom_meters = [
+             [["REF1", "Fan Electric Energy"],
+              ["REF2", "Fan Electric Energy"],
+              ["REF4A", "Fan Electric Energy"],
+              ["REF4B", "Fan Electric Energy"],
+              ["REF5", "Fan Electric Energy"]],
+
+            [["AHU1_EXTRACT", "Fan Electric Energy"],
+              ["AHU1_SUPPLY", "Fan Electric Energy"],
+              ["AHU2_EXTRACT", "Fan Electric Energy"],
+              ["AHU2_SUPPLY", "Fan Electric Energy"],
+              ["AHU3_SUPPLY", "Fan Electric Energy"],
+              ["AHU4_SUPPLY", "Fan Electric Energy"],
+              ["AHU5_EXTRACT", "Fan Electric Energy"],
+              ["AHU5_SUPPLY", "Fan Electric Energy"]]
+
+
+        ]
+
+        '''
+        [['THERMAL ZONE: B13 CIRCULATION CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B70 CORRIDOR CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B71 SERVICE CORRIDOR 1 CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B72 SERVICE CORRIDOR 2 CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B73 SERVICE CORRIDOR 3 CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B75 CORRIDOR CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B77 CORRIDOR CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B77A_CORRIDOR CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B82 CIRCULATION CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B84 CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B13A TEA POINT KITCHEN_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B01 ENGINE DYNAMOMETER CELL 1 LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B01A CONTROL ROOM CELL 1 LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B02 ENGINE DYNAMOMETER CELL 2 LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B02A CELL 2 CONTROL ROOM LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B03 ENGINE DYNAMOMETER CELL 3 LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B03A CELL 3 CONTROL ROOM LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B04 ENGINE DYNAMOMETER CELL 4 LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B04A CELL 4 CONTROL ROOM LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B05 EXPERIMENT ROOM LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B06 FSTF A LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B07 CONTROL ROOM LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B08 FSTF B LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B09 EXPERIMENT ROOM 2 LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B09A EXPERIMENT ROOM 3 LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B15C MARINETECH LAB LABORATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B17 WC LAVATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B18 WC LAVATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B19 TECHNICIANS REST ROOM LAVATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B20 DIS WC LAVATORY_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B15B OFFICE OFFICE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B08A PLANT ROOM PLANT_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B81 PLANT_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B83 LIFT MOTOR ROOM PLANT_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B87 SERVICES PLANT_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B95 LIFT MOTOR ROOM PLANT_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B97 HYDRAULIC LIFT/ACCESS HATCH PLANT_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B80 CORE 1 STAIRS_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B91 CORE 3 STAIRS STAIRS_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B14 WELDING WORKSHOP WORKSHOP_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B15 WORKSHOP WORKSHOP_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B15A CNC OPER ROOM WORKSHOP_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['THERMAL ZONE: B22 LABORATORY WORKSHOP_EQUIPMENT', 'Electric Equipment Electric Energy']],
+
+            [['THERMAL ZONE: B13 CIRCULATION CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B70 CORRIDOR CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B71 SERVICE CORRIDOR 1 CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B72 SERVICE CORRIDOR 2 CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B73 SERVICE CORRIDOR 3 CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B75 CORRIDOR CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B77 CORRIDOR CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B77A_CORRIDOR CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B82 CIRCULATION CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B84 CIRCULATION_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B13A TEA POINT KITCHEN_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B01 ENGINE DYNAMOMETER CELL 1 LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B01A CONTROL ROOM CELL 1 LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B02 ENGINE DYNAMOMETER CELL 2 LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B02A CELL 2 CONTROL ROOM LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B03 ENGINE DYNAMOMETER CELL 3 LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B03A CELL 3 CONTROL ROOM LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B04 ENGINE DYNAMOMETER CELL 4 LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B04A CELL 4 CONTROL ROOM LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B05 EXPERIMENT ROOM LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B06 FSTF A LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B07 CONTROL ROOM LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B08 FSTF B LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B09 EXPERIMENT ROOM 2 LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B09A EXPERIMENT ROOM 3 LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B15C MARINETECH LAB LABORATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B17 WC LAVATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B18 WC LAVATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B19 TECHNICIANS REST ROOM LAVATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B20 DIS WC LAVATORY_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B15B OFFICE OFFICE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B08A PLANT ROOM PLANT_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B81 PLANT_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B83 LIFT MOTOR ROOM PLANT_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B87 SERVICES PLANT_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B95 LIFT MOTOR ROOM PLANT_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B97 HYDRAULIC LIFT/ACCESS HATCH PLANT_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B80 CORE 1 STAIRS_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B91 CORE 3 STAIRS STAIRS_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B14 WELDING WORKSHOP WORKSHOP_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B15 WORKSHOP WORKSHOP_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B15A CNC OPER ROOM WORKSHOP_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B22 LABORATORY WORKSHOP_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B10 MATERIAL STORE STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B11 ENGINE STORE RACK STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B12 ENGINE PARTS STORE STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B16 EQUIPSTORE STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B21 LV SWITCHROOM STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B71A GAS BOTTLES STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B72A GAS BOTTLES STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B73 GAS BOTTLES STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B88 GAS BOTTLES STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B89 GAS BOTTLES STORAGE_LIGHTING', 'Lights Electric Energy'],
+             ['THERMAL ZONE: B90 GAS BOTTLES STORAGE_LIGHTING', 'Lights Electric Energy']],
+
+            [['CHILLER - AIR COOLED 1', 'Chiller Electric Energy'],
+            ['CHILLER - AIR COOLED', 'Chiller Electric Energy']]
+            '''
+
+
+    elif building_abr == '71':
+
+        custom_meter_names = ['B_Lights', 'GF_Lights', '1st_Lights', '2nd_Lights', '3rd_Lights', 'B_Power', 'GF_Power','1st_Power', '2nd_Power', '3rd_Power', 'Plant_Fans']
+        #custom_meters = []
+        custom_meters = [
+            [['B_ELEVATOR CIRCULATION_B_LIGHTS', 'Lights Electric Energy'],
+             ['B_ELEVATORFRONT CIRCULATION_B_LIGHTS', 'Lights Electric Energy'],
+             ['B_PLANTROOM PLANT_LIGHTS', 'Lights Electric Energy'],
+             ['B_STORE1 STORAGE_LIGHTS', 'Lights Electric Energy'],
+             ['B_STORE2 STORAGE_LIGHTS', 'Lights Electric Energy'],
+             ['B_STORE3 STORAGE_LIGHTS', 'Lights Electric Energy'],
+             ['B_TOILETSHOWERS TOILET_LIGHTS', 'Lights Electric Energy'],
+             ['B_TOILETS TOILET_LIGHTS', 'Lights Electric Energy']],
+
+            [['GF_CORRIDOR CIRCULATION_GF_LIGHTS', 'Lights Electric Energy'],
+             ['GF_CORRIDOREXITBACK CIRCULATION_GF_LIGHTS', 'Lights Electric Energy'],
+             ['GF_ELEVATORBACK CIRCULATION_GF_LIGHTS', 'Lights Electric Energy'],
+             ['GF_ELEVATORFRONT CIRCULATION_GF_LIGHTS', 'Lights Electric Energy'],
+             ['GF_ENTRANCE CIRCULATION_GF_LIGHTS', 'Lights Electric Energy'],
+             ['GF_BACKSPACE STORAGE_LIGHTS', 'Lights Electric Energy'],
+             ['GF_BACKSPACESTORE2 STORAGE_LIGHTS', 'Lights Electric Energy'],
+             ['GF_STORAGE1 STORAGE_LIGHTS', 'Lights Electric Energy'],
+             ['GF_TOILET TOILET_LIGHTS', 'Lights Electric Energy'],
+             ['GF_HAPPOLDSUITE MEETING_GF_LIGHTS', 'Lights Electric Energy'],
+             ['GF_HAPPOLDSUITE1 MEETING_GF_LIGHTS', 'Lights Electric Energy'],
+             ['GF_HAPPOLDSUITE2 MEETING_GF_LIGHTS', 'Lights Electric Energy'],
+             ['GF_HAPPOLDSUITE3 MEETING_GF_LIGHTS', 'Lights Electric Energy'],
+             ['GF_LOBBYPRESENTATION RECEPTION_LIGHTS', 'Lights Electric Energy']],
+
+            [['1_ELEVATORFRONT CIRCULATION_1_LIGHTS', 'Lights Electric Energy'],  # meter 2
+             ['1_ELEVATORBACK CIRCULATION_1_LIGHTS', 'Lights Electric Energy'],
+             ['1_MEETING MEETING_1_LIGHTS', 'Lights Electric Energy'],
+             ['1_OFFICE OFFICE_1_LIGHTS', 'Lights Electric Energy'],
+             ['1_TOILETSTORAGE STORAGE_LIGHTS', 'Lights Electric Energy'],
+             ['1_TOILETS TOILET_LIGHTS', 'Lights Electric Energy']],
+
+            [['2_ELEVATORBACK CIRCULATION_2_LIGHTS', 'Lights Electric Energy'],
+             ['2_ELEVATORFRONT CIRCULATION_2_LIGHTS', 'Lights Electric Energy'],
+             ['2_TOILETSTORAGE STORAGE_LIGHTS', 'Lights Electric Energy'],
+             ['2_OFFICE OFFICE_2_LIGHTS', 'Lights Electric Energy'],
+             ['2_TOILETS TOILET_LIGHTS', 'Lights Electric Energy'],
+             ['2_MEETING MEETING_2_LIGHTS', 'Lights Electric Energy']],
+
+            [['3_ELEVATORBACK CIRCULATION_3_LIGHTS', 'Lights Electric Energy'],
+             ['3_ELEVATORFRONT CIRCULATION_3_LIGHTS', 'Lights Electric Energy'],
+             ['3_OFFICE OFFICE_3_LIGHTS', 'Lights Electric Energy'],
+             ['3_TOILETSTORAGE STORAGE_LIGHTS', 'Lights Electric Energy'],
+             ['3_TOILETS TOILET_LIGHTS', 'Lights Electric Energy']],
+
+            [['B_PLANTROOM PLANT_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['B_ELEVATOR CIRCULATION_B_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['B_ELEVATORFRONT CIRCULATION_B_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['B_TOILETSHOWERS TOILET_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['B_TOILETS TOILET_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['B_STORE1 STORAGE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['B_STORE2 STORAGE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['B_STORE3 STORAGE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['B_WATERHEATER_E','Water Heater Electric Energy'],
+            ['B_WATERHEATER_E','Water Heater Off Cycle Parasitic Electric Energy'],
+            ['B_WATERHEATER_E','Water Heater On Cycle Parasitic Electric Energy']],
+
+            [['GF_CORRIDOR CIRCULATION_GF_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_CORRIDOREXITBACK CIRCULATION_GF_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_ELEVATORBACK CIRCULATION_GF_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_ELEVATORFRONT CIRCULATION_GF_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_ENTRANCE CIRCULATION_GF_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_HAPPOLDSUITE MEETING_GF_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_HAPPOLDSUITE1 MEETING_GF_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_HAPPOLDSUITE2 MEETING_GF_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_HAPPOLDSUITE3 MEETING_GF_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_LOBBYPRESENTATION RECEPTION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_BACKSPACE STORAGE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_BACKSPACESTORE2 STORAGE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_STORAGE1 STORAGE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_TOILET TOILET_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['GF_WATERHEATER_C','Water Heater Electric Energy'],
+            ['GF_WATERHEATER_C','Water Heater Off Cycle Parasitic Electric Energy'],
+            ['GF_WATERHEATER_C','Water Heater On Cycle Parasitic Electric Energy']],
+
+            [['1_ELEVATORBACK CIRCULATION_1_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['1_ELEVATORFRONT CIRCULATION_1_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['1_MEETING MEETING_1_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['1_OFFICE OFFICE_1_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['1_TOILETS TOILET_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['1_TOILETSTORAGE STORAGE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['1_WATERHEATER_A','Water Heater Electric Energy'],
+            ['1_WATERHEATER_A','Water Heater Off Cycle Parasitic Electric Energy'],
+            ['1_WATERHEATER_A','Water Heater On Cycle Parasitic Electric Energy']],
+
+            [['2_ELEVATORBACK CIRCULATION_2_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['2_ELEVATORFRONT CIRCULATION_2_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['2_MEETING MEETING_2_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['2_OFFICE OFFICE_2_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['2_TOILETSTORAGE STORAGE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['2_TOILETS TOILET_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['2_WATERHEATER_A','Water Heater Electric Energy'],
+            ['2_WATERHEATER_A','Water Heater Off Cycle Parasitic Electric Energy']],
+
+            [['3_OFFICE OFFICE_3_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['3_ELEVATORBACK CIRCULATION_3_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['3_ELEVATORFRONT CIRCULATION_3_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['3_TOILETSTORAGE STORAGE_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            ['3_TOILETS TOILET_EQUIPMENT', 'Electric Equipment Electric Energy'],
+             ['3_WATERHEATER_B', 'Water Heater Electric Energy'],
+             ['3_WATERHEATER_B', 'Water Heater Off Cycle Parasitic Electric Energy'],
+             ['3_WATERHEATER_B', 'Water Heater On Cycle Parasitic Electric Energy']],
+
+            [['AHU_ExtractFan', 'Fan Electric Energy'],
+            ['AHU_SupplyFan', 'Fan Electric Energy'],
+            ['1_TOILETEXHAUST', 'Fan Electric Energy'],
+            ['2_TOILETEXHAUST', 'Fan Electric Energy']]
+        ]
+
+    if custom_meters: # check if any custom outputs in list
+        # adding custom meter objects, make a list of list with inner lists containing other output meters and each separate list is a custom meter.
+        # default max on number of meters  is 22, set by .idd file.
+
+        for meter in range(len(custom_meters)):
+            for output in range(len(custom_meters[meter])):
+                new_meter = idf1.newidfobject("Output:Meter".upper())
+                new_meter.Name = str(custom_meters[meter][output][0])+':'+str(custom_meters[meter][output][1])
+                if base_case is True:
+                    new_meter.Reporting_Frequency = 'timestep'  # 'timestep', 'hourly', 'detailed',
+                else:
+                    new_meter.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
+
+        for meter in range(len(custom_meters)):
+            print(custom_meters[meter])
+            print('meter', meter, custom_meter_names[meter])
+            outmeter = idf1.newidfobject("Meter:Custom".upper())
+            outmeter.Name = custom_meter_names[meter]
+            outmeter.Fuel_Type = 'Electricity'
+            print(len(custom_meters[meter]))
+            for output in range(len(custom_meters[meter])):
+                print(output, custom_meters[meter][output][0])
+                if output == 0:
+                    outmeter.Key_Name_1 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_1 = custom_meters[meter][output][1]
+                if output == 1:
+                    outmeter.Key_Name_2 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_2 = custom_meters[meter][output][1]
+                if output == 2:
+                    outmeter.Key_Name_3 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_3 = custom_meters[meter][output][1]
+                if output == 3:
+                    outmeter.Key_Name_4 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_4 = custom_meters[meter][output][1]
+                if output == 4:
+                    outmeter.Key_Name_5 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_5 = custom_meters[meter][output][1]
+                if output == 5:
+                    outmeter.Key_Name_6 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_6 = custom_meters[meter][output][1]
+                if output == 6:
+                    outmeter.Key_Name_7 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_7 = custom_meters[meter][output][1]
+                if output == 7:
+                    outmeter.Key_Name_8 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_8 = custom_meters[meter][output][1]
+                if output == 8:
+                    outmeter.Key_Name_9 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_9 = custom_meters[meter][output][1]
+                if output == 9:
+                    outmeter.Key_Name_10 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_10 = custom_meters[meter][output][1]
+                if output == 10:
+                    outmeter.Key_Name_11 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_11 = custom_meters[meter][output][1]
+                if output == 11:
+                    outmeter.Key_Name_12 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_12 = custom_meters[meter][output][1]
+                if output == 12:
+                    outmeter.Key_Name_13 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_13 = custom_meters[meter][output][1]
+                if output == 13:
+                    outmeter.Key_Name_14 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_14 = custom_meters[meter][output][1]
+                if output == 14:
+                    outmeter.Key_Name_15 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_15 = custom_meters[meter][output][1]
+                if output == 15:
+                    outmeter.Key_Name_16 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_16 = custom_meters[meter][output][1]
+                if output == 16:
+                    outmeter.Key_Name_17 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_17 = custom_meters[meter][output][1]
+                if output == 17:
+                    outmeter.Key_Name_18 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_18 = custom_meters[meter][output][1]
+                if output == 18:
+                    outmeter.Key_Name_19 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_19 = custom_meters[meter][output][1]
+                if output == 19:
+                    outmeter.Key_Name_20 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_20 = custom_meters[meter][output][1]
+                if output == 20:
+                    outmeter.Key_Name_21 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_21 = custom_meters[meter][output][1]
+                if output == 21:
+                    outmeter.Key_Name_22 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_22 = custom_meters[meter][output][1]
+                if output == 22:
+                    outmeter.Key_Name_23 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_23 = custom_meters[meter][output][1]
+                if output == 23:
+                    outmeter.Key_Name_24 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_24 = custom_meters[meter][output][1]
+                if output == 24:
+                    outmeter.Key_Name_25 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_25 = custom_meters[meter][output][1]
+                if output == 25:
+                    outmeter.Key_Name_26 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_26 = custom_meters[meter][output][1]
+                if output == 26:
+                    outmeter.Key_Name_27 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_27 = custom_meters[meter][output][1]
+                if output == 27:
+                    outmeter.Key_Name_28 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_28 = custom_meters[meter][output][1]
+                if output == 28:
+                    outmeter.Key_Name_29 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_29 = custom_meters[meter][output][1]
+                if output == 29:
+                    outmeter.Key_Name_30 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_30 = custom_meters[meter][output][1]
+                if output == 30:
+                    outmeter.Key_Name_31 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_31 = custom_meters[meter][output][1]
+                if output == 31:
+                    outmeter.Key_Name_32 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_32 = custom_meters[meter][output][1]
+                if output == 32:
+                    outmeter.Key_Name_33 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_33 = custom_meters[meter][output][1]
+                if output == 33:
+                    outmeter.Key_Name_34 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_34 = custom_meters[meter][output][1]
+                if output == 34:
+                    outmeter.Key_Name_35 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_35 = custom_meters[meter][output][1]
+                if output == 35:
+                    outmeter.Key_Name_36 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_36 = custom_meters[meter][output][1]
+                if output == 36:
+                    outmeter.Key_Name_37 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_37 = custom_meters[meter][output][1]
+                if output == 37:
+                    outmeter.Key_Name_38 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_38 = custom_meters[meter][output][1]
+                if output == 38:
+                    outmeter.Key_Name_39 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_39 = custom_meters[meter][output][1]
+                if output == 39:
+                    outmeter.Key_Name_40 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_40 = custom_meters[meter][output][1]
+                if output == 40:
+                    outmeter.Key_Name_41 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_41 = custom_meters[meter][output][1]
+                if output == 41:
+                    outmeter.Key_Name_42 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_42 = custom_meters[meter][output][1]
+                if output == 42:
+                    outmeter.Key_Name_43 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_43 = custom_meters[meter][output][1]
+                if output == 43:
+                    outmeter.Key_Name_44 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_44 = custom_meters[meter][output][1]
+                if output == 44:
+                    outmeter.Key_Name_45= custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_45 = custom_meters[meter][output][1]
+                if output == 45:
+                    outmeter.Key_Name_46 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_46 = custom_meters[meter][output][1]
+                if output == 46:
+                    outmeter.Key_Name_47 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_47 = custom_meters[meter][output][1]
+                if output == 47:
+                    outmeter.Key_Name_48 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_48 = custom_meters[meter][output][1]
+                if output == 48:
+                    outmeter.Key_Name_49 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_49 = custom_meters[meter][output][1]
+                if output == 49:
+                    outmeter.Key_Name_50 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_50 = custom_meters[meter][output][1]
+                if output == 50:
+                    outmeter.Key_Name_51= custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_51 = custom_meters[meter][output][1]
+                if output == 51:
+                    outmeter.Key_Name_52 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_52= custom_meters[meter][output][1]
+                if output == 52:
+                    outmeter.Key_Name_53 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_53= custom_meters[meter][output][1]
+                if output == 53:
+                    outmeter.Key_Name_54 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_54= custom_meters[meter][output][1]
+                if output == 54:
+                    outmeter.Key_Name_55 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_55= custom_meters[meter][output][1]
+                if output == 55:
+                    outmeter.Key_Name_56 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_56= custom_meters[meter][output][1]
+                if output == 56:
+                    outmeter.Key_Name_57 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_57= custom_meters[meter][output][1]
+                if output == 57:
+                    outmeter.Key_Name_58 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_58= custom_meters[meter][output][1]
+                if output == 58:
+                    outmeter.Key_Name_59 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_59= custom_meters[meter][output][1]
+                if output == 59:
+                    outmeter.Key_Name_60 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_60= custom_meters[meter][output][1]
+                if output == 60:
+                    outmeter.Key_Name_61= custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_61= custom_meters[meter][output][1]
+                if output == 61:
+                    outmeter.Key_Name_62 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_62= custom_meters[meter][output][1]
+                if output == 62:
+                    outmeter.Key_Name_63 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_63= custom_meters[meter][output][1]
+                if output == 63:
+                    outmeter.Key_Name_64 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_64= custom_meters[meter][output][1]
+                if output == 64:
+                    outmeter.Key_Name_65 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_65= custom_meters[meter][output][1]
+                if output == 65:
+                    outmeter.Key_Name_66 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_66= custom_meters[meter][output][1]
+                if output == 66:
+                    outmeter.Key_Name_67 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_67= custom_meters[meter][output][1]
+                if output == 67:
+                    outmeter.Key_Name_68= custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_68= custom_meters[meter][output][1]
+                if output == 68:
+                    outmeter.Key_Name_69 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_69= custom_meters[meter][output][1]
+                if output == 69:
+                    outmeter.Key_Name_70 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_70= custom_meters[meter][output][1]
+                if output == 70:
+                    outmeter.Key_Name_71 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_71= custom_meters[meter][output][1]
+                if output == 71:
+                    outmeter.Key_Name_72 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_72= custom_meters[meter][output][1]
+                if output == 72:
+                    outmeter.Key_Name_73 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_73= custom_meters[meter][output][1]
+                if output == 73:
+                    outmeter.Key_Name_74 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_74= custom_meters[meter][output][1]
+                if output == 74:
+                    outmeter.Key_Name_75 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_75= custom_meters[meter][output][1]
+                if output == 75:
+                    outmeter.Key_Name_76 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_76= custom_meters[meter][output][1]
+                if output == 76:
+                    outmeter.Key_Name_77 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_77= custom_meters[meter][output][1]
+                if output == 77:
+                    outmeter.Key_Name_78 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_78= custom_meters[meter][output][1]
+                if output == 78:
+                    outmeter.Key_Name_79 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_79= custom_meters[meter][output][1]
+                if output == 79:
+                    outmeter.Key_Name_80 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_80= custom_meters[meter][output][1]
+                if output == 80:
+                    outmeter.Key_Name_81= custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_81= custom_meters[meter][output][1]
+                if output == 81:
+                    outmeter.Key_Name_82 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_82= custom_meters[meter][output][1]
+                if output == 82:
+                    outmeter.Key_Name_83= custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_83= custom_meters[meter][output][1]
+                if output == 83:
+                    outmeter.Key_Name_84 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_84= custom_meters[meter][output][1]
+                if output == 84:
+                    outmeter.Key_Name_85 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_85= custom_meters[meter][output][1]
+                if output == 85:
+                    outmeter.Key_Name_86 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_86= custom_meters[meter][output][1]
+                if output == 86:
+                    outmeter.Key_Name_87 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_87= custom_meters[meter][output][1]
+                if output == 87:
+                    outmeter.Key_Name_88 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_88= custom_meters[meter][output][1]
+                if output == 88:
+                    outmeter.Key_Name_89= custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_89= custom_meters[meter][output][1]
+                if output == 89:
+                    outmeter.Key_Name_90 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_90= custom_meters[meter][output][1]
+                if output == 90:
+                    outmeter.Key_Name_91 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_91= custom_meters[meter][output][1]
+                if output == 91:
+                    outmeter.Key_Name_92 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_92= custom_meters[meter][output][1]
+                if output == 92:
+                    outmeter.Key_Name_93 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_93= custom_meters[meter][output][1]
+                if output == 93:
+                    outmeter.Key_Name_94 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_94= custom_meters[meter][output][1]
+                if output == 94:
+                    outmeter.Key_Name_95 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_95= custom_meters[meter][output][1]
+                if output == 95:
+                    outmeter.Key_Name_96 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_96= custom_meters[meter][output][1]
+                if output == 96:
+                    outmeter.Key_Name_97 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_97= custom_meters[meter][output][1]
+                if output == 97:
+                    outmeter.Key_Name_98 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_98= custom_meters[meter][output][1]
+                if output == 98:
+                    outmeter.Key_Name_99 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_99= custom_meters[meter][output][1]
+                if output == 99:
+                    outmeter.Key_Name_100 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_100= custom_meters[meter][output][1]
+                if output == 100:
+                    outmeter.Key_Name_101 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_101= custom_meters[meter][output][1]
+                if output == 101:
+                    outmeter.Key_Name_102 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_102= custom_meters[meter][output][1]
+                if output == 102:
+                    outmeter.Key_Name_103 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_103= custom_meters[meter][output][1]
+                if output == 103:
+                    outmeter.Key_Name_104 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_104= custom_meters[meter][output][1]
+                if output == 104:
+                    outmeter.Key_Name_105 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_105= custom_meters[meter][output][1]
+                if output == 105:
+                    outmeter.Key_Name_106 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_106= custom_meters[meter][output][1]
+                if output == 106:
+                    outmeter.Key_Name_107 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_107= custom_meters[meter][output][1]
+                if output == 107:
+                    outmeter.Key_Name_108 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_108= custom_meters[meter][output][1]
+                if output == 108:
+                    outmeter.Key_Name_109 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_109= custom_meters[meter][output][1]
+                if output == 109:
+                    outmeter.Key_Name_110 = custom_meters[meter][output][0]
+                    outmeter.Output_Variable_or_Meter_Name_110= custom_meters[meter][output][1]
+
+    # add the TYPICAL METERS
     output_meters = ["Fans:Electricity",
                      "InteriorLights:Electricity",
                      "InteriorEquipment:Electricity",
@@ -1245,16 +1917,30 @@ def add_outputs(idf1, base_case): # add outputvariables and meters as new idf ob
                      "Cogeneration:Electricity",
                      "Refrigeration:Electricity",
                      "DistrictCooling:Facility",
-                     "DistrictHeating:Facility",
-                     "Electricity:Facility",
-                     "InteriorEquipment:Electricity:Zone:THERMAL ZONE: 409 MACHINE ROOM",
-                     "InteriorEquipment:Electricity:Zone:THERMAL ZONE: G01B MACHINE ROOM"
+                     "DistrictHeating:Facility"
                      ]
+
+    # extend any building specific meters
+    if building_abr == 'MPEB':
+        output_meters.extend(
+            [
+            "InteriorEquipment:Electricity:Zone:THERMAL ZONE: 409 MACHINE ROOM",
+            "InteriorEquipment:Electricity:Zone:THERMAL ZONE: G01B MACHINE ROOM",
+            'Cooling:EnergyTransfer:Zone:THERMAL ZONE: 409 MACHINE ROOM',
+            'Cooling:EnergyTransfer:Zone:THERMAL ZONE: G01B MACHINE ROOM'
+             ])
+    if building_abr == '71':
+        output_meters.extend(
+            custom_meter_names # add the custom meters to be added to the .mtr file!
+        )
 
     for name in output_meters:
         outmeter = idf1.newidfobject("Output:Meter:MeterFileOnly".upper())
         outmeter.Name = name
-        outmeter.Reporting_Frequency = 'hourly'
+        if base_case is True:
+            outmeter.Reporting_Frequency = 'timestep'  # 'timestep', 'hourly', 'detailed',
+        else:
+            outmeter.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
 
 # Remove all comments from idf file so as to make them smaller.
 def remove_comments(run_file):
@@ -1267,8 +1953,42 @@ def remove_comments(run_file):
         f.writelines(data)
         f.truncate()
 
-def run_lhs(idf1, lhd, building_name, building_abr, base_case, seasonal_occ_factor_week, seasonal_occ_factor_weekend, n_samples, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation):
-    idf1.popidfobject('Output:SQLite'.upper(), 0) # remove sql output, have all the outputs in the .eso and meter data in .mtr
+def set_runperiod(idf1, building_abr, run_period):
+    runperiods = idf1.idfobjects['RunPeriod'.upper()]
+    if building_abr in {'CH', 'MPEB'}: # 2017
+        start_of_week = 'Sunday'
+    elif building_abr in {'71'}: # 2014
+        start_of_week = 'Wednesday'
+
+    for runperiod in runperiods:
+        runperiod.Begin_Month = run_period[0]
+        runperiod.Begin_Day_of_Month = run_period[1]
+        runperiod.End_Month = run_period[2]
+        runperiod.End_Day_of_Month = run_period[3]
+
+        runperiod.Day_of_Week_for_Start_Day = start_of_week
+        runperiod.Use_Weather_File_Holidays_and_Special_Days = 'No'
+        runperiod.Use_Weather_File_Daylight_Saving_Period = 'No'
+
+def set_holidays(idf1, building_abr):
+    if building_abr in {'CH', 'MPEB'}: #2017
+        holidays = [['Summer bank holiday', '8/28'], ['Spring bank holiday', '5/29'], ['Early may bank holiday', '5/1'],
+                    ['Easter Monday', '4/17'], ['Good Friday', '4/14'], ['New Years Day', '1/2']]  # 2017
+    elif building_abr == '71': # 2014
+        holidays = [['Boxing Day', '12/26'], ['Christmas Day', '12/25'], ['Summer bank holiday', '8/25'],
+                    ['Spring bank holiday', '5/25'], ['Early may bank holiday', '5/5'],
+                    ['Easter Monday', '4/21'], ['Good Friday', '4/18'], ['New Years Day', '1/1']]  # 2014
+
+    for h in range(len(holidays)): # create new object for every holiday
+        holiday = idf1.newidfobject("RunPeriodControl:SpecialDays".upper())
+        holiday.Name = holidays[h][0]
+        holiday.Start_Date = str(holidays[h][1])
+        holiday.Duration = 1
+        holiday.Special_Day_Type = 'Holiday'
+
+def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_variables, run_period, seasonal_occ_factor_week, seasonal_occ_factor_weekend, n_samples, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation):
+    if base_case is False | remove_sql is True:
+        idf1.popidfobject('Output:SQLite'.upper(), 0) # remove sql output, have all the outputs in the .eso and meter data in .mtr
     idf1.popidfobject('Output:VariableDictionary'.upper(), 0)
     idf1.popidfobject('Output:Table:SummaryReports'.upper(), 0)
     idf1.popidfobject('OutputControl:Table:Style'.upper(), 0)
@@ -1279,9 +1999,11 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, seasonal_occ_fact
     # change the base idf first by adding ground temps, and removing existing objects before adding new ones.
 
     add_groundtemps(idf1)
+    set_runperiod(idf1, building_abr, run_period)
+    set_holidays(idf1, building_abr)
     remove_schedules(idf1, building_abr)
     remove_existing_outputs(idf1)
-    add_outputs(idf1, base_case)
+    add_outputs(idf1, base_case,add_variables, building_abr)
 
     # Explanation
     # 1. replace_materials_eppy uses mat_props.csv, replace_equipment_eppy uses equipment_props.csv, replace_schedules uses house_scheds.csv
@@ -1348,12 +2070,16 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, seasonal_occ_fact
 
         print("number of variables changed for schedules", var_scheds)
 
+
+
+
         collect_inputs.append(input_values)
 
         print("total number of variables ", var_num)
         print(input_names)
         print(input_values)
         print('file saved here', run_file)
+        print('file used', "{}".format(rootdir) + "/" + building_name + ".idf")
 
     #Write inputs to csv file
     collect_inputs.insert(0, input_names) # prepend names to list
@@ -1366,15 +2092,17 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, seasonal_occ_fact
         writer = csv.writer(outf, lineterminator='\n')
         writer.writerows(collect_inputs)
 
-
 def main():
     iddfile = "C:/EnergyPlusV8-6-0/Energy+.idd"
     IDF.setiddname(iddfile)
 
     # VARIABLES
     base_case = True #todo run basecase straight away with eppy http://pythonhosted.org/eppy/runningeplus.html
+    add_variables = False # these are additional variables written to .eso (which are only done when basecase is true, but can be turned of here if not necessary.
+    remove_sql = True # when doing MPEB, sql is too big (1gb+)
     building_abr = 'MPEB' # 'CH', 'MPEB', # '71' # building_abr
-    n_samples = 1000 # how many idfs need to be created
+    n_samples = 2 # how many idfs need to be created
+    run_period = [1, 1, 1, 14] #first month, first day, last month, last day
 
     if building_abr == 'CH':
         building_name = 'CentralHouse_222'  # 'MalletPlace', 'CentralHouse_222' # building_name
@@ -1387,26 +2115,32 @@ def main():
     print(idf1)
 
     if building_abr == 'MPEB':
-        no_variables = 300
+        no_variables = 350
         seasonal_occ_factor_week = [0.87412038097731815, 1.0, 0.88127686884800327, 0.65734952377835243, 0.56079599384675805, 0.5795130964672417, 0.51636429355119184, 0.40356102510391778, 0.44929526337244069, 0.99397321494987856, 0.98458416522109116, 0.65317288987490019]
         seasonal_occ_factor_weekend = [0.68719611021069693, 0.92382495948136145, 0.6223662884927067, 0.28957320367368988, 0.81815235008103726, 1.0, 0.98703403565640191, 0.6755267423014587, 0.59643435980551052, 0.20601476679272465, 0.60651899873942017, 0.53970826580226905]
-        overtime_multiplier_equip = 70
+        overtime_multiplier_equip = 95
         overtime_multiplier_light = 60
         multiplier_variation = 20
+        start_of_week = 'Sunday'
     elif building_abr == 'CH':
-        no_variables = 150
+        no_variables = 250
         seasonal_occ_factor_week = [0.77277540295697877, 1.0, 0.97137313142714898, 0.87928938389740785, 0.62508333660143534, 0.55137456370838078, 0.47487284241325745, 0.50672575395113539, 0.40279654460602732, 0.77115323595577723, 0.95529236440644738, 0.71144989488078814]
         seasonal_occ_factor_weekend = [0.50020120724346073, 0.72635814889336014, 1.0, 0.92331768388106417, 0.84949698189134804, 0.47183098591549294, 0.51358148893360156, 0.61287726358148897, 0.20422535211267606, 0.41493404873686562, 0.76861167002012076, 0.8138832997987927]
         overtime_multiplier_equip = 65
-        overtime_multiplier_equip = 30
+        overtime_multiplier_light = 30
         multiplier_variation = 20
+        start_of_week = 'Sunday' #2017
     elif building_abr == '71':
         no_variables = 150
-        seasonal_occ_factor_week = []
-        seasonal_occ_factor_weekend = []
+        seasonal_occ_factor_week = [i for i in range(1, 13)]
+        seasonal_occ_factor_weekend = [i for i in range(1, 13)]
+        overtime_multiplier_equip = 20
+        overtime_multiplier_light = 15
+        multiplier_variation = 20
+        start_of_week = 'Wednesday' #2014
 
     lhd = doe_lhs.lhs(no_variables, samples=n_samples)
-    run_lhs(idf1, lhd, building_name, building_abr, base_case, seasonal_occ_factor_week, seasonal_occ_factor_weekend, n_samples, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation)
+    run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_variables, run_period, seasonal_occ_factor_week, seasonal_occ_factor_weekend, n_samples, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation)
 
     # print idf1.idfobjects['PEOPLE'][0].objls #fieldnames
     # print idf1.idfobjects['ELECTRICEQUIPMENT'][0].objls #fieldnames
