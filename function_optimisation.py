@@ -26,28 +26,6 @@ def elements(df_inputs, lower_bound, upper_bound):
     #         elements.append(random.gauss(df_inputs.iloc[0][x], df_inputs.iloc[0][x]*(1/10))) # set to 10% variation currently... #TODO change
     return elements
 
-# Load the pickle surrogate model made by 'surrogate_model.py' and calculate with new inputs
-def calculate(individual):
-    model = joblib.load(DATAPATH_MODEL_REAL +  'rr_' + TIME_STEP + '_model.pkl')
-    individual = np.array(individual).reshape((1,-1))
-    prediction = model.predict(individual)[0]
-
-    #prediction = prediction/(FLOOR_AREA)
-    #todo for diff buildings, the targets are different. The measured targets have to be comparable like for like with the predictions
-
-    # if BUILDING_ABR in {'CH'}:
-    #     if TIME_STEP == 'year':
-    #         #print(prediction)
-    #         #surrogate model calculates for 8 months 8 end-uses, so need to sum to compare with measurements.
-    #         prediction = [prediction[0]+sum(prediction[4:6])+prediction[7], sum(prediction[1:4]), prediction[6]] # Systems, L&P, Gas
-    #
-    #     elif TIME_STEP == 'month':
-    #         prediction = prediction
-
-    prediction = prediction[:NO_OF_OBJECTIVES]
-    #print(prediction)
-    return prediction
-
 def evaluate(individual):
     diff = []
     prediction = calculate(individual)
@@ -68,6 +46,29 @@ def evaluate(individual):
     #diff = [float(i)/sum(diff) for i in diff]
     #print(tuple(diff))
     return tuple(diff)
+# Load the pickle surrogate model made by 'surrogate_model.py' and calculate with new inputs
+def calculate(individual):
+    print(individual)
+    model = joblib.load(DATAPATH_MODEL_REAL +  'rr_' + TIME_STEP + '_model.pkl')
+    individual = np.array(individual).reshape((1,-1))
+    prediction = model.predict(individual)[0]
+    exit()
+    #prediction = prediction/(FLOOR_AREA)
+    #todo for diff buildings, the targets are different. The measured targets have to be comparable like for like with the predictions
+
+    # if BUILDING_ABR in {'CH'}:
+    #     if TIME_STEP == 'year':
+    #         #print(prediction)
+    #         #surrogate model calculates for 8 months 8 end-uses, so need to sum to compare with measurements.
+    #         prediction = [prediction[0]+sum(prediction[4:6])+prediction[7], sum(prediction[1:4]), prediction[6]] # Systems, L&P, Gas
+    #
+    #     elif TIME_STEP == 'month':
+    #         prediction = prediction
+
+    prediction = prediction[:NO_OF_OBJECTIVES]
+    #print(prediction)
+    return prediction
+
 
 # PLOT: Plot predictions based on best individuals in each generation
 def plot_prediction_gen():
@@ -224,11 +225,11 @@ if __name__ == '__main__':
     #PERC_ATTR_TO_MUTATE = 0.3 #no of attributes to mutate per individual
     SIGMA_VARIATION = 20 #percentage of variation for the input variables
     BUILDING_ABR = 'CH' #'CH', 'MPEB'
-    TIME_STEP = 'month' #'year', 'month'
+    TIME_STEP = 'year' #'year', 'month'
     NO_OF_OBJECTIVES = 8
 
     if BUILDING_ABR in {'CH'}:
-        DATAPATH_MODEL_REAL = 'C:/EngD_hardrive/UCL_DemandLogic/01_CentralHouse_Project/Run1000/'
+        DATAPATH_MODEL_REAL = 'C:/EngD_hardrive/UCL_DemandLogic/01_CentralHouse_Project/ParallelSimulation/'
         FLOOR_AREA = 5876
         END_USES = False
 
@@ -253,6 +254,10 @@ if __name__ == '__main__':
 
     df_coefs = pd.read_csv(DATAPATH_MODEL_REAL + 'rr_coef_'+TIME_STEP+'.csv', header=0, index_col=0) #todo use input csv instead?
     df_inputs = pd.read_csv(DATAPATH_MODEL_REAL + 'input_outputs_'+TIME_STEP+'.csv', header=0)
+
+
+
+
 
     # TODO allow for excluding variables with little influence, model order reduction (but might not be necessary as long as optimisation works?)
     print(len(targets), df_coefs.shape[1])  # no outputs, no of variables

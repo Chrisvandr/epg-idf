@@ -477,6 +477,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
 
         #HOT WATER HEATER SCHEDULES
         # todo it should automatically identify which schedules are the water heaters instead of manually picking up the names everytime.
+        #todo should be easy enough to just select 'purpose' on dline 2
         if building_abr == 'CH':
             hwheaters = ["HWSchedule_Cleaner", "HWSchedule_Kitchenettes", "HWSchedule_Showers", "HWSchedule_Toilets"]
 
@@ -560,7 +561,6 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                     SchedProperties.append('Until: ' + timeline[i])
                     SchedProperties.append(v)
             scheddict[heater].append(SchedProperties)
-
 
         # FOR OCCUPANCY PROFILES TO INSERT STANDARD DEVIATION FROM THE SCHEDULES
         if building_abr in {'CH', 'MPEB'}:
@@ -723,6 +723,9 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
             months_in_year = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
             seasonal_occ_factor_week_names = [str('SeasonWeekOccFactor_') + str(month) for month in months_in_year]
             seasonal_occ_factor_weekend_names = [str('SeasonWeekendOccFactor_') + str(month) for month in months_in_year]
+
+            #todo there is definitely something wrong here... does the seasonal factor increase???
+
             print(seasonal_occ_factor_week)
             print(seasonal_occ_factor_weekend)
 
@@ -731,18 +734,18 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
             [input_values.append(i) for i in seasonal_occ_factor_weekend]
             [input_names.append(i) for i in seasonal_occ_factor_weekend_names]
 
-
             office_scheds = [occ_week, equip_week, light_week]
+
             if building_abr == 'CH':
                 office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched'] # has to align with previous profiles
             elif building_abr == 'MPEB':
                 office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched']  # has to align with previous profiles
+            #elif building_abr == '71':
 
             days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] # typical 365 year
             print('days in year', sum(days_in_month))
             seasonal_factor = [] # 12 monthly values, with seasonal max factor of unity
             for sched, sname in enumerate(office_scheds_names):
-
                 # this to prevent the overtime factors to be overridden by the seasonal weekend occupancy changes?
                 if sname in {'Office_EquipSched', 'Office_LightSched'}:
                     seasonal_occ_factor_weekend = seasonal_occ_factor_week
@@ -762,21 +765,21 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                         elif i >= 48: #  if element 48 is reached, then start appending the weekends and holidays profile
                             SchedProperties.append(v*seasonal_occ_factor_weekend[t_month])  # monthly seasonal factor
 
+            print('Office', len(SchedProperties), SchedProperties)
+            scheddict[sname].append(SchedProperties)
 
-                print('Office', len(SchedProperties), SchedProperties)
-                scheddict[sname].append(SchedProperties)
+            week_sched_tot, weekend_sched_tot = sum(office_scheds[sched][:48]), sum(office_scheds[sched][48:96])
+            input_names.append(sname + '_WeekProfile_TotalHours')
+            input_values.append(week_sched_tot)
+            input_names.append(sname + '_WeekendProfile_TotalHours')
+            input_values.append(weekend_sched_tot)
 
-                week_sched_tot, weekend_sched_tot = sum(office_scheds[sched][:48]), sum(office_scheds[sched][48:96])
-                input_names.append(sname+'_WeekProfile_TotalHours')
-                input_values.append(week_sched_tot)
-                input_names.append(sname + '_WeekendProfile_TotalHours')
-                input_values.append(weekend_sched_tot)
+            week_sched_oh, weekend_sched_oh = week_sched_tot - sum(office_scheds[sched][13:37]), weekend_sched_tot - sum(office_scheds[sched][61:85])  # 7 to 7?
+            input_names.append(sname + '_WeekProfile_OH')
+            input_values.append(week_sched_oh)
+            input_names.append(sname + '_WeekendProfile_OH')
+            input_values.append(weekend_sched_oh)
 
-                week_sched_oh, weekend_sched_oh = week_sched_tot - sum(office_scheds[sched][13:37]), weekend_sched_tot - sum(office_scheds[sched][61:85]) # 7 to 7?
-                input_names.append(sname+'_WeekProfile_OH')
-                input_values.append(week_sched_oh)
-                input_names.append(sname + '_WeekendProfile_OH')
-                input_values.append(weekend_sched_oh)
 
         #print scheddict['PrintRoom_Cooling'][0]
         #print scheddict.keys()
@@ -996,12 +999,15 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
         equip_idf = idf1.idfobjects[equip_type]
 
         print(lineno(), equip_type)
+        counter = 0
         for equip in equip_idf: # For each instance of object replace content with that defined in csv files
             # for all ventilation objects, change to the same value
             #print(equip)
             if equip_type == 'ZONEVENTILATION:DESIGNFLOWRATE':
                 len_zonevent = len(idf1.idfobjects[equip_type])
                 object_name = "ZoneVentilation"
+
+                print(lineno(), 'name', equips[object_name].name, )
 
                 equip.Design_Flow_Rate_Calculation_Method = equips[object_name].dline[19]
                 sigma = float(equips[object_name].dline[30])
@@ -1016,16 +1022,20 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                     x += 1
                 else:
                     eq_vent = mu
-                if x == len_zonevent:
+
+                if counter == 0:
                     equip.Flow_Rate_per_Person = eq_vent  # dline[19]
                     input_values.append(eq_vent)
                     input_names.append(object_name)
                     print(eq_vent, var_num)
                     var_num += 1
+                    counter += 1
 
             elif equip_type == 'FAN:ZONEEXHAUST':
                 len_objects = len(idf1.idfobjects[equip_type])
                 object_name = "ExhaustFans"
+
+                print(lineno(), 'name', equips[object_name].name, )
 
                 sigma = float(equips[object_name].dline[30])
                 if base_case is True:
@@ -1040,12 +1050,14 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                     x+=1
                 else:
                     eq_efficiency = mu
-                if x == len_objects:
+
+                if counter == 0:
                     equip.Fan_Total_Efficiency = eq_efficiency
                     input_values.append(eq_efficiency)
                     input_names.append(object_name)
-                    #print(eq_efficiency, var_num)
+                    print(eq_efficiency, var_num)
                     var_num += 1
+                    counter += 1
 
             else:
                 if equip_type == 'AIRCONDITIONER:VARIABLEREFRIGERANTFLOW':
@@ -1324,13 +1336,9 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
               ["AHU3_SUPPLY", "Fan Electric Energy"],
               ["AHU4_SUPPLY", "Fan Electric Energy"],
               ["AHU5_EXTRACT", "Fan Electric Energy"],
-              ["AHU5_SUPPLY", "Fan Electric Energy"]]
+              ["AHU5_SUPPLY", "Fan Electric Energy"]],
 
-
-        ]
-
-        '''
-        [['THERMAL ZONE: B13 CIRCULATION CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
+            [['THERMAL ZONE: B13 CIRCULATION CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
             ['THERMAL ZONE: B70 CORRIDOR CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
             ['THERMAL ZONE: B71 SERVICE CORRIDOR 1 CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
             ['THERMAL ZONE: B72 SERVICE CORRIDOR 2 CIRCULATION_EQUIPMENT', 'Electric Equipment Electric Energy'],
@@ -1431,8 +1439,7 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
 
             [['CHILLER - AIR COOLED 1', 'Chiller Electric Energy'],
             ['CHILLER - AIR COOLED', 'Chiller Electric Energy']]
-            '''
-
+            ]
 
     elif building_abr == '71':
 
@@ -1929,11 +1936,11 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
             'Cooling:EnergyTransfer:Zone:THERMAL ZONE: 409 MACHINE ROOM',
             'Cooling:EnergyTransfer:Zone:THERMAL ZONE: G01B MACHINE ROOM'
              ])
-    if building_abr == '71':
-        output_meters.extend(
-            custom_meter_names # add the custom meters to be added to the .mtr file!
-        )
 
+    if building_abr == '71':
+        print('no extra meters')
+
+    output_meters.extend(custom_meter_names)  # add the custom meters to be added to the .mtr file!
     for name in output_meters:
         outmeter = idf1.newidfobject("Output:Meter:MeterFileOnly".upper())
         outmeter.Name = name
@@ -1971,9 +1978,13 @@ def set_runperiod(idf1, building_abr, run_period):
         runperiod.Use_Weather_File_Daylight_Saving_Period = 'No'
 
 def set_holidays(idf1, building_abr):
-    if building_abr in {'CH', 'MPEB'}: #2017
+    if building_abr in {'CH'}: #2017
         holidays = [['Summer bank holiday', '8/28'], ['Spring bank holiday', '5/29'], ['Early may bank holiday', '5/1'],
                     ['Easter Monday', '4/17'], ['Good Friday', '4/14'], ['New Years Day', '1/2']]  # 2017
+    elif building_abr in {'MPEB'}: #2017
+        holidays = [['Summer bank holiday', '8/28'], ['Spring bank holiday', '5/29'], ['Early may bank holiday', '5/1'],
+                    ['Easter Monday', '4/17'], ['Easter2', '4/18'],['Easter3', '4/19'],['Good Friday', '4/14'], ['New Years Day', '1/2'], ['New Years Day', '1/2'], ['New Years Day', '1/2'], ['Christmas', '12/25'],
+                    ['Christmas2', '12/26'], ['Christmas3', '12/27'], ['Christmas4', '12/28'], ['Christmas5', '12/29']]  # 2017
     elif building_abr == '71': # 2014
         holidays = [['Boxing Day', '12/26'], ['Christmas Day', '12/25'], ['Summer bank holiday', '8/25'],
                     ['Spring bank holiday', '5/25'], ['Early may bank holiday', '5/5'],
@@ -2059,9 +2070,7 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_v
         else:
             run_file = save_dir+"/"+building_name+"_" + str(format(run_no, '04')) + ".idf" # use new folder for save location, zero pad to 4 numbers
 
-
         idf1.saveas(run_file)
-
         remove_comments(run_file)
 
         #replace_schedules append to file instead of using eppy, it will open the written idf file
@@ -2069,9 +2078,6 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_v
         input_values, input_names, var_num = replace_schedules(run_file, lhd, input_values,input_names,var_num,run_no,building_abr, base_case, seasonal_occ_factor_week, seasonal_occ_factor_weekend, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation) #create_schedules = the heating and coolign profiles. Which are not to be created for MPEB (however, the remove_schedules shouldn't delete existing ones. Or create them...
 
         print("number of variables changed for schedules", var_scheds)
-
-
-
 
         collect_inputs.append(input_values)
 
@@ -2085,7 +2091,7 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_v
     collect_inputs.insert(0, input_names) # prepend names to list
     if base_case is True:
         csv_outfile = save_dir+"/inputs_basecase_" + building_name + strftime("_%d_%m_%H_%M", gmtime()) + ".csv"
-    else:
+    elif base_case is not True:
         csv_outfile = save_dir + "/inputs_" + building_name + strftime("%d_%m_%H_%M", gmtime()) + ".csv"
 
     with open(csv_outfile, 'w') as outf:
@@ -2097,12 +2103,12 @@ def main():
     IDF.setiddname(iddfile)
 
     # VARIABLES
-    base_case = True #todo run basecase straight away with eppy http://pythonhosted.org/eppy/runningeplus.html
+    base_case = False #todo run basecase straight away with eppy http://pythonhosted.org/eppy/runningeplus.html
     add_variables = False # these are additional variables written to .eso (which are only done when basecase is true, but can be turned of here if not necessary.
     remove_sql = True # when doing MPEB, sql is too big (1gb+)
-    building_abr = 'MPEB' # 'CH', 'MPEB', # '71' # building_abr
-    n_samples = 2 # how many idfs need to be created
-    run_period = [1, 1, 1, 14] #first month, first day, last month, last day
+    building_abr = '71' # 'CH', 'MPEB', # '71' # building_abr
+    n_samples = 3 # how many idfs need to be created
+    run_period = [1, 1, 12, 31] #first month, first day, last month, last day
 
     if building_abr == 'CH':
         building_name = 'CentralHouse_222'  # 'MalletPlace', 'CentralHouse_222' # building_name
@@ -2116,8 +2122,8 @@ def main():
 
     if building_abr == 'MPEB':
         no_variables = 350
-        seasonal_occ_factor_week = [0.87412038097731815, 1.0, 0.88127686884800327, 0.65734952377835243, 0.56079599384675805, 0.5795130964672417, 0.51636429355119184, 0.40356102510391778, 0.44929526337244069, 0.99397321494987856, 0.98458416522109116, 0.65317288987490019]
-        seasonal_occ_factor_weekend = [0.68719611021069693, 0.92382495948136145, 0.6223662884927067, 0.28957320367368988, 0.81815235008103726, 1.0, 0.98703403565640191, 0.6755267423014587, 0.59643435980551052, 0.20601476679272465, 0.60651899873942017, 0.53970826580226905]
+        seasonal_occ_factor_week = [0.85, .9, 0.85, 0.65, 0.55, 0.55, 0.55, 0.4, 0.45, 0.65, 0.65, 0.65]
+        seasonal_occ_factor_weekend = [0.85, .9, 0.85, 0.65, 0.55, 0.55, 0.55, 0.4, 0.45, 0.65, 0.65, 0.65]
         overtime_multiplier_equip = 95
         overtime_multiplier_light = 60
         multiplier_variation = 20
