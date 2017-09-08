@@ -698,96 +698,100 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                 plt.show()
             #plot_schedules()
 
-            if base_case is not True:
+        if base_case is not True:
+            seasons = [seasonal_occ_factor_week, seasonal_occ_factor_weekend]
+            for q, x in enumerate(seasons):
+                seasonal_occ_factor_varied = []
+                sigmas = [i * (10 / 100) for i in x] # set monthly variation to define sigma
+                lower, upper = [x[v] - (2 * i) for v, i in enumerate(sigmas)], [x[v] + (2 * i) for v, i in enumerate(sigmas)]
+                for i in range(len(sigmas)):
+                    replace_seasonal = stats.truncnorm((lower[i]-x[i])/sigmas[i], (upper[i]-x[i])/sigmas[i], loc=x[i], scale=sigmas[i]).ppf(lhd[run_no, var_num])
+                    seasonal_occ_factor_varied.append(replace_seasonal)
+                    var_num += 1
 
-                seasons = [seasonal_occ_factor_week, seasonal_occ_factor_weekend]
-                for q, x in enumerate(seasons):
-                    seasonal_occ_factor_varied = []
-                    sigmas = [i * (20 / 100) for i in x]
-                    lower, upper = [x[v] - (2 * i) for v, i in enumerate(sigmas)], [x[v] + (2 * i) for v, i in enumerate(sigmas)]
-                    for i in range(len(sigmas)):
-                        replace_seasonal = stats.truncnorm((lower[i]-x[i])/sigmas[i], (upper[i]-x[i])/sigmas[i], loc=x[i], scale=sigmas[i]).ppf(lhd[run_no, var_num])
-                        seasonal_occ_factor_varied.append(replace_seasonal)
-                        var_num += 1
+                # seasonal_occ_factor_varied = [i if i < 1 else 1 for i in seasonal_occ_factor_varied]
+                # seasonal_occ_factor_varied = [i if i > 0 else 0.1 for i in seasonal_occ_factor_varied]
 
-                    # seasonal_occ_factor_varied = [i if i < 1 else 1 for i in seasonal_occ_factor_varied]
-                    # seasonal_occ_factor_varied = [i if i > 0 else 0.1 for i in seasonal_occ_factor_varied]
+                seasonal_occ_factor_varied = [i / np.max(seasonal_occ_factor_varied) for i in seasonal_occ_factor_varied]
 
-                    seasonal_occ_factor_varied = [i / np.max(seasonal_occ_factor_varied) for i in seasonal_occ_factor_varied]
+                if q == 0:
+                    seasonal_occ_factor_week = seasonal_occ_factor_varied
+                if q == 1:
+                    seasonal_occ_factor_weekend = seasonal_occ_factor_varied
 
-                    if q == 0:
-                        seasonal_occ_factor_week = seasonal_occ_factor_varied
-                    if q == 1:
-                        seasonal_occ_factor_weekend = seasonal_occ_factor_varied
+        months_in_year = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        seasonal_occ_factor_week_names = [str('SeasonWeekOccFactor_') + str(month) for month in months_in_year]
+        seasonal_occ_factor_weekend_names = [str('SeasonWeekendOccFactor_') + str(month) for month in months_in_year]
 
-            months_in_year = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-            seasonal_occ_factor_week_names = [str('SeasonWeekOccFactor_') + str(month) for month in months_in_year]
-            seasonal_occ_factor_weekend_names = [str('SeasonWeekendOccFactor_') + str(month) for month in months_in_year]
+        print(seasonal_occ_factor_week)
+        print(seasonal_occ_factor_weekend)
 
-            #todo there is definitely something wrong here... does the seasonal factor increase???
+        [input_values.append(i) for i in seasonal_occ_factor_week]
+        [input_names.append(i) for i in seasonal_occ_factor_week_names]
+        [input_values.append(i) for i in seasonal_occ_factor_weekend]
+        [input_names.append(i) for i in seasonal_occ_factor_weekend_names]
 
-            print(seasonal_occ_factor_week)
-            print(seasonal_occ_factor_weekend)
 
-            [input_values.append(i) for i in seasonal_occ_factor_week]
-            [input_names.append(i) for i in seasonal_occ_factor_week_names]
-            [input_values.append(i) for i in seasonal_occ_factor_weekend]
-            [input_names.append(i) for i in seasonal_occ_factor_weekend_names]
-
+        if building_abr == 'CH':
+            office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched'] # has to align with previous profiles
             office_scheds = [occ_week, equip_week, light_week]
+        elif building_abr == 'MPEB':
+            office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched']  # has to align with previous profiles
+            office_scheds = [occ_week, equip_week, light_week]
+        elif building_abr == '71':
+            # For Office 71 only the seasonal factor is applied and nothing is done with regards to the overtime or offset of hours, so schedules are taken directly from those defined in the csv
+            office_scheds_names = ['Office_LightSched_B', 'Office_LightSched_GF', 'Office_LightSched_1',\
+                            'Office_LightSched_2','Office_LightSched_3', 'Office_EquipSched_B','Office_EquipSched_GF', \
+                            'Office_EquipSched_1', 'Office_EquipSched_2', 'Office_EquipSched_3']
+            office_scheds = []
+            for i, v in enumerate(office_scheds_names):
+                add_schedule = [float(c) for c in scheds[v].dline[8:8+48+48]]
+                office_scheds.append(add_schedule)
 
-            if building_abr == 'CH':
-                office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched'] # has to align with previous profiles
-            elif building_abr == 'MPEB':
-                office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched']  # has to align with previous profiles
-            #elif building_abr == '71':
-
-            days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] # typical 365 year
-            print('days in year', sum(days_in_month))
-            seasonal_factor = [] # 12 monthly values, with seasonal max factor of unity
-            for sched, sname in enumerate(office_scheds_names):
-                # this to prevent the overtime factors to be overridden by the seasonal weekend occupancy changes?
+        days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] # typical 365 year
+        print(lineno(), 'days in year', sum(days_in_month))
+        seasonal_factor = [] # 12 monthly values, with seasonal max factor of unity
+        for sched, sname in enumerate(office_scheds_names):
+            # this to prevent the overtime factors to be overridden by the seasonal weekend occupancy changes?
+            if building_abr in {'CH', 'MPEB'}:
                 if sname in {'Office_EquipSched', 'Office_LightSched'}:
-                    seasonal_occ_factor_weekend = seasonal_occ_factor_week
-                SchedProperties = []
-                SchedProperties = ['Schedule:Compact', sname, 'Fraction']
+                    seasonal_occ_factor_weekend = seasonal_occ_factor_week # weekend overtime stays same as week (baseload)
 
-                for t_month in range(0, 12): #include seasonal variability
-                    SchedProperties.append('Through: '+str(format(t_month+1, '02')) + '/'+str(days_in_month[t_month])) # where i is the month and then last day of the month
-                    SchedProperties.append('For: Weekdays WinterDesignDay SummerDesignDay')
-                    for i, v in enumerate(office_scheds[sched]): # run through a 96 element long list
-                        if i == 48: #  if element 48 is reached, then
-                            SchedProperties.append('For: Weekends Holiday')
-                        SchedProperties.append('Until: ' + timeline[i])
+            SchedProperties = ['Schedule:Compact', sname, 'Fraction']
 
-                        if i < 48:
-                            SchedProperties.append(v*seasonal_occ_factor_week[t_month]) # monthly seasonal factor
-                        elif i >= 48: #  if element 48 is reached, then start appending the weekends and holidays profile
-                            SchedProperties.append(v*seasonal_occ_factor_weekend[t_month])  # monthly seasonal factor
+            for t_month in range(0, 12): #include seasonal variability
+                SchedProperties.append('Through: '+str(format(t_month+1, '02')) + '/'+str(days_in_month[t_month])) # where i is the month and then last day of the month
+                SchedProperties.append('For: Weekdays WinterDesignDay SummerDesignDay')
+                for i, v in enumerate(office_scheds[sched]): # run through a 96 element long list
+                    if i == 48: #  if element 48 is reached, then
+                        SchedProperties.append('For: Weekends Holiday')
+                    SchedProperties.append('Until: ' + timeline[i])
 
-            print('Office', len(SchedProperties), SchedProperties)
+                    if i < 48:
+                        SchedProperties.append(v*seasonal_occ_factor_week[t_month]) # monthly seasonal factor
+                    elif i >= 48: #  if element 48 is reached, then start appending the weekends and holidays profile
+                        SchedProperties.append(v*seasonal_occ_factor_weekend[t_month])  # monthly seasonal factor
+            #print(SchedProperties)
             scheddict[sname].append(SchedProperties)
+            print(lineno(), 'Office', len(SchedProperties), SchedProperties)
 
-            week_sched_tot, weekend_sched_tot = sum(office_scheds[sched][:48]), sum(office_scheds[sched][48:96])
-            input_names.append(sname + '_WeekProfile_TotalHours')
-            input_values.append(week_sched_tot)
-            input_names.append(sname + '_WeekendProfile_TotalHours')
-            input_values.append(weekend_sched_tot)
+            # no offset or standard deviation is used for changing the profiles in 71!
+            if building_abr in {'CH', 'MPEB'}:
+                week_sched_tot, weekend_sched_tot = sum(office_scheds[sched][:48]), sum(office_scheds[sched][48:96])
+                input_names.append(sname + '_WeekProfile_TotalHours')
+                input_values.append(week_sched_tot)
+                input_names.append(sname + '_WeekendProfile_TotalHours')
+                input_values.append(weekend_sched_tot)
 
-            week_sched_oh, weekend_sched_oh = week_sched_tot - sum(office_scheds[sched][13:37]), weekend_sched_tot - sum(office_scheds[sched][61:85])  # 7 to 7?
-            input_names.append(sname + '_WeekProfile_OH')
-            input_values.append(week_sched_oh)
-            input_names.append(sname + '_WeekendProfile_OH')
-            input_values.append(weekend_sched_oh)
-
-
-        #print scheddict['PrintRoom_Cooling'][0]
-        #print scheddict.keys()
-        #print scheddict['Office_OccSched'][0][1]
+                week_sched_oh, weekend_sched_oh = week_sched_tot - sum(office_scheds[sched][13:37]), weekend_sched_tot - sum(office_scheds[sched][61:85])  # 7 to 7?
+                input_names.append(sname + '_WeekProfile_OH')
+                input_values.append(week_sched_oh)
+                input_names.append(sname + '_WeekendProfile_OH')
+                input_values.append(weekend_sched_oh)
 
         print(scheddict.keys())
-        # Write to idf file
-        for key in scheddict.keys():
+        for key in scheddict.keys(): # Write to idf file
+
             for i,v in enumerate(scheddict[key][0]):
                 if i + 1 == len(scheddict[key][0]):  # if last element in list then put semicolon
                     inf.write('\n')
@@ -797,12 +801,15 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                     inf.write('\n')
                     inf.write(str(v) + ',')
 
+        #print scheddict['PrintRoom_Cooling'][0]
+        #print scheddict.keys()
+        #print scheddict['Office_OccSched'][0][1]
+
     return input_values, input_names, var_num
 
 def remove_schedules(idf1, building_abr): #todo should I have the option where I remove only the schedules that are going to be replaced?
     # remove existing schedules and make compact ones from scheds sheet
     scheds = unpick_schedules(rootdir, building_abr)
-
     schedule_types = ["SCHEDULE:DAY:INTERVAL", "SCHEDULE:WEEK:DAILY", "SCHEDULE:YEAR"]
 
     # for sched_type in schedule_types:
@@ -1440,7 +1447,8 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
             [['CHILLER - AIR COOLED 1', 'Chiller Electric Energy'],
             ['CHILLER - AIR COOLED', 'Chiller Electric Energy']]
             ]
-
+    elif building_abr == 'CH':
+        custom_meters = []
     elif building_abr == '71':
 
         custom_meter_names = ['B_Lights', 'GF_Lights', '1st_Lights', '2nd_Lights', '3rd_Lights', 'B_Power', 'GF_Power','1st_Power', '2nd_Power', '3rd_Power', 'Plant_Fans']
@@ -1940,14 +1948,15 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
     if building_abr == '71':
         print('no extra meters')
 
-    output_meters.extend(custom_meter_names)  # add the custom meters to be added to the .mtr file!
-    for name in output_meters:
-        outmeter = idf1.newidfobject("Output:Meter:MeterFileOnly".upper())
-        outmeter.Name = name
-        if base_case is True:
-            outmeter.Reporting_Frequency = 'timestep'  # 'timestep', 'hourly', 'detailed',
-        else:
-            outmeter.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
+    if custom_meters:
+        output_meters.extend(custom_meter_names)  # add the custom meters to be added to the .mtr file!
+        for name in output_meters:
+            outmeter = idf1.newidfobject("Output:Meter:MeterFileOnly".upper())
+            outmeter.Name = name
+            if base_case is True:
+                outmeter.Reporting_Frequency = 'timestep'  # 'timestep', 'hourly', 'detailed',
+            else:
+                outmeter.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
 
 # Remove all comments from idf file so as to make them smaller.
 def remove_comments(run_file):
@@ -2107,7 +2116,7 @@ def main():
     add_variables = False # these are additional variables written to .eso (which are only done when basecase is true, but can be turned of here if not necessary.
     remove_sql = True # when doing MPEB, sql is too big (1gb+)
     building_abr = '71' # 'CH', 'MPEB', # '71' # building_abr
-    n_samples = 3 # how many idfs need to be created
+    n_samples = 2000 # how many idfs need to be created
     run_period = [1, 1, 12, 31] #first month, first day, last month, last day
 
     if building_abr == 'CH':
@@ -2129,7 +2138,7 @@ def main():
         multiplier_variation = 20
         start_of_week = 'Sunday'
     elif building_abr == 'CH':
-        no_variables = 250
+        no_variables = 300
         seasonal_occ_factor_week = [0.77277540295697877, 1.0, 0.97137313142714898, 0.87928938389740785, 0.62508333660143534, 0.55137456370838078, 0.47487284241325745, 0.50672575395113539, 0.40279654460602732, 0.77115323595577723, 0.95529236440644738, 0.71144989488078814]
         seasonal_occ_factor_weekend = [0.50020120724346073, 0.72635814889336014, 1.0, 0.92331768388106417, 0.84949698189134804, 0.47183098591549294, 0.51358148893360156, 0.61287726358148897, 0.20422535211267606, 0.41493404873686562, 0.76861167002012076, 0.8138832997987927]
         overtime_multiplier_equip = 65
@@ -2137,12 +2146,12 @@ def main():
         multiplier_variation = 20
         start_of_week = 'Sunday' #2017
     elif building_abr == '71':
-        no_variables = 150
-        seasonal_occ_factor_week = [i for i in range(1, 13)]
-        seasonal_occ_factor_weekend = [i for i in range(1, 13)]
-        overtime_multiplier_equip = 20
-        overtime_multiplier_light = 15
-        multiplier_variation = 20
+        no_variables = 200 # make sure there are more than necessary
+        seasonal_occ_factor_week = [1 for i in range(1, 13)]
+        seasonal_occ_factor_weekend = [1 for i in range(1, 13)]
+        overtime_multiplier_equip = 20 # not used
+        overtime_multiplier_light = 15 # not used
+        multiplier_variation = 20 # not used
         start_of_week = 'Wednesday' #2014
 
     lhd = doe_lhs.lhs(no_variables, samples=n_samples)
