@@ -13,11 +13,13 @@ from pyDOE import doe_lhs
 import scipy.stats as stats
 from collections import defaultdict
 import random
+import pandas as pd
 import eppy
 from time import gmtime, strftime
 from eppy import modeleditor
 from eppy.modeleditor import IDF
 import getpass
+
 # pathnameto_eppy = 'c:/eppy'
 pathnameto_eppy = '../'
 sys.path.append(pathnameto_eppy)
@@ -28,14 +30,14 @@ sys.path.append('C:/Users/' + UserName + '\Dropbox/01 - EngD/07 - UCL Study/UCLD
 from PlotSubmetering import lineno
 
 if sys.platform=='win32':
-    #print("Operating System: Windows")
+    #if print_statements is True: print("Operating System: Windows")
     #rootdir="/".join(__file__.split('\\')[:-1])
     rootdir=os.path.dirname(os.path.abspath(__file__))
     harddrive_idfs="C:/EngD_hardrive/UCL_DemandLogic"
     idfdir=os.path.dirname(os.path.abspath(__file__))+"\IDFs"
     epdir="C:/EnergyPlusV8-6-0"
 else:
-    print("rootdir not found")
+    if print_statements is True: print("rootdir not found")
 
 class DLine(): #use .dline[x] to access different columns in the csv files
     def __init__(self, dline):
@@ -125,9 +127,8 @@ def read_sheet(rootdir, building_abr, fname=None):
         elif building_abr == '71':
             csvfile = "{0}/data_files/BH71/{1}".format(rootdir, fname)
 
-        print(csvfile)
+        if print_statements is True: print(csvfile)
         with open(csvfile, 'r') as inf:
-
             for row in inf:
                 row = row.rstrip()
                 datas = row.split(',')
@@ -150,8 +151,7 @@ def unpick_equipments(rootdir, building_abr):
             if dline[0] != '' and dline[1] != '':
                 equip = DLine(dline)
             equips[dline[0]] = equip
-    print(lineno(), [v for v in equips.keys()])
-    # exit()
+    if print_statements is True: print(lineno(), [v for v in equips.keys()])
 
     return equips
 def unpick_schedules(rootdir, building_abr):
@@ -211,7 +211,7 @@ def unpick_materials(rootdir, building_abr):
 
     return mats
 
-def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no, building_abr, base_case, seasonal_occ_factor_week, seasonal_occ_factor_weekend, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation):
+def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no, building_abr, base_case, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation, seasonal_occ_factor_week, seasonal_occ_factor_weekend):
 
     # IN ORDER
     # 1. ScheduleTypeLimits
@@ -223,19 +223,21 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
 
     scheds = unpick_schedules(rootdir, building_abr)
     scheddict = defaultdict(list)
-    # todo scheds for MPEB or stick to those from O&M
 
     timeline = [("0" + str(int(i / 60)) if i / 60 < 10 else str(int(i / 60))) + ":" + (
         "0" + str(i % 60) if i % 60 < 10 else str(i % 60)) for i in range(30, 1470, 30)]
     timeline = timeline + timeline  # one for weekday and weekendday
-    # print timeline
+    # if print_statements is True: print timeline
 
     #Randomly pick a schedule for zone set-point temperatures
     if building_abr in {'CH'}: #'MPEB'
-        rand = int(round(21*lhd[run_no, var_num])) # the number signifies how many options there are minus 1?
-        if base_case == True:
+        if parallel_simulation:
+            rand = int(round(21*lhd[run_no, var_num])) # the number signifies how many options there are minus 1?
+        elif base_case == True:
             #rand = 4 # 23,23
             rand = 11 # 23,24
+        elif calibrated_case:
+            rand = df_calibrated.iloc[0]['HC_RandSchedule']
         var_num += 1
 
         if rand == 0:
@@ -348,14 +350,16 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
             CoolingSched = scheds['c_sched_25']
             hp, db = 23, 2
 
-        print(hp, db)
-        input_names.append('OfficeHeatingSetPoint')
-        input_values.append(hp)
-        input_names.append('OfficeHeatingDeadBand')
-        input_values.append(db)
+        if print_statements is True: print(rand, hp, db)
+        input_names.append('HC_RandSchedule')
+        input_values.append(rand)
+        # input_names.append('OfficeHeatingSetPoint')
+        # input_values.append(hp)
+        # input_names.append('OfficeHeatingDeadBand')
+        # input_values.append(db)
 
     #as inf, open(run_file[:-4]+"s.idf", 'w') as outf
-    print('run_file', run_file[:-4])
+    if print_statements is True: print('run_file', run_file[:-4])
     with open(run_file[:-4]+".idf", 'a') as inf:
         # go through the schedule.csv and assign a sched to a list
         for key in scheds.keys():
@@ -376,23 +380,26 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                     hours=np.array(copy.copy(hours))
 
                 new_hours = []
-                #print(lineno(), scheds[key].dline[0], scheds[key].dline[4], type(scheds[key].dline[4]))
-                sigma = abs(float(scheds[key].dline[4]))
+                #if print_statements is True: print(lineno(), scheds[key].dline[0], scheds[key].dline[4], type(scheds[key].dline[4]))
+                if base_case | calibrated_case is True:
+                    sigma = 0
+                else:
+                    sigma = abs(float(scheds[key].dline[4]))
                 for i, v in enumerate(hours):
-                    if base_case is True:
-                        sigma=0
                     mu = abs(float(hours[i]))
                     lower, upper = mu - (3 * sigma), mu + (3 * sigma)
-                    if sigma != 0:
-                        var_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu,
-                                                    scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        var_sched = mu
+                    if base_case | parallel_simulation is True:
+                        if sigma != 0:
+                            var_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            var_sched = mu
+                    elif calibrated_case is True:
+                        var_sched = df_calibrated.iloc[0][key+'_Value']
                     new_hours.append(var_sched)
 
                 input_values.append(var_sched)
                 input_names.append(key+"_Value")
-                print(var_num, scheds[key].dline[0])
+                if print_statements is True: print(var_num, scheds[key].dline[0])
                 var_num+=1
 
                 SchedProperties = ['Schedule:Compact', scheds[key].name, scheds[key].dline[3]]
@@ -410,7 +417,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
 
             elif scheds[key].dline[2] in {'NoChange'}:
                 hours = copy.copy(scheds[key].dline[8:])
-                #print scheds[key].name
+                #if print_statements is True: print scheds[key].name
                 if '' in hours:
                     linx=hours.index('')
                     hours=np.array(copy.copy(hours[0:linx]))
@@ -430,7 +437,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
 
         # STOCHASTIC HEATING AND COOLING TEMPERATURE SCHEDULES
         if building_abr == 'CH':
-            office_c_scheds = ['LectureTheatre_Cooling', 'Meeting_Cooling', 'Office_Cooling', 'PrintRoom_Cooling',
+            office_c_scheds = ['LectureTheatre_Cooling', 'Meeting_Cooling', 'Office_Cooling', 'if print_statements is True: printRoom_Cooling',
                                'Circulation_Cooling', 'Library_Cooling', 'Kitchen_Cooling', 'ComputerCluster_Cooling', 'Reception_Cooling']
 
         # elif building_abr == 'MPEB':
@@ -458,7 +465,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                             SchedProperties.append(v)
 
                         scheddict[y].append(SchedProperties)
-                        #print CoolingSched.dline[40], SchedProperties
+                        #if print_statements is True: print CoolingSched.dline[40], SchedProperties
 
                 elif sched == HeatingSched:
                     for y in office_c_scheds:
@@ -473,7 +480,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                             SchedProperties.append(v)
 
                         scheddict[y[:-8] + "_Heating"].append(SchedProperties)
-                        #print HeatingSched.dline[40], SchedProperties
+                        #if print_statements is True: print HeatingSched.dline[40], SchedProperties
 
         #HOT WATER HEATER SCHEDULES
         # todo it should automatically identify which schedules are the water heaters instead of manually picking up the names everytime.
@@ -492,31 +499,38 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
             hprofile = scheds[heater].dline[8:8 + 48+48]
             for i, v in enumerate(hprofile):
                 mu = float(hprofile[i])
-                sigma = mu*20/100
+
                 if base_case is True:
                     sigma = 0
+                elif parallel_simulation | calibrated_case is True:
+                    sigma = mu * 20 / 100
 
                 lower, upper = mu - (3 * sigma), 1
                 if sigma != 0:
-                    hw_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                    if calibrated_case:
+                        std_rand = df_calibrated.iloc[0][heater + '_StdDev']
+                    elif parallel_simulation is True:
+                        std_rand = lhd[run_no, var_num]
+                    hw_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(std_rand)
                 else:
                     hw_sched = mu
+                    std_rand = 0 # does nothing, will only write to input values
+
                 heater_profile.append(hw_sched)
 
-            print(var_num, heater, hw_sched)
             var_num += 1
 
             l = len(heater_profile)
             rand4 = int(round(2 * lhd[run_no, var_num]))
             offset = [1, 2, 3]
 
-            if base_case is True:
+            if base_case:
                 offset_heater = 2
-            else:
+            elif parallel_simulation:
                 offset_heater = offset[rand4]
-
-            print(var_num, heater, offset_heater, rand4)
-            var_num += 1
+            elif calibrated_case:
+                #forgot to make it a discrete variable..
+                offset_heater = int(df_calibrated.iloc[0][heater+'_Offset'])
 
             heater_profile_off = []
             for x, val in enumerate(heater_profile):
@@ -532,20 +546,13 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                 else:
                     heater_profile_off.append(heater_profile[x])
 
+            var_num += 1
+
+            if print_statements is True: print(lineno(), var_num, heater, offset_heater, rand4)
+            input_names.append(heater+'_StdDev')
+            input_values.append(std_rand)
             input_names.append(heater+'_Offset')
             input_values.append(offset_heater)
-
-            week_heater_tot, weekend_heater_tot = sum(heater_profile_off[:48]), sum(heater_profile_off[48:96])
-            input_names.append(heater+'_WeekProfile_TotalHours')
-            input_values.append(week_heater_tot)
-            input_names.append(heater + '_WeekendProfile_TotalHours')
-            input_values.append(weekend_heater_tot)
-
-            week_heater_oh, weekend_heater_oh = week_heater_tot - sum(heater_profile_off[13:37]), weekend_heater_tot - sum(heater_profile_off[61:85]) # 7 to 7?
-            input_names.append(heater+'_WeekProfile_OH')
-            input_values.append(week_heater_oh)
-            input_names.append(heater + '_WeekendProfile_OH')
-            input_values.append(weekend_heater_oh)
 
             SchedProperties = []
             if base_case is True:
@@ -562,23 +569,35 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                     SchedProperties.append(v)
             scheddict[heater].append(SchedProperties)
 
+            # def plot_schedules():
+            #     heater_profile = pd.DataFrame(heater_profile_off, index=timeline, columns=[heater])
+            #     ax = heater_profile.plot(drawstyle='steps')
+            #     ax.set_ylim(0)
+            #     plt.show()
+            # plot_schedules()
+
         # FOR OCCUPANCY PROFILES TO INSERT STANDARD DEVIATION FROM THE SCHEDULES
         if building_abr in {'CH', 'MPEB'}:
             #overtime percentage
-            sigma = overtime_multiplier_equip*(multiplier_variation/100) # * 20% variation
+            if calibrated_case:
+                overtime_multiplier_equip = df_calibrated.iloc[0]['LightOvertimeMultiplier']
+            elif base_case | parallel_simulation:
+                sigma = overtime_multiplier_equip*(multiplier_variation/100) # * 20% variation
+                lower, upper = overtime_multiplier_equip - (3 * sigma), overtime_multiplier_equip + (3 * sigma)
 
-            lower, upper = overtime_multiplier_equip - (3 * sigma), overtime_multiplier_equip + (3 * sigma)
-            if base_case is not True:
-                overtime_multiplier_equip = stats.truncnorm((lower - overtime_multiplier_equip) / sigma, (upper - overtime_multiplier_equip) / sigma, loc=overtime_multiplier_equip,
-                                                            scale=sigma).ppf(lhd[run_no, var_num])
+            if parallel_simulation is True:
+                overtime_multiplier_equip = stats.truncnorm((lower - overtime_multiplier_equip) / sigma, (upper - overtime_multiplier_equip) / sigma, loc=overtime_multiplier_equip, scale=sigma).ppf(lhd[run_no, var_num])
+                var_num += 1
 
-            sigma = overtime_multiplier_light*(multiplier_variation/100)
-            lower, upper = overtime_multiplier_light - (3 * sigma), overtime_multiplier_light + (3 * sigma)
+            if calibrated_case:
+                overtime_multiplier_light = df_calibrated.iloc[0]['EquipmentOvertimeMultiplier']
+            elif base_case | parallel_simulation:
+                sigma = overtime_multiplier_light*(multiplier_variation/100)
+                lower, upper = overtime_multiplier_light - (3 * sigma), overtime_multiplier_light + (3 * sigma)
 
-            if base_case is not True:
-                overtime_multiplier_light = stats.truncnorm((lower - overtime_multiplier_light) / sigma, (upper - overtime_multiplier_light) / sigma, loc=overtime_multiplier_light, scale=sigma).ppf(
-                    lhd[run_no, var_num])
-            var_num += 1
+            if parallel_simulation is True:
+                overtime_multiplier_light = stats.truncnorm((lower - overtime_multiplier_light) / sigma, (upper - overtime_multiplier_light) / sigma, loc=overtime_multiplier_light, scale=sigma).ppf(lhd[run_no, var_num])
+                var_num += 1
 
             # offset variable
             rand3 = int(round(2 * lhd[run_no, var_num]))
@@ -602,20 +621,32 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                            zip(scheds["WifiSum"].dline[8+48:8 + 48+48], scheds["WifiSumMinusStd"].dline[8+48:8 + 48+48])]
 
                 for i, v in enumerate(profile):
-                    sigma = abs(std[i])
-                    if base_case is True:
+                    if base_case | calibrated_case is True:
                         sigma = 0
+                    elif parallel_simulation:
+                        sigma = abs(std[i])
+
                     lower, upper = 2 * sigma, 1
                     mu = float(profile[i])
-                    # print mu, sigma, lower, upper
                     if sigma != 0:
-                        var_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
-                            lhd[run_no, var_num])
+                        if parallel_simulation:
+                            occ_std = lhd[run_no, var_num]
+                        elif calibrated_case:
+                            occ_std = df_calibrated.iloc[0][day+'OccupancyStdDev']
+                        var_sched = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(occ_std)
                     else:
                         var_sched = mu
                     occ_profile.append(var_sched) #append values
+
+                var_num += 1
+
+                input_names.append(day+'OccupancyStdDev') # there is a standard deviation for both the weekday and weekend day applied separately to the two profiles
+                # this will allow them to change separately for each run (in contrast to what i did for the hwheaters).
+                input_values.append(occ_std)
+
                 occ_week.extend(occ_profile) #extend list
-                print(lineno(), day, len(occ_profile), occ_profile)
+
+                if print_statements is True: print(lineno(), day, len(occ_profile), occ_profile)
 
                 ## EQUIPMENT PROFILES - BASED ON OCCUPANCY ##
                 for k in range(2): #zero for light, one for equip
@@ -642,15 +673,17 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                             v = overtime
                         LP_profile.append(v)
 
-                    print('LP 1st profile', len(LP_profile), LP_profile)
-                    print(var_num, day, 'actual overtime:', overtime, 'k is', k, '(0 = light, 1 = equip)', 'day=', day)
+                    if print_statements is True: print('LP 1st profile', len(LP_profile), LP_profile)
+                    if print_statements is True: print(var_num, day, 'actual overtime:', overtime, 'k is', k, '(0 = light, 1 = equip)', 'day=', day)
 
                     ## Creating an offset from previous profile
                     offset = [1, 2, 3, 4, 5]
                     if base_case is True:
                         offset_LP = 3
-                    else:
+                    elif parallel_simulation:
                         offset_LP = offset[rand3]
+                    elif calibrated_case:
+                        offset_LP = int(df_calibrated.iloc[0]['LandPsched_Offset'])
 
                     len_equip = len(LP_profile)
                     for x, val in enumerate(LP_profile):
@@ -665,26 +698,27 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                                 equip_profile_offset.append(LP_profile[x])
                         else:
                             equip_profile_offset.append(LP_profile[x])
-                    #print('LP profile', len(LP_profile), LP_profile)
+                    #if print_statements is True: print('LP profile', len(LP_profile), LP_profile)
 
                     if k == 0:
                         light_profile_offset = equip_profile_offset
                         light_week.extend(light_profile_offset)
                     elif k == 1:
-                        #print('equip profile offset', len(equip_profile_offset))
-                        #print('equip_week', len(equip_week))
+                        #if print_statements is True: print('equip profile offset', len(equip_profile_offset))
+                        #if print_statements is True: print('equip_week', len(equip_week))
                         equip_week.extend(equip_profile_offset)
 
-            #print('offset with rand3:', offset_LP)
-            print('EquipmentOvertimeMultiplier:', overtime_multiplier_equip)
-            print('LightOvertimeMultiplier:', overtime_multiplier_light)
+            #if print_statements is True: print('offset with rand3:', offset_LP)
+            if print_statements is True: print('EquipmentOvertimeMultiplier:', overtime_multiplier_equip)
+            if print_statements is True: print('LightOvertimeMultiplier:', overtime_multiplier_light)
 
-            input_names.append('LandPsched' + '_Offset')
+            input_names.append('LandPsched_Offset')
             input_values.append(offset_LP)
             input_names.append('EquipmentOvertimeMultiplier')
             input_values.append(overtime_multiplier_equip)
             input_names.append('LightOvertimeMultiplier')
             input_values.append(overtime_multiplier_light)
+
 
             def plot_schedules():
                 occ_plot = pd.DataFrame(occ_week, index=timeline, columns=['occupancy'])
@@ -698,7 +732,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                 plt.show()
             #plot_schedules()
 
-        if base_case is not True:
+        if parallel_simulation:
             seasons = [seasonal_occ_factor_week, seasonal_occ_factor_weekend]
             for q, x in enumerate(seasons):
                 seasonal_occ_factor_varied = []
@@ -706,8 +740,10 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                 lower, upper = [x[v] - (2 * i) for v, i in enumerate(sigmas)], [x[v] + (2 * i) for v, i in enumerate(sigmas)]
                 for i in range(len(sigmas)):
                     replace_seasonal = stats.truncnorm((lower[i]-x[i])/sigmas[i], (upper[i]-x[i])/sigmas[i], loc=x[i], scale=sigmas[i]).ppf(lhd[run_no, var_num])
-                    seasonal_occ_factor_varied.append(replace_seasonal)
                     var_num += 1
+
+                    seasonal_occ_factor_varied.append(replace_seasonal)
+
 
                 # seasonal_occ_factor_varied = [i if i < 1 else 1 for i in seasonal_occ_factor_varied]
                 # seasonal_occ_factor_varied = [i if i > 0 else 0.1 for i in seasonal_occ_factor_varied]
@@ -723,14 +759,17 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
         seasonal_occ_factor_week_names = [str('SeasonWeekOccFactor_') + str(month) for month in months_in_year]
         seasonal_occ_factor_weekend_names = [str('SeasonWeekendOccFactor_') + str(month) for month in months_in_year]
 
-        print(seasonal_occ_factor_week)
-        print(seasonal_occ_factor_weekend)
+        if calibrated_case:
+            seasonal_occ_factor_week = [df_calibrated.iloc[0][i] for i in seasonal_occ_factor_week_names]
+            seasonal_occ_factor_weekend = [df_calibrated.iloc[0][i] for i in seasonal_occ_factor_weekend_names]
+
+        if print_statements is True: print(seasonal_occ_factor_week)
+        if print_statements is True: print(seasonal_occ_factor_weekend)
 
         [input_values.append(i) for i in seasonal_occ_factor_week]
         [input_names.append(i) for i in seasonal_occ_factor_week_names]
         [input_values.append(i) for i in seasonal_occ_factor_weekend]
         [input_names.append(i) for i in seasonal_occ_factor_weekend_names]
-
 
         if building_abr == 'CH':
             office_scheds_names = ['Office_OccSched', 'Office_EquipSched', 'Office_LightSched'] # has to align with previous profiles
@@ -749,8 +788,8 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                 office_scheds.append(add_schedule)
 
         days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] # typical 365 year
-        print(lineno(), 'days in year', sum(days_in_month))
-        seasonal_factor = [] # 12 monthly values, with seasonal max factor of unity
+        if print_statements is True: print(lineno(), 'days in year', sum(days_in_month))
+
         for sched, sname in enumerate(office_scheds_names):
             # this to prevent the overtime factors to be overridden by the seasonal weekend occupancy changes?
             if building_abr in {'CH', 'MPEB'}:
@@ -771,25 +810,12 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                         SchedProperties.append(v*seasonal_occ_factor_week[t_month]) # monthly seasonal factor
                     elif i >= 48: #  if element 48 is reached, then start appending the weekends and holidays profile
                         SchedProperties.append(v*seasonal_occ_factor_weekend[t_month])  # monthly seasonal factor
-            #print(SchedProperties)
+            #if print_statements is True: print(SchedProperties)
             scheddict[sname].append(SchedProperties)
-            print(lineno(), 'Office', len(SchedProperties), SchedProperties)
+            if print_statements is True: print(lineno(), 'Office', len(SchedProperties), SchedProperties)
 
-            # no offset or standard deviation is used for changing the profiles in 71!
-            if building_abr in {'CH', 'MPEB'}:
-                week_sched_tot, weekend_sched_tot = sum(office_scheds[sched][:48]), sum(office_scheds[sched][48:96])
-                input_names.append(sname + '_WeekProfile_TotalHours')
-                input_values.append(week_sched_tot)
-                input_names.append(sname + '_WeekendProfile_TotalHours')
-                input_values.append(weekend_sched_tot)
 
-                week_sched_oh, weekend_sched_oh = week_sched_tot - sum(office_scheds[sched][13:37]), weekend_sched_tot - sum(office_scheds[sched][61:85])  # 7 to 7?
-                input_names.append(sname + '_WeekProfile_OH')
-                input_values.append(week_sched_oh)
-                input_names.append(sname + '_WeekendProfile_OH')
-                input_values.append(weekend_sched_oh)
-
-        print(scheddict.keys())
+        if print_statements is True: print(scheddict.keys())
         for key in scheddict.keys(): # Write to idf file
 
             for i,v in enumerate(scheddict[key][0]):
@@ -801,9 +827,9 @@ def replace_schedules(run_file, lhd, input_values, input_names, var_num, run_no,
                     inf.write('\n')
                     inf.write(str(v) + ',')
 
-        #print scheddict['PrintRoom_Cooling'][0]
-        #print scheddict.keys()
-        #print scheddict['Office_OccSched'][0][1]
+        #if print_statements is True: print scheddict['if print_statements is True: printRoom_Cooling'][0]
+        #if print_statements is True: print scheddict.keys()
+        #if print_statements is True: print scheddict['Office_OccSched'][0][1]
 
     return input_values, input_names, var_num
 
@@ -814,34 +840,34 @@ def remove_schedules(idf1, building_abr): #todo should I have the option where I
 
     # for sched_type in schedule_types:
     #     scheds_idf = idf1.idfobjects[sched_type]
-    #     print(len(scheds_idf))
+    #     if print_statements is True: print(len(scheds_idf))
     #
     #     for i, v in enumerate(scheds_idf):
-    #         print(i)
+    #         if print_statements is True: print(i)
     #         # if v.Name in scheds.keys() and scheds[v.Name].dline[2] == 'OpenStudioSchedule':
-    #         #         print('Did not remove schedule:', v.Name) #scheds[v.Name].dline[0]
+    #         #         if print_statements is True: print('Did not remove schedule:', v.Name) #scheds[v.Name].dline[0]
     #         #
     #         # else:
-    #         print('remove', v.Name)
+    #         if print_statements is True: print('remove', v.Name)
     #         idf1.popidfobject(sched_type, 0)
     # Warning when popping objects with eppy, the number objects decreases so the list will end at half if all are being popped.
     # Instead use a for loop that counts backwards through the objects.
     for y in schedule_types:
-        #print(len(idf1.idfobjects[y]), "existing schedule objects removed in ", y)
+        #if print_statements is True: print(len(idf1.idfobjects[y]), "existing schedule objects removed in ", y)
         no_of_objects = len(idf1.idfobjects[y])
         to_remove = []
         for i in range(0, no_of_objects):
             if idf1.idfobjects[y][i].Name in scheds.keys() and scheds[idf1.idfobjects[y][i].Name].dline[2] == 'OpenStudioSchedule':
-                print('Did not remove schedule:', idf1.idfobjects[y][i].Name)  # scheds[v.Name].dline[0]
+                if print_statements is True: print('Did not remove schedule:', idf1.idfobjects[y][i].Name)  # scheds[v.Name].dline[0]
             else:
                 to_remove.append(i)
         for i in to_remove[::-1]:
-            print('remove', idf1.idfobjects[y][i].Name)
+            if print_statements is True: print('remove', idf1.idfobjects[y][i].Name)
             idf1.popidfobject(y, i)
 
 
     # for y in schedule_types:
-    #     print(len(idf1.idfobjects[y]), "existing schedule objects removed in ", y)
+    #     if print_statements is True: print(len(idf1.idfobjects[y]), "existing schedule objects removed in ", y)
     #     for i in range(0, len(idf1.idfobjects[y])):
     #         idf1.popidfobject(y, 0)
 
@@ -850,23 +876,23 @@ def remove_existing_outputs(idf1):
     output_types = ["OUTPUT:VARIABLE", "OUTPUT:METER:METERFILEONLY"]
     for y in output_types:
         existing_outputs = idf1.idfobjects[y]
-        print(len(existing_outputs), "existing output objects removed in", y)
+        if print_statements is True: print(len(existing_outputs), "existing output objects removed in", y)
         if len(existing_outputs) == 0:
-            print("no existing outputs to remove in", y)
+            if print_statements is True: print("no existing outputs to remove in", y)
         for i in range(0, len(existing_outputs)):
             idf1.popidfobject(y, 0)
 def replace_materials_eppy(idf1, lhd, input_values, input_names, var_num, run_no, building_abr, base_case):
     mats = unpick_materials(rootdir, building_abr)
 
-    print(mats.keys())
+    if print_statements is True: print(mats.keys())
     materials, material_types = [], []
     for key, val in mats.items():
         if key != '' and val != '':
             materials.append(key)
             material_types.append(val.dline[1].upper())
             material_types = list(set(material_types))  # make unique names
-    print(materials)
-    print(material_types)
+    if print_statements is True: print(materials)
+    if print_statements is True: print(material_types)
 
     mats_types = ['MATERIAL', 'MATERIAL:NOMASS', 'MATERIAL:AIRGAP', 'WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM','WINDOWMATERIAL:BLIND','WINDOWPROPERTY:SHADINGCONTROL']
 
@@ -877,9 +903,11 @@ def replace_materials_eppy(idf1, lhd, input_values, input_names, var_num, run_no
             if material.Name not in mats.keys():
                 continue
             else:
-                sigma = float(mats[material.Name].dline[62])
-                if base_case is True:
+                if base_case | calibrated_case is True:
                     sigma = 0
+                elif parallel_simulation is True:
+                    sigma = float(mats[material.Name].dline[62])
+
                 lower, upper = float(mats[material.Name].dline[63]), float(mats[material.Name].dline[64])
                 input_names.append(mats[material.Name].name)
                 if mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'Material:NoMass':
@@ -888,18 +916,26 @@ def replace_materials_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                     material.Solar_Absorptance = mats[material.Name].solar_abs
                     material.Visible_Absorptance = mats[material.Name].visible_abs
                     mu = float(mats[material.Name].thermal_res)
-                    if sigma > 0:
-                        eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        eq_mats = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            eq_mats = mu
+                    elif calibrated_case:
+                        eq_mats = df_calibrated.iloc[0][material.Name]
+
                     material.Thermal_Resistance = eq_mats
                     input_values.append(eq_mats)
                 elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'Material:AirGap':
                     mu = float(mats[material.Name].thermal_res)
-                    if sigma > 0:
-                        eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        eq_mats = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            eq_mats = mu
+                    elif calibrated_case:
+                        eq_mats = df_calibrated.iloc[0][material.Name]
+
                     material.Thermal_Resistance = eq_mats
                     input_values.append(eq_mats)
                 elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'Material':
@@ -911,10 +947,14 @@ def replace_materials_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                     material.Solar_Absorptance = mats[material.Name].solar_abs
                     material.Visible_Absorptance = mats[material.Name].visible_abs
                     mu = float(mats[material.Name].conductivity)
-                    if sigma > 0:
-                        eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        eq_mats = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            eq_mats = mu
+                    elif calibrated_case:
+                        eq_mats = df_calibrated.iloc[0][material.Name]
+
                     material.Conductivity = eq_mats
                     input_values.append(eq_mats)
 
@@ -924,54 +964,74 @@ def replace_materials_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                     material.Visible_Transmittance = mats[material.Name].vis_ref
 
                     mu = float(mats[material.Name].dline[61]) #ufactor
-                    if sigma > 0:
-                        eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        eq_mats = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            eq_mats = mu
+                    elif calibrated_case:
+                        eq_mats = df_calibrated.iloc[0][material.Name]
+
                     material.UFactor = eq_mats
                     input_values.append(eq_mats)
 
                 elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'WindowMaterial:Blind':
                     mu = float(mats[material.Name].conductivity)
-                    if sigma > 0:
-                        eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
-                            lhd[run_no, var_num])
-                    else:
-                        eq_mats = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
+                                lhd[run_no, var_num])
+                        else:
+                            eq_mats = mu
+                    elif calibrated_case:
+                        eq_mats = df_calibrated.iloc[0][material.Name]
+
                     material.Slat_Conductivity = eq_mats
                     input_values.append(eq_mats)
 
                 elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'WindowMaterial:Shade':
                     mu = float(mats[material.Name].conductivity)
-                    if sigma > 0:
-                        eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
-                            lhd[run_no, var_num])
-                    else:
-                        eq_mats = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
+                                lhd[run_no, var_num])
+                        else:
+                            eq_mats = mu
+                    elif calibrated_case:
+                        eq_mats = df_calibrated.iloc[0][material.Name]
+
                     material.Conductivity = eq_mats
                     input_values.append(eq_mats)
 
                 elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'WindowMaterial:Glazing':
                     mu = float(mats[material.Name].conductivity)
-                    if sigma > 0:
-                        eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
-                            lhd[run_no, var_num])
-                    else:
-                        eq_mats = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
+                                lhd[run_no, var_num])
+                        else:
+                            eq_mats = mu
+                    elif calibrated_case:
+                        eq_mats = df_calibrated.iloc[0][material.Name]
+
                     material.Conductivity = eq_mats
                     input_values.append(eq_mats)
 
                 elif mats[material.Name].name == material.Name and mats[material.Name].dline[1] == 'WindowProperty:ShadingControl':
                     mu = float(mats[material.Name].conductivity) # is actually solar radiation set point control
-                    if sigma > 0:
-                        eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
-                            lhd[run_no, var_num])
-                    else:
-                        eq_mats = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_mats = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
+                                lhd[run_no, var_num])
+                        else:
+                            eq_mats = mu
+                    elif calibrated_case:
+                        eq_mats = df_calibrated.iloc[0][material.Name]
+
                     material.Setpoint = eq_mats
                     input_values.append(eq_mats)
 
-                print(lineno(), var_num, mats[material.Name].name, round(eq_mats,3))
+                if print_statements is True: print(lineno(), var_num, mats[material.Name].name, eq_mats)
                 var_num +=1
 
     return input_values, input_names, var_num
@@ -984,9 +1044,8 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
     # Those not removed are adjusted.
     load_types = ["People", "Lights", "ElectricEquipment", "ZoneInfiltration:DesignFlowRate"]
     for y in load_types:
-        #print(len(idf1.idfobjects[y.upper()]), "existing schedule objects removed in ", y)
+        #if print_statements is True: print(len(idf1.idfobjects[y.upper()]), "existing schedule objects removed in ", y)
         for i in range(0, len(idf1.idfobjects[y.upper()])):
-
             to_replace = [v for v in equips.keys()]
             existing_loads = [v for v in idf1.idfobjects[y.upper()] if v.Name not in to_replace]
 
@@ -998,73 +1057,82 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
         appliances.append(key)
         app_purposes.append(val.dline[1].upper())
     app_purposes = list(set(app_purposes)) #make unique names
-    print(appliances)
-    print(app_purposes)
+    if print_statements is True: print(appliances)
+    if print_statements is True: print(app_purposes)
 
     x = 0
+
     for equip_type in app_purposes: # For every type, create an object with its material then run through loop
         equip_idf = idf1.idfobjects[equip_type]
-
-        print(lineno(), equip_type)
-        counter = 0
+        fanzone_list, fanzone_list_two = [], []
+        equip_list, equip_list_two = [], []
+        if print_statements is True: print(lineno(), equip_type)
         for equip in equip_idf: # For each instance of object replace content with that defined in csv files
             # for all ventilation objects, change to the same value
-            #print(equip)
             if equip_type == 'ZONEVENTILATION:DESIGNFLOWRATE':
+                if not equip_list:
+                    equip_list.append('full')
+                    var_num += 1 # todo, changing the var-num here before the actual value, because it is in contrast with other objects, it will use the same var-num for those after ventilaiton...
+
                 len_zonevent = len(idf1.idfobjects[equip_type])
                 object_name = "ZoneVentilation"
-
-                print(lineno(), 'name', equips[object_name].name, )
+                if print_statements is True: print(lineno(), 'name', equips[object_name].name, )
 
                 equip.Design_Flow_Rate_Calculation_Method = equips[object_name].dline[19]
-                sigma = float(equips[object_name].dline[30])
-                if base_case is True:
+                if base_case | calibrated_case is True:
                     sigma = 0
+                else:
+                    sigma = float(equips[object_name].dline[30])
 
                 lower, upper = float(equips[object_name].dline[31]), float(equips[object_name].dline[32])
                 mu = float(equips[object_name].dline[27])
-                if sigma > 0:
-                    eq_vent = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    equip.Flow_Rate_per_Person = eq_vent  # dline[19]
-                    x += 1
-                else:
-                    eq_vent = mu
+                if base_case | parallel_simulation:
+                    if sigma > 0:
+                        eq_vent = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                    else:
+                        eq_vent = mu
+                elif calibrated_case:
 
-                if counter == 0:
-                    equip.Flow_Rate_per_Person = eq_vent  # dline[19]
+                    eq_vent = df_calibrated.iloc[0][object_name]
+                equip.Flow_Rate_per_Person = eq_vent  # dline[19]
+
+                if not equip_list_two:
+                    equip_list_two.append('full')
                     input_values.append(eq_vent)
                     input_names.append(object_name)
-                    print(eq_vent, var_num)
-                    var_num += 1
-                    counter += 1
+                    if print_statements is True: print(eq_vent, var_num)
 
             elif equip_type == 'FAN:ZONEEXHAUST':
+                if not fanzone_list:
+                    fanzone_list.append('full')
+                    var_num += 1 # give all fans the same randomness
+
                 len_objects = len(idf1.idfobjects[equip_type])
                 object_name = "ExhaustFans"
 
-                print(lineno(), 'name', equips[object_name].name, )
-
-                sigma = float(equips[object_name].dline[30])
-                if base_case is True:
+                if print_statements is True: print(lineno(), 'name', equips[object_name].name, )
+                if base_case | calibrated_case is True:
                     sigma = 0
+                else:
+                    sigma = float(equips[object_name].dline[30])
 
                 lower, upper = float(equips[object_name].dline[31]), float(equips[object_name].dline[32])
                 mu = float(equips[object_name].dline[7])
-                if sigma > 0:
-                    eq_efficiency = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
-                        lhd[run_no, var_num])
-                    equip.Fan_Total_Efficiency = eq_efficiency
-                    x+=1
-                else:
-                    eq_efficiency = mu
 
-                if counter == 0:
-                    equip.Fan_Total_Efficiency = eq_efficiency
+                if base_case | parallel_simulation:
+                    if sigma > 0:
+                        eq_efficiency = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                    else:
+                        eq_efficiency = mu
+                elif calibrated_case:
+                    eq_efficiency = df_calibrated.iloc[0][object_name]
+                equip.Fan_Total_Efficiency = eq_efficiency
+
+                if not fanzone_list_two:
+                    fanzone_list_two.append('full')
                     input_values.append(eq_efficiency)
                     input_names.append(object_name)
-                    print(eq_efficiency, var_num)
-                    var_num += 1
-                    counter += 1
+                    if print_statements is True: print(eq_efficiency, var_num)
 
             else:
                 if equip_type == 'AIRCONDITIONER:VARIABLEREFRIGERANTFLOW':
@@ -1072,129 +1140,166 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                 else:
                     equip_name = equip.Name
 
-                #print(equip_name)
-                print(lineno(), 'name', equips[equip_name].name,)
+                #if print_statements is True: print(equip_name)
+
+                if print_statements is True: print(lineno(), 'name', equips[equip_name].name,)
                 if equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'ElectricEquipment':
+                    var_num += 1
                     equip.Design_Level_Calculation_Method = equips[equip_name].dline[19] #dline[19]
-                    sigma = float(equips[equip_name].dline[30])
-                    if base_case is True:
+
+                    if base_case | calibrated_case is True:
                         sigma = 0
+                    else:
+                        sigma = float(equips[equip_name].dline[30])
 
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[21])
-                    if sigma > 0:
-                        eq_equip = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        eq_equip = mu
+
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_equip = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            eq_equip = mu
+                    elif calibrated_case:
+                        eq_equip = df_calibrated.iloc[0][equip_name]
+
                     equip.Watts_per_Zone_Floor_Area = eq_equip
                     input_values.append(eq_equip)
                     input_names.append(equips[equip_name].name)
-                    var_num += 1
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'People':
+                    var_num += 1
                     equip.Number_of_People_Calculation_Method = equips[equip_name].dline[19] #dline[19]
-                    sigma = float(equips[equip_name].dline[30])
-                    if base_case is True:
+
+                    if base_case | calibrated_case is True:
                         sigma = 0
+                    else:
+                        sigma = float(equips[equip_name].dline[30])
 
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[25])
-                    if sigma > 0:
-                        eq_people = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        eq_people = mu
+
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_people = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            eq_people = mu
+                    elif calibrated_case:
+                        eq_people = df_calibrated.iloc[0][equip_name]
+
                     equip.Zone_Floor_Area_per_Person = eq_people
                     #equip.People_per_Zone_Floor_Area = eq_people
                     input_values.append(eq_people)
                     input_names.append(equips[equip_name].name)
-                    var_num += 1
+
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'Lights':
                     equip.Design_Level_Calculation_Method = equips[equip_name].dline[19]  # dline[19]
-                    sigma = float(equips[equip_name].dline[30])
-                    if base_case is True:
+                    var_num += 1
+                    if base_case | calibrated_case is True:
                         sigma = 0
+                    else:
+                        sigma = float(equips[equip_name].dline[30])
 
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[21])
-                    if sigma > 0:
-                        eq_light = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        eq_light = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_light = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            eq_light = mu
+                    elif calibrated_case:
+                        eq_light = df_calibrated.iloc[0][equip_name]
+
                     equip.Watts_per_Zone_Floor_Area = eq_light
                     input_values.append(eq_light)
                     input_names.append(equips[equip_name].name)
-                    var_num += 1
 
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'ZoneInfiltration:DesignFlowRate':
+                    #todo infiltration should be the same for each space type!! perhaps it should be one variable instead of one for each.
                     equip.Design_Flow_Rate_Calculation_Method = equips[equip_name].dline[19]  # dline[19]
+                    var_num += 1
                     sigma = float(equips[equip_name].dline[30])
-                    if base_case is True:
+                    if base_case | calibrated_case is True:
                         sigma = 0
 
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[26])
-                    if sigma > 0:
-                        eq_infil = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        eq_infil = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_infil = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            eq_infil = mu
+                    elif calibrated_case:
+                        eq_infil = df_calibrated.iloc[0][equip_name]
+
                     equip.Flow_per_Exterior_Surface_Area = eq_infil
                     input_values.append(eq_infil)
                     input_names.append(equips[equip_name].name)
-                    var_num += 1
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'DesignSpecification:OutdoorAir':
                     equip.Outdoor_Air_Method = equips[equip_name].dline[19]  # dline[19]
+                    var_num += 1
                     sigma = float(equips[equip_name].dline[30])
-                    if base_case is True:
+                    if base_case | calibrated_case is True:
                         sigma = 0
 
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[28])
-                    if sigma > 0:
-                        eq_oa = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        eq_oa = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            eq_oa = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            eq_oa = mu
+                    elif calibrated_case:
+                        eq_oa = df_calibrated.iloc[0][equip_name]
+
                     #todo is this right???
                     equip.Outdoor_Air_Flow_Air_Changes_per_Hour = eq_oa
                     #equip.Outdoor_Air_Flow_per_Zone = eq_oa
                     input_values.append(eq_oa)
                     input_names.append(equips[equip_name].name)
-                    var_num += 1
+
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'AirConditioner:VariableRefrigerantFlow':
-                    print(lineno(), equips[equip_name].name) # equips[equip_name].dline
-
+                    if print_statements is True: print(lineno(), equips[equip_name].name) # equips[equip_name].dline
+                    var_num += 1
                     #ccop
                     mu = float(equips[equip_name].dline[5])
                     sigma = float(equips[equip_name].dline[33])/100*mu
-                    if base_case is True:
+                    if base_case | calibrated_case is True:
                         sigma = 0
-                    print('sigma in AC units', sigma)
+                    if print_statements is True: print('sigma in AC units', sigma)
                     if mu > 0:
                         lower, upper = mu - (3 * sigma), mu + (3 * sigma)
                     else:
                         lower, upper, sigma = 0, 0, 0
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            ccop = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
+                                lhd[run_no, var_num])
+                        else:
+                            ccop = mu
+                    elif calibrated_case:
+                        ccop = df_calibrated.iloc[0][equip_name+'ccop']
 
-                    if sigma > 0:
-                        ccop = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(
-                            lhd[run_no, var_num])
-                    else:
-                        ccop = mu
                     var_num += 1
 
                     #hcop
                     mu = float(equips[equip_name].dline[6])
                     sigma = float(equips[equip_name].dline[33]) / 100 * mu
-                    if base_case is True:
+                    if base_case | calibrated_case is True:
                         sigma = 0
                     lower, upper = mu - (3 * sigma), mu + (3 * sigma)
-                    if sigma > 0:
-                        hcop = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        hcop = mu
-                    var_num += 1
+
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            hcop = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            hcop = mu
+                    elif calibrated_case:
+                        hcop = df_calibrated.iloc[0][equip_name+'hcop']
 
                     equip.Gross_Rated_Cooling_COP = ccop
                     input_values.append(ccop)
@@ -1205,39 +1310,52 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'Boiler:HotWater':
                     sigma = float(equips[equip_name].dline[30])
-                    if base_case is True:
+                    var_num += 1
+
+                    if base_case | calibrated_case is True:
                         sigma = 0
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[7])
-                    if sigma > 0:
-                        input = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        input = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            input = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            input = mu
+                    elif calibrated_case:
+                        input = df_calibrated.iloc[0][equip_name]
+
                     equip.Nominal_Thermal_Efficiency = input
                     input_values.append(input)
                     input_names.append(equips[equip_name].name)
-                    var_num += 1
 
                 elif equips[equip_name].name == equip_name and equips[equip_name].dline[1] == 'WaterUse:Equipment':
                     sigma = float(equips[equip_name].dline[30])
-                    if base_case is True:
+                    var_num += 1
+
+                    if base_case | calibrated_case is True:
                         sigma = 0
                     lower, upper = float(equips[equip_name].dline[31]), float(equips[equip_name].dline[32])
                     mu = float(equips[equip_name].dline[8])
-                    if sigma > 0:
-                        input = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
-                    else:
-                        input = mu
+                    if base_case | parallel_simulation:
+                        if sigma > 0:
+                            input = stats.truncnorm((lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma).ppf(lhd[run_no, var_num])
+                        else:
+                            input = mu
+                    elif calibrated_case:
+                        input = df_calibrated.iloc[0][equip_name]
+
                     equip.Peak_Flow_Rate = input
                     input_values.append(input)
                     input_names.append(equips[equip_name].name)
-                    var_num += 1
+
 
                 else:
                     continue
 
-                print(lineno(), var_num, equip_name)
-                #input_names.append(equips[equip_name].name)
+
+                if print_statements is True: print(lineno(), var_num, equip_name)
+                #input_names.append
+    var_num += 1
     return input_values, input_names, var_num
 
 def add_groundtemps(idf1):
@@ -1310,8 +1428,9 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
         # "ReportDuringWarmup",
         # "ReportDuringWarmupConvergence",
         # "ReportDuringHVACSizingSimulation"
+
         if not output_diagnostics:
-            print('No output diagnostics')
+            if print_statements is True: print('No output diagnostics')
         else:
             for name in output_diagnostics:
                 outvar = idf1.newidfobject("Output:Diagnostics".upper())
@@ -1576,14 +1695,14 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
                     new_meter.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
 
         for meter in range(len(custom_meters)):
-            print(custom_meters[meter])
-            print('meter', meter, custom_meter_names[meter])
+            if print_statements is True: print(custom_meters[meter])
+            if print_statements is True: print('meter', meter, custom_meter_names[meter])
             outmeter = idf1.newidfobject("Meter:Custom".upper())
             outmeter.Name = custom_meter_names[meter]
             outmeter.Fuel_Type = 'Electricity'
-            print(len(custom_meters[meter]))
+            if print_statements is True: print(len(custom_meters[meter]))
             for output in range(len(custom_meters[meter])):
-                print(output, custom_meters[meter][output][0])
+                if print_statements is True: print(output, custom_meters[meter][output][0])
                 if output == 0:
                     outmeter.Key_Name_1 = custom_meters[meter][output][0]
                     outmeter.Output_Variable_or_Meter_Name_1 = custom_meters[meter][output][1]
@@ -1946,7 +2065,7 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
              ])
 
     if building_abr == '71':
-        print('no extra meters')
+        if print_statements is True: print('no extra meters')
 
     if custom_meters:
         output_meters.extend(custom_meter_names)  # add the custom meters to be added to the .mtr file!
@@ -1964,17 +2083,17 @@ def remove_comments(run_file):
         data = f.readlines()
         for num, line in enumerate(data):
             data[num] = re.sub(re.compile("!-.*?\n"), "\n", data[num])  # remove all occurances singleline comments (!-COMMENT\n ) from string
-            #print data[num]
+            #if print_statements is True: print data[num]
         f.seek(0) #move to front of file
         f.writelines(data)
         f.truncate()
 
-def set_runperiod(idf1, building_abr, run_period):
+def set_runperiod(idf1, building_abr, run_period, start_of_week):
     runperiods = idf1.idfobjects['RunPeriod'.upper()]
-    if building_abr in {'CH', 'MPEB'}: # 2017
-        start_of_week = 'Sunday'
-    elif building_abr in {'71'}: # 2014
-        start_of_week = 'Wednesday'
+    # if building_abr in {'CH', 'MPEB'}: # 2017
+    #     start_of_week = 'Sunday'
+    # elif building_abr in {'71'}: # 2014
+    #     start_of_week = 'Wednesday'
 
     for runperiod in runperiods:
         runperiod.Begin_Month = run_period[0]
@@ -1990,14 +2109,14 @@ def set_holidays(idf1, building_abr):
     if building_abr in {'CH'}: #2017
         holidays = [['Summer bank holiday', '8/28'], ['Spring bank holiday', '5/29'], ['Early may bank holiday', '5/1'],
                     ['Easter Monday', '4/17'], ['Good Friday', '4/14'], ['New Years Day', '1/2']]  # 2017
-    elif building_abr in {'MPEB'}: #2017
+    elif building_abr in {'MPEB'}: #2017 and 2016?
         holidays = [['Summer bank holiday', '8/28'], ['Spring bank holiday', '5/29'], ['Early may bank holiday', '5/1'],
-                    ['Easter Monday', '4/17'], ['Easter2', '4/18'],['Easter3', '4/19'],['Good Friday', '4/14'], ['New Years Day', '1/2'], ['New Years Day', '1/2'], ['New Years Day', '1/2'], ['Christmas', '12/25'],
+                    ['Easter Monday', '4/17'], ['Easter2', '4/18'],['Easter3', '4/19'],['Good Friday', '4/14'], ['New Years Day', '1/2'], ['Christmas', '12/25'],
                     ['Christmas2', '12/26'], ['Christmas3', '12/27'], ['Christmas4', '12/28'], ['Christmas5', '12/29']]  # 2017
     elif building_abr == '71': # 2014
-        holidays = [['Boxing Day', '12/26'], ['Christmas Day', '12/25'], ['Summer bank holiday', '8/25'],
-                    ['Spring bank holiday', '5/25'], ['Early may bank holiday', '5/5'],
-                    ['Easter Monday', '4/21'], ['Good Friday', '4/18'], ['New Years Day', '1/1']]  # 2014
+        holidays = [['Summer bank holiday', '8/25'], ['Spring bank holiday', '5/25'], ['Early may bank holiday', '5/5'],
+                    ['Easter Monday', '4/21'], ['Good Friday', '4/18'], ['New Years Day', '1/1'], ['New Years Day', '1/2'], ['Christmas', '12/25'],
+                    ['Christmas2', '12/26'], ['Christmas3', '12/27'], ['Christmas4', '12/28'], ['Christmas5', '12/29']]  # 2014
 
     for h in range(len(holidays)): # create new object for every holiday
         holiday = idf1.newidfobject("RunPeriodControl:SpecialDays".upper())
@@ -2006,20 +2125,16 @@ def set_holidays(idf1, building_abr):
         holiday.Duration = 1
         holiday.Special_Day_Type = 'Holiday'
 
-def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_variables, run_period, seasonal_occ_factor_week, seasonal_occ_factor_weekend, n_samples, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation):
+def run_lhs(idf1, lhd, building_name, building_abr, start_of_week, base_case, remove_sql, add_variables, run_period, n_samples, save_idfs, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation, seasonal_occ_factor_week, seasonal_occ_factor_weekend):
     if base_case is False | remove_sql is True:
         idf1.popidfobject('Output:SQLite'.upper(), 0) # remove sql output, have all the outputs in the .eso and meter data in .mtr
     idf1.popidfobject('Output:VariableDictionary'.upper(), 0)
     idf1.popidfobject('Output:Table:SummaryReports'.upper(), 0)
     idf1.popidfobject('OutputControl:Table:Style'.upper(), 0)
-    #TODO don't create html and eso outputs...
 
-    #http: // bigladdersoftware.com / epx / docs / 8 - 0 / input - output - reference / page - 088.
-    #html  # outputmeter-and-outputmetermeterfileonly
     # change the base idf first by adding ground temps, and removing existing objects before adding new ones.
-
     add_groundtemps(idf1)
-    set_runperiod(idf1, building_abr, run_period)
+    set_runperiod(idf1, building_abr, run_period, start_of_week)
     set_holidays(idf1, building_abr)
     remove_schedules(idf1, building_abr)
     remove_existing_outputs(idf1)
@@ -2036,98 +2151,129 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_v
     # var_num +=1 implies a new random number for another variable generated with LHS
 
     collect_inputs = []
-    if base_case == True: # search script for base_case to adjust internal base_case values
+    if base_case | calibrated_case == True: # search script for base_case to adjust internal base_case values
         n_samples = 1
 
     for run_no in range(n_samples):
         var_num = 0
+
+        #print(lhd[run_no, var_num])
+        #exit()
         input_names = []
         input_values = []
+
+        if base_case is True:
+            run_file = save_dir + building_name + "_basecase.idf"  # use new folder for save location, zero pad to 4 numbers
+        if parallel_simulation is True:
+            run_file = save_dir + "/" + building_name + "_" + str(format(run_no, '04')) + ".idf"  # use new folder for save location, zero pad to 4 numbers
+        elif calibrated_case:
+            run_file = save_dir + building_name + time_step + str(end_uses) + "_calibrated.idf"  # use new folder for save location, zero pad to 4 numbers
 
         input_values, input_names, var_num = replace_equipment_eppy(idf1, lhd, input_values,input_names,var_num,run_no,building_abr, base_case)
 
         var_equip = var_num
-        print("number of variables changed for equipment ", var_equip)
+        if print_statements is True: print("number of variables changed for equipment ", var_equip)
         input_values, input_names, var_num = replace_materials_eppy(idf1, lhd, input_values,input_names,var_num,run_no,building_abr, base_case)
 
         var_mats = var_num-var_equip
-        print("number of variables changed for materials ", var_mats)
+        if print_statements is True: print("number of variables changed for materials ", var_mats)
 
-        # TODO output all used schedules to a file for easy review
-        # format the run_no to zero pad to be four values always
-        if building_abr == 'CH':
-            if base_case is True:
-                save_dir = harddrive_idfs + "/01_CentralHouse_Project/BaseCase/"
-            else:
-                save_dir = harddrive_idfs+"/01_CentralHouse_Project/IDFs/"
-        elif building_abr == 'MPEB':
-            if base_case is True:
-                save_dir = harddrive_idfs + "/05_MaletPlaceEngineering_Project/BaseCase/"
-            else:
-                save_dir = harddrive_idfs + "/05_MaletPlaceEngineering_Project/IDFs/"
-        elif building_abr == '71':
-            if base_case is True:
-                save_dir = harddrive_idfs + "/03_BuroHappold_71/BaseCase/"
-            else:
-                save_dir = harddrive_idfs + "/03_BuroHappold_71/IDFs/"
-
-        if not os.path.exists(save_dir): # check if folder exists
-            os.makedirs(save_dir) # create new folder
-
-        if base_case is True:
-            run_file = save_dir+building_name+"_basecase.idf" # use new folder for save location, zero pad to 4 numbers
-        else:
-            run_file = save_dir+"/"+building_name+"_" + str(format(run_no, '04')) + ".idf" # use new folder for save location, zero pad to 4 numbers
-
-        idf1.saveas(run_file)
-        remove_comments(run_file)
+        if save_idfs is True:
+            idf1.saveas(run_file)
+            remove_comments(run_file)
 
         #replace_schedules append to file instead of using eppy, it will open the written idf file
         var_scheds = var_num-var_mats-var_equip
-        input_values, input_names, var_num = replace_schedules(run_file, lhd, input_values,input_names,var_num,run_no,building_abr, base_case, seasonal_occ_factor_week, seasonal_occ_factor_weekend, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation) #create_schedules = the heating and coolign profiles. Which are not to be created for MPEB (however, the remove_schedules shouldn't delete existing ones. Or create them...
+        input_values, input_names, var_num = replace_schedules(run_file, lhd, input_values,input_names,var_num,run_no,building_abr, base_case, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation, seasonal_occ_factor_week, seasonal_occ_factor_weekend) #create_schedules = the heating and coolign profiles. Which are not to be created for MPEB (however, the remove_schedules shouldn't delete existing ones. Or create them...
 
-        print("number of variables changed for schedules", var_scheds)
+        if print_statements is True: print("number of variables changed for schedules", var_scheds)
 
         collect_inputs.append(input_values)
 
-        print("total number of variables ", var_num)
-        print(input_names)
-        print(input_values)
+        if print_statements is True: print("total number of variables ", var_num)
+        if print_statements is True: print(input_names)
+        if print_statements is True: print(input_values)
         print('file saved here', run_file)
-        print('file used', "{}".format(rootdir) + "/" + building_name + ".idf")
+        if print_statements is True: print('file used', "{}".format(rootdir) + "/" + building_name + ".idf")
 
     #Write inputs to csv file
-    collect_inputs.insert(0, input_names) # prepend names to list
-    if base_case is True:
-        csv_outfile = save_dir+"/inputs_basecase_" + building_name + strftime("_%d_%m_%H_%M", gmtime()) + ".csv"
-    elif base_case is not True:
-        csv_outfile = save_dir + "/inputs_" + building_name + strftime("%d_%m_%H_%M", gmtime()) + ".csv"
+    if print_statements is True: print(len(input_values), len(input_names))
 
-    with open(csv_outfile, 'w') as outf:
-        writer = csv.writer(outf, lineterminator='\n')
-        writer.writerows(collect_inputs)
+    if len(input_names) != len(input_values):
+        raise ValueError('Length of input names and input values not equal.')
+    df_inputs = pd.DataFrame(collect_inputs, columns=input_names)
+    df_inputs = df_inputs.reindex_axis(sorted(df_inputs.columns), axis=1) # sort columns alphabetically
+
+    if base_case is True:
+        csv_outfile = save_dir + "/inputs_basecase_" + building_name + strftime("_%d_%m_%H_%M", gmtime()) + ".csv"
+    elif base_case is not True:
+        csv_outfile = save_dir + "/inputs_" + building_name + strftime("_%d_%m_%H_%M", gmtime()) + ".csv"
+
+    df_inputs.to_csv(csv_outfile, index=False)
 
 def main():
+    idf1 = IDF("{}".format(rootdir) + "/" + building_name + ".idf")
+    if print_statements is True: print(idf1)
+
+    lhd = doe_lhs.lhs(no_variables, samples=n_samples)
+    print(lhd.shape)
+
+    run_lhs(idf1, lhd, building_name, building_abr, start_of_week, base_case, remove_sql, add_variables, run_period, n_samples, save_idfs, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation, seasonal_occ_factor_week, seasonal_occ_factor_weekend)
+
+    # if print_statements is True: print idf1.idfobjects['PEOPLE'][0].objls #fieldnames
+    # if print_statements is True: print idf1.idfobjects['ELECTRICEQUIPMENT'][0].objls #fieldnames
+    # if print_statements is True: print idf1.idfobjects['LIGHTS'][0].fieldnames
+
+if __name__ == '__main__':
+    def start():
+        if print_statements is True: print('start')
+
     iddfile = "C:/EnergyPlusV8-6-0/Energy+.idd"
     IDF.setiddname(iddfile)
 
+    BuildingAbbreviations = ['MPEB', 'CH', '17', '71', 'Nothing']
+    BuildingHardDisk = ['05_MaletPlaceEngineering_Project', '01_CentralHouse_Project', '02_BuroHappold_17', '03_BuroHappold_71']
+
     # VARIABLES
-    base_case = False #todo run basecase straight away with eppy http://pythonhosted.org/eppy/runningeplus.html
+    base_case = True #todo run basecase straight away with eppy http://pythonhosted.org/eppy/runningeplus.html
+    calibrated_case = False
+    parallel_simulation = False
     add_variables = False # these are additional variables written to .eso (which are only done when basecase is true, but can be turned of here if not necessary.
     remove_sql = True # when doing MPEB, sql is too big (1gb+)
-    building_abr = '71' # 'CH', 'MPEB', # '71' # building_abr
-    n_samples = 2000 # how many idfs need to be created
+    save_idfs = True # to create new idfs files or not (in case just to check input generation)
+    print_statements = True
+    #if print_statements is True: print_statements = False
+    
+    building_num = 1 #'CH', 'MPEB', '17', '71', 'Nothing'
+    n_samples =  1 # how many idfs need to be created
     run_period = [1, 1, 12, 31] #first month, first day, last month, last day
 
+    building_harddisk = BuildingHardDisk[building_num]
+    building_abr = BuildingAbbreviations[building_num]
     if building_abr == 'CH':
         building_name = 'CentralHouse_222'  # 'MalletPlace', 'CentralHouse_222' # building_name
+        if base_case | calibrated_case is True:
+            save_dir = harddrive_idfs + "/01_CentralHouse_Project/BaseCase/"
+        if parallel_simulation is True:
+            save_dir = harddrive_idfs + "/01_CentralHouse_Project/IDFs/"
     elif building_abr == 'MPEB':
         building_name = 'MaletPlace'
+        if base_case | calibrated_case is True:
+            save_dir = harddrive_idfs + "/05_MaletPlaceEngineering_Project/BaseCase/"
+        else:
+            save_dir = harddrive_idfs + "/05_MaletPlaceEngineering_Project/IDFs/"
     elif building_abr == '71':
         building_name = 'BH71'
+        if base_case | calibrated_case is True:
+            save_dir = harddrive_idfs + "/03_BuroHappold_71/BaseCase/"
+        else:
+            save_dir = harddrive_idfs + "/03_BuroHappold_71/IDFs/"
+    # TODO output all used schedules to a file for easy review
+    # format the run_no to zero pad to be four values always
 
-    idf1 = IDF("{}".format(rootdir) + "/" + building_name + ".idf")
-    print(idf1)
+    if not os.path.exists(save_dir):  # check if folder exists
+        os.makedirs(save_dir)  # create new folder
+
 
     if building_abr == 'MPEB':
         no_variables = 350
@@ -2146,7 +2292,7 @@ def main():
         multiplier_variation = 20
         start_of_week = 'Sunday' #2017
     elif building_abr == '71':
-        no_variables = 200 # make sure there are more than necessary
+        no_variables = 300 # make sure there are more than necessary
         seasonal_occ_factor_week = [1 for i in range(1, 13)]
         seasonal_occ_factor_weekend = [1 for i in range(1, 13)]
         overtime_multiplier_equip = 20 # not used
@@ -2154,12 +2300,24 @@ def main():
         multiplier_variation = 20 # not used
         start_of_week = 'Wednesday' #2014
 
-    lhd = doe_lhs.lhs(no_variables, samples=n_samples)
-    run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_variables, run_period, seasonal_occ_factor_week, seasonal_occ_factor_weekend, n_samples, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation)
+    elif calibrated_case is True:
+        time_step = 'year'
+        end_uses = True
 
-    # print idf1.idfobjects['PEOPLE'][0].objls #fieldnames
-    # print idf1.idfobjects['ELECTRICEQUIPMENT'][0].objls #fieldnames
-    # print idf1.idfobjects['LIGHTS'][0].fieldnames
+        DataPath_model_real = 'C:/EngD_hardrive/UCL_DemandLogic/' + building_harddisk + '/ParallelSimulation/'
+        df_calibrated = pd.read_csv(DataPath_model_real + 'best_individual' + time_step + str(end_uses) + '.csv', index_col=0, header=0)
+        #df_calibrated = pd.DataFrame(df_calibrated.iloc[-1]) #last calibrated individual
 
-if __name__ == '__main__':
+        print(df_calibrated.columns.tolist())
+        print(df_calibrated.iloc[0]["Design Specification Outdoor Air 1"])#, df_calibrated.columns.tolist()))
+
+        # months_in_year = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        # seasonal_occ_factor_week_names = [str('SeasonWeekOccFactor_') + str(month) for month in months_in_year]
+        # seasonal_occ_factor_weekend_names = [str('SeasonWeekendOccFactor_') + str(month) for month in months_in_year]
+        # seasonal_occ_factor_week = [df_calibrated.iloc[0][i] for i in seasonal_occ_factor_week_names]
+        # seasonal_occ_factor_weekend = [df_calibrated.iloc[0][i] for i in seasonal_occ_factor_weekend_names]
+        #
+        # if building_abr == '71':
+        #     overtime_multiplier_equip = 20 # not used
+        #     overtime_multiplier_light = 15 # not used
     main()
