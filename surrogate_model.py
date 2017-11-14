@@ -47,13 +47,12 @@ from sklearn.svm import SVR, LinearSVR #Support Vector Regression
 from sklearn.kernel_ridge import KernelRidge # Kernel Ridge Regression
 from sklearn.gaussian_process import GaussianProcessRegressor # Kriging/GPR
 from sklearn.gaussian_process.kernels import RBF, WhiteKernel, ExpSineSquared, ConstantKernel as C # GPR kernels
-from sklearn.decomposition import IncrementalPCA
+from sklearn.decomposition import IncrementalPCA, PCA
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.neural_network import MLPRegressor
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, Normalizer
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 from sklearn.multioutput import MultiOutputRegressor # For Multivariate regression not implemented for some
-
 
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
@@ -69,49 +68,48 @@ from deap import tools
 from deap import algorithms
 from decimal import *
 
-
-
 #own scripts
 sys.path.append('C:/Users/' + getpass.getuser() + '\Dropbox/01 - EngD/07 - UCL Study/UCLDataScripts')
 from PlotSubmetering import ReadRuns, ReadSTM, ReadGas
 from PlotSubmetering import lineno
 from PlotSubmetering import ReadSubMetering
 from PlotSubmetering import ScaleDataFrame
+from PlotSubmetering import CreateAvgProfiles
+
 
 def PlotSurrogateLearningRate(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs, time_step, end_uses, for_sensitivity, plot_progression, write_model, write_data, ):
-    its = np.arange(20, len(Y_train), 20)
+    its = np.arange(50, len(Y_train), 50)
+    print(its)
+
     df_r2_combined = pd.DataFrame()
     df_mse = pd.DataFrame()
     df_scores_combined = pd.DataFrame()
     for i in range(1, len(Y_train)):
-        if i % 20 == 0:
+        if i % 50 == 0:
             print(i)
             mse_list, df_r2, df_scores, Y_test, prediction = SurrogateModel(X_train[:i], X_test, Y_train[:i], Y_test, cols_outputs, cols_inputs,
                                                 time_step, end_uses, for_sensitivity, plot_progression=True, write_model=False, write_data=False, )
 
 
             #df_scores_combined = pd.concat([df_scores_combined, df_scores])
-            df_r2_combined = pd.concat([df_r2_combined, df_r2])
-            df_mse = pd.concat([df_mse, pd.DataFrame(mse_list)])
+            df_r2_combined = pd.concat([df_r2_combined, df_r2], axis=1)
+            df_mse = pd.concat([df_mse, pd.DataFrame(mse_list)], axis=1)
 
-    if NO_ITERATIONS > 20:
-        df_r2_combined.index = its
-        df_r2_combined.columns = ['R2']
+    if NO_ITERATIONS > 50:
+
+        df_r2_combined.columns = its
         df_r2_combined = df_r2_combined.astype(float)
-        df_mse.index = its
-        df_mse.columns = ['MAE']
+        df_mse.columns = its
         df_mse = df_mse.astype(float)
+
         # df_scores_combined.index = its
         # df_scores_combined.columns = ['MAE']
         # df_scores_combined = df_scores_combined.astype(float)
 
-        ax = df_mse.plot(color=COLORS[0], figsize=(14 / 2.54, 6 / 2.54))
+        ax = df_mse.T.plot(color=COLORS, figsize=(14 / 2.54, 6 / 2.54))
         #df_scores_combined.plot(ax=ax, color=COLORS[1])
         ax2 = ax.twinx()
-        df_r2_combined.plot(ax=ax2, color=COLORS[5])
-
-    print(df_mse.head())
-    #print(df_scores_combined.head())
+        df_r2_combined.T.plot(ax=ax2, color=COLORS, linestyle='--')
 
     ax.set_ylabel('MAE [kWh]')
     ax2.set_ylabel('$\mathregular{r^{2}}$')
@@ -194,7 +192,6 @@ def PlotSurrogateStandardError(X_real, Y_real, cols_outputs, cols_inputs, time_s
     df_combined = pd.DataFrame()
     for i in range(1, len(df)):
         if i % 20 == 0:
-
 
             df_se = df[:i].std()/len(df[:i])
             df_se = pd.DataFrame(df_se, columns=[i])
@@ -580,7 +577,7 @@ def HeatmapCorrelations(df, df_outputs, cols_outputs, include_sobol, building_la
 
         plt.savefig(DataPathImages + building_label + sobol + str(i) + '_HeatMapCorrelations.png', dpi=400, bbox_inches='tight')
 
-def ScatterCorrelation(df_input, df_output,building_label, var_i, var_o, ): # plot occupancy against energy use as a scatter plot
+def ScatterCorrelation(df_input, df_output,building_label, var_i, var_o, ):
     #todo potentially allow for plotting multiple outputs, inputs wlil be difficult with different values.
     input_col = df_input.columns.tolist()
     output_col = df_output.columns.tolist()
@@ -722,11 +719,10 @@ def PlotObjectiveConvergence(best_inds, cols_outputs, targets, floor_area, time_
     df_result = abs(df_result.subtract(df_target))
     # df_target = pd.DataFrame(targets_dup, columns=cols_outputs)
 
-
-    # todo separate into three graps?
     if time_step == 'month' and end_uses is True:
         fig, axes = plt.subplots(nrows=3, ncols=1, sharey=False)
 
+        # todo this won't work for additional end-uses...
         ax = df_result[cols_outputs[:12]].plot(ax=axes[0], color=COLORS[:12])
         ax2 = df_result[cols_outputs[12:24]].plot(ax=axes[1], color=COLORS[:12])
         ax3 = df_result[cols_outputs[24:36]].plot(ax=axes[2], color=COLORS[:12])
@@ -755,10 +751,8 @@ def PlotObjectiveConvergence(best_inds, cols_outputs, targets, floor_area, time_
 
         fig.subplots_adjust(hspace=.1)  # space between plots
     else:
-
         ax = df_result.plot(color=COLORS[:12], figsize=(16 / 2.54, 6 / 2.54))
         #df_target.iloc[:, :].plot(ax=ax, style='--', color=COLORS[:12])
-
         ax.set_ylim(0,None)
         ax.set_title('Prediction of the best individual per generation', fontsize=9)
         ax.set_xlabel('Generations')
@@ -773,8 +767,82 @@ def PlotObjectiveConvergence(best_inds, cols_outputs, targets, floor_area, time_
         ax.legend(loc='center left', bbox_to_anchor=(1.0,.5), title='Objectives')
         ax.set_ylabel('Energy $\mathregular{(kWh/m^{2}a)}$')
         #plt.tight_layout()
-    plt.savefig(DataPathImages + building_label + '_' + time_step + end_use + '_ObjectiveConvergence.png', dpi=300, bbox_inches='tight')
+    plt.savefig(DataPathImages + building_label + '_' + time_step + end_use + weekday_str + '_ObjectiveConvergence.png', dpi=300, bbox_inches='tight')
 
+
+# PLOT: Plot energy use for the objectives with increasing generation
+def PlotObjectiveTimeConvergence(best_inds, cols_outputs, targets, floor_area, time_step, end_uses, building_label):
+    if end_uses is True:
+        end_use = '_end_uses'
+    else:
+        end_use = ''
+
+    result = []
+    for i, v in enumerate(best_inds):
+        prediction = calculate(best_inds[i], for_sensitivity)
+        result.append(prediction)
+
+    df_result = pd.DataFrame(result, columns=cols_outputs)
+
+    df_result = df_result / floor_area
+    targets_dup = ([targets, ]) * len(result)  # duplicate targets list
+
+    df_target = pd.DataFrame(targets_dup, columns=cols_outputs)
+    df_target = df_target / floor_area
+
+    df_result = abs(df_result.subtract(df_target))
+    # df_target = pd.DataFrame(targets_dup, columns=cols_outputs)
+
+    if time_step == 'month' and end_uses is True:
+        fig, axes = plt.subplots(nrows=3, ncols=1, sharey=False)
+
+        # todo this won't work for additional end-uses...
+
+        ax = df_result[cols_outputs[36:60]].plot(ax=axes[0], color=COLORS[:12])
+        ax2 = df_result[cols_outputs[60+24:60+24*2]].plot(ax=axes[1], color=COLORS[:12])
+        ax3 = df_result[cols_outputs[60+24*3:60+24*4]].plot(ax=axes[2], color=COLORS[:12])
+        ax.legend(loc='center left', bbox_to_anchor=(1.0, .5))
+        ax2.legend(loc='center left', bbox_to_anchor=(1.0, .5))
+        ax3.legend(loc='center left', bbox_to_anchor=(1.0, .5))
+        ax.set_ylim(0,None)
+        ax2.set_ylim(0, None)
+        ax3.set_ylim(0, None)
+
+        ax3.set_xlabel('Generations')
+        ax.set_ylabel('Weekday (Lights) $\mathregular{(kWh/m^{2}a)}$')
+        ax2.set_ylabel('Weekend (Power) $\mathregular{(kWh/m^{2}a)}$')
+        ax3.set_ylabel('Weekday (Gas) $\mathregular{(kWh/m^{2}a)}$')
+        ax2.legend_.remove()
+        ax3.legend_.remove()
+        ticklabel_months = [str(i) for i in range(24)]
+        ax.legend(ticklabel_months, bbox_to_anchor=(1.0,.5))
+
+        xticks = ax.xaxis.get_major_ticks()
+        xticks2 = ax2.xaxis.get_major_ticks()
+        for index, label in enumerate(ax.get_xaxis().get_ticklabels()):
+            xticks[index].set_visible(False) # hide ticks where labels are hidden
+        for index, label in enumerate(ax2.get_xaxis().get_ticklabels()):
+            xticks2[index].set_visible(False) # hide ticks where labels are hidden
+
+        fig.subplots_adjust(hspace=.1)  # space between plots
+    else:
+        ax = df_result.plot(color=COLORS[:12], figsize=(16 / 2.54, 6 / 2.54))
+        #df_target.iloc[:, :].plot(ax=ax, style='--', color=COLORS[:12])
+        ax.set_ylim(0,None)
+        ax.set_title('Prediction of the best individual per generation', fontsize=9)
+        ax.set_xlabel('Generations')
+        ax.yaxis.grid(b=True, which='major', color='black', linestyle='--', alpha=.4)
+        ax.set_axisbelow(True)
+
+        # handles, labels = ax.get_legend_handles_labels()
+        # print(labels)
+        # print(len(labels)/2)
+        # labels, handles = labels[int(len(handles)/2):], handles[int(len(handles)/2):] #reverse labels!
+
+        ax.legend(loc='center left', bbox_to_anchor=(1.0,.5), title='Objectives')
+        ax.set_ylabel('Energy $\mathregular{(kWh/m^{2}a)}$')
+        #plt.tight_layout()
+    plt.savefig(DataPathImages + building_label + '_' + time_step + end_use + weekday_str + '_ObjectiveTimeConvergence.png', dpi=300, bbox_inches='tight')
 
 # PLOT: Plot objective differences using RMSE
 def PlotBestFit(cols_outputs, best_inds_fitness):
@@ -784,24 +852,6 @@ def PlotBestFit(cols_outputs, best_inds_fitness):
 
     ax = df_inds_fit.plot(color=COLORS)
     ax.set_title("Best Individual fitnesses per gen", fontsize=9)
-
-
-# fig, axes = plt.subplots(nrows=len(end_uses), ncols=1, sharey=False, figsize=(14 / 2.54, len(end_uses)*4 / 2.54))
-#         for x, y in enumerate(end_uses):
-#             ax = axes[x]
-#
-#             props = dict(boxes=colors[0], whiskers=colors[0], medians='black', caps=colors[0])
-#             runs.xs(y, axis=1).plot.box(ax=ax, color=props, patch_artist=True, showfliers=False)  # access highlevel multiindex
-#             ax.plot(range(1, len(month_list) + 1), df[y], color=colors[1], mec='k', ms=7, marker="o", linestyle="None", zorder=10, )
-#
-#             #hide month labels for all but last plot
-#             ax.set_ylabel(y)
-#             if x != len(end_uses)-1:
-#                 for index, label in enumerate(ax.get_xaxis().get_ticklabels()):
-#                     label.set_visible(False)
-#
-#             ax.yaxis.grid(b=True, which='major', color='black', linestyle='--', alpha=.4)
-#             ax.set_axisbelow(True)
 
 def PlotCalibratedSolutionsBoxplot(df_inputs, df_computed_inputs, df_calibrated, lower_limits, upper_limits, building_label):
     fig = plt.figure(figsize=(16 / 2.54, 23/ 2.54))
@@ -819,7 +869,6 @@ def PlotCalibratedSolutionsBoxplot(df_inputs, df_computed_inputs, df_calibrated,
 
     bplot = df_calibrated[cols_included].plot.box(ax=ax, vert=False, showfliers=False, patch_artist=True, return_type='dict')  # showmeans=True
     ax.plot(df_calibrated[cols_included].loc[df_calibrated.shape[0]-1], list(range(1, df_calibrated[cols_included].shape[1]+1)), c=COLORS[1], mec='k', ms=5, marker="o", lw=1, zorder=10, alpha=.75, linestyle='None')
-
 
     # print(bplot.keys())
     # ax2.legend_.remove()
@@ -935,7 +984,7 @@ def Correlations(DataPath_model_real, X_real, Y_real, cols_outputs, cols_inputs,
                 elif p == 1:
                     coef_list.append(spearmanr(X_real[:, i], Y_real[:, j])[0])
                 elif p == 2:
-                    coef_list.append(pearsonr(X_real[:, i], Y_real[:, j])[0][0])
+                    coef_list.append(pearsonr(X_real[:, i], Y_real[:, j])[0])
             df_corr[cols_outputs[j]] = pd.Series(coef_list) #append list to df
         df_corr.set_index(q, inplace=True)
         print(df_corr.head())
@@ -952,39 +1001,27 @@ def Correlations(DataPath_model_real, X_real, Y_real, cols_outputs, cols_inputs,
         elif p == 2:
             df_corr_pearson = df_corr
 
-    return df_corr_standardized, df_corr_spearman, df_corr_pearson
+    return df_corr, df_corr_standardized, df_corr_spearman, df_corr_pearson
 
-def ImportOutputs(DataPath_model_real, inputs, run_numbers, feature_selection):
+def ImportOutputs(DataPath_model_real, inputs, Y_real, cols_outputs, run_numbers, feature_selection):
     df = pd.read_csv(DataPath_model_real + inputs, header=0)
     cols_inputs = df.columns.tolist()
-    print(cols_inputs)
+    df_in = df.copy()
 
     runs_no_inputs = pd.DataFrame(["%.2d" % x for x in (np.arange(0, df.shape[0]))])
     df = pd.concat([runs_no_inputs, df], axis=1, ignore_index=True)
 
     X_real = df.ix[run_numbers]
-
     X_real = X_real.drop(df.columns[[0]], axis=1) #drop run_no column
-    #print(lineno(), X_real.head(2))
     X_real = X_real.as_matrix()
 
+
     # FEATURE SELECTION
-
-    #  univariate selection
+    print(lineno(), len(cols_inputs), cols_inputs)
     if feature_selection is True:
-        univariate_selection = False
-        if univariate_selection is True:
-            from sklearn.feature_selection import VarianceThreshold
-            sel = VarianceThreshold(threshold=(.8 * (1 - 0.8)))
-            sel.fit(X_real) # fit the inputs
-            selected_feature_indices = sel.get_support(True) #get indices of those selected
-            print(lineno(), 'selected features', len(selected_feature_indices), selected_feature_indices)
-            X_real = sel.transform(X_real) #transform the matrix
-            cols_inputs = [cols_inputs[i] for i in selected_feature_indices.tolist()] # select the names based on selected features
-            print(lineno(), cols_inputs)
 
-        # VIF selection
-        VIF_selection = True
+        # VIF selection # multicollinearity, which should definitely not exist in the model keep values below 6
+        VIF_selection = False
         if VIF_selection is True:
             X_vars = np.append(X_real, np.ones([len(X_real), 1]), 1) # need to add a column of ones at the end...
             vif = [variance_inflation_factor(X_vars, i) for i in range(X_vars.shape[1])] # Catch infs if not enough runs
@@ -996,12 +1033,58 @@ def ImportOutputs(DataPath_model_real, inputs, run_numbers, feature_selection):
             print(lineno(), 'vif indices', vif_indices)
             df_vif = pd.DataFrame(vif, index=cols_inputs)
             df_vif.to_csv(DataPath_model_real+'vif.csv')
-            #print(df_vif)
+            print(df_vif)
             if len(vif_indices) > 0:
                 print(lineno(), X_real.shape)
                 X_real = X_real[:, vif_indices]
                 cols_inputs = [cols_inputs[i] for i in vif_indices]
+            print('max vif', max(vif))
 
+        variance_threshold = False
+        if variance_threshold is True: #http://scikit-learn.org/stable/modules/feature_selection.html#removing-features-with-low-variance
+            from sklearn.feature_selection import VarianceThreshold
+            sel = VarianceThreshold() # gets rid of unchanging variables.
+            sel.fit(X_real)  # fit the inputs
+            selected_feature_indices = sel.get_support(True)  # get indices of those selected
+            print(lineno(), 'selected features', len(selected_feature_indices), selected_feature_indices)
+            X_real = sel.transform(X_real)  # transform the matrix
+            cols_inputs = [cols_inputs[i] for i in selected_feature_indices.tolist()]  # select the names based on selected features
+            print(lineno(), cols_inputs)
+            print(X_real.shape)
+
+        f_scores = False
+        if f_scores is True: #http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.f_regression.html#sklearn.feature_selection.f_regression
+            feature_scores = []
+            vars_in = X_real.shape[1]
+            for i in range(Y_real.shape[1]):
+                f_test, _ = f_regression(X_real, Y_real[:, i])
+                feature_scores.append(f_test)
+            df_feature_scores = pd.DataFrame(list(map(list, zip(*feature_scores))), columns=cols_outputs, index=cols_inputs)  # transpose list of lists and make a dataframe of it
+            df_feature_scores['max_f'] = df_feature_scores.max(axis=1)
+            df_scores = df_feature_scores[df_feature_scores['max_f'] > 1]
+            print('no. variables removed by f_scores', vars_in-df_scores.shape[0])
+            cols_inputs = df_scores.index.tolist()
+
+        mutual_info_scores = False
+        if mutual_info_scores == True:
+            mi_scores = []
+            vars_in = X_real.shape[1]
+            for i in range(Y_real.shape[1]):
+                mi = mutual_info_regression(X_real, Y_real[:, i])
+                mi_scores.append(mi)
+            df_mi_scores = pd.DataFrame(list(map(list, zip(*mi_scores))), columns=cols_outputs, index=cols_inputs)  # transpose list of lists and make a dataframe of it
+            df_mi_scores['total_mi'] = df_mi_scores.max(axis=1)
+            print(df_mi_scores['total_mi'])
+            df_scores = df_mi_scores[df_mi_scores['total_mi'] > .01]
+            print('no. variables removed by mi_scores', vars_in - df_scores.shape[0])
+            cols_inputs = df_scores.index.tolist()
+
+        df = df_in[cols_inputs]
+        print(df.shape)
+        X_real = df.as_matrix()
+
+
+    #exit()
     # scale the data?
     #todo http://scikit-learn.org/stable/modules/preprocessing.html
 
@@ -1040,13 +1123,9 @@ def ConvergenceCorrelations(df_input, df_output, building_label):
 
 # Run the surrogate learning process with different sample sizes to see the learning rate.
 def SurrogateModel(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs, time_step, end_uses, for_sensitivity, plot_progression, write_model, write_data, ):
-    #todo check multicolinearity of variables https://stackoverflow.com/questions/25676145/capturing-high-multi-collinearity-in-statsmodels
-    # todo http://scikit-learn.org/stable/modules/feature_selection.html
-    #todo https://etav.github.io/python/vif_factor_python.html
-    #when some variables are highly correlated it makes the model unstable.
     print(lineno(), 'Xtrain, Ytrain', X_train.shape, Y_train.shape)
-    # print(lineno(), X_train[:5][:5])
-    #print(lineno(), Y_train[:5][:5])
+
+    np.random.seed(0)
 
     if for_sensitivity is True:
         model_sensitivity = '_sensitivity'
@@ -1066,25 +1145,43 @@ def SurrogateModel(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs, 
     lr = LinearRegression()
     lasso = Lasso()
     rr = Ridge()
-    pls = PLSRegression() # is really inaccurate, can I increase its accuracy?? # is supposedly very good for dealing with multicollinearity among X values and suited when the matrix of predictors has more variables than observations
-    knn = KNeighborsRegressor(5, weights='uniform')
-    nn = MLPRegressor(hidden_layer_sizes=(100,), solver='lbfgs', activation='relu', random_state=1, max_iter=500, power_t=.5, tol=.0001, learning_rate='constant') #TODO scale data for SVR and also NN #http://scikit-learn.org/stable/modules/svm.html#regression
+    pls = PLSRegression(n_components=X_train.shape[1], scale=False, max_iter=1000)
+    knn1 = KNeighborsRegressor(X_train.shape[1] if X_train.shape[1] > len(cols_inputs) else 5, weights='distance')
+    nn = MLPRegressor(hidden_layer_sizes=(X_train.shape[1],), solver='lbfgs', activation='identity',  max_iter=1000, tol=.0001)
+
     rf = RandomForestRegressor()
     ts = TheilSenRegressor()
     ransac = RANSACRegressor()
     hr = HuberRegressor()
 
+
+    # While many algorithms (such as SVM, K-nearest neighbors, and logistic regression) require features to be normalized, intuitively we can think of Principle Component Analysis (PCA) as being a prime example of when normalization is important.
+
     # do not support multivariate regression, use MultiOutputRegressor
     bayesm = BayesianRidge()
-    svrm = SVR(kernel='rbf', C=1) # takes about 100s #TODO scale data for SVR and also NN #http://scikit-learn.org/stable/modules/svm.html#regression
-    gpr = GaussianProcessRegressor(C(1.0, (1e-3, 1e3)) * RBF(10, (1e-2, 1e2)))
 
-    #("PLS", pls), ("SVR", svrm), # take too long
+    svrm = GridSearchCV(SVR(kernel='linear'), param_grid={"C": [1, 10, 100],})
+    #svrm = SVR(kernel='rbf', C=10, gamma=0.0001, epsilon=0.01)
+    svrm = LinearSVR(C=30, epsilon=1, max_iter=10000)
+
+    # krr = GridSearchCV(KernelRidge(), cv=5, param_grid={"alpha": [1e0, 1e-1, 1e-2, 1e-3],
+    #                                                     "kernel": [ExpSineSquared(l, p)
+    #                                                                for l in np.logspace(-2, 2, 10)
+    #                                                                for p in np.logspace(0, 2, 10)]})
+
+    krr = GridSearchCV(KernelRidge(coef0=1, degree=3, gamma=None, kernel='linear', kernel_params=None), param_grid={'alpha':[0.1, 1, 5], })
+
+    #kernel = C(1.0, (1e-3, 1e3)) * RBF(10, (1e-2, 1e2))
+    gp_kernel = ExpSineSquared(1.0, 5.0, periodicity_bounds=(1e-2, 1e1)) + WhiteKernel(1e-1)
+    gpr = GaussianProcessRegressor(kernel=gp_kernel, n_restarts_optimizer=9, normalize_y=False)
+
     #("rr", rr),  ("k-NN", knn), ("NN", nn), ("RF", rf), ("BR", bayesm), ("Lasso", lasso), ("GPR", gpr), ("LR", lr)
     #("ts", ts), ("ransac", ransac), ("hr", hr) perform as well as Linear Regression / OLS
-    #models = [("rr", rr), ("BR", bayesm), ("Lasso", lasso), ("LR", lr), ("ts", ts), ("ransac", ransac), ("hr", hr)]
-    models = [("LR", lr)] # is of type list #print(type(models))
-    #models = [('NN', nn), ("LR", lr)]
+    #models = [("rr", rr), ("Lasso", lasso), ("NN", nn), ("pls", pls)]
+
+    models = [("pls", pls), ("rr", rr), ("Lasso", lasso), ("krr", krr)]#, ("SVR", svrm),]#  ("NN", nn)
+    #models = [("pls", pls)]
+
     #todo even though LR is quite accurate, it will give very high coefficient as it is overfitting the model, specifically for the overtime_multiplier inputs, RR seems to give more stable values.
     x=0
 
@@ -1098,30 +1195,39 @@ def SurrogateModel(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs, 
         print(name)
         model_names.append(name)
         stime = time.time()
-        if model in {bayesm, svrm, gpr}: # use multioutputregressor for these methods
+        if model in {bayesm, svrm, gpr, rf}: # use multioutputregressor for these methods
             # tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4], 'C': [1, 10, 100, 1000]},
             #                         {'kernel': ['linear'], 'C': [1, 10, 100, 1000]}]
             # surrogate = GridSearchCV(svrm, tuned_parameters)
-            model = MultiOutputRegressor(model)
+            if model in {svrm}:
+                #scaler = RobustScaler(quantile_range=(25, 75))
+                scaler = StandardScaler()
 
-            ## Fitting
-            model.fit(X_train, Y_train)
-            prediction = model.predict(X_test)
+                X_train_scaled = scaler.fit_transform(X_train)
+                X_test_scaled = scaler.fit_transform(X_test)
+
+                model = MultiOutputRegressor(model)
+                model.fit(X_train_scaled, Y_train)
+                prediction = model.predict(X_test_scaled)
+            else:
+                model = MultiOutputRegressor(model)
+                model.fit(X_train, Y_train)
+                prediction = model.predict(X_test)
 
             if write_model == True:
                 joblib.dump(model, DataPath_model_real+name + '_' + time_step + model_sensitivity +  '_model.pkl')
             else:
                 print(lineno(), 'write_model set to:', write_model)
 
-        elif model in {lr, rr, nn, knn, rf, lasso, nn, pls}:
-            if model == nn:
-                scaler = StandardScaler()
-                scaler.fit(X_train)
-                StandardScaler(copy=True, with_mean=True, with_std=True)
-                X_train = scaler.transform(X_train)
-                X_test = scaler.transform(X_test)
-                model.fit(X_train, Y_train)
-                prediction = model.predict(X_test)
+        elif model in {lr, rr, nn, lasso, nn, pls, krr, knn1}:
+            if model in {nn, knn1}:
+                #scaler = StandardScaler(copy=True, with_mean=True, with_std=True) #copy=True, with_mean=True, with_std=True
+                scaler = RobustScaler(quantile_range=(25, 75))
+
+                X_train_scaled = scaler.fit_transform(X_train)
+                X_test_scaled = scaler.fit_transform(X_test)
+                model.fit(X_train_scaled, Y_train)
+                prediction = model.predict(X_test_scaled)
             else:
                 model.fit(X_train, Y_train)
                 prediction = model.predict(X_test)
@@ -1132,13 +1238,12 @@ def SurrogateModel(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs, 
                 print(lineno(), 'write_model set to:', write_model)
 
         # timing / scoring
-        # print(lineno(), Y_test)
         print(lineno(), prediction[0])
+        print('R^2 = ', r2_score(Y_test, prediction, multioutput='uniform_average'))
 
         raw_mse = mean_squared_error(Y_test, prediction, multioutput='raw_values')
         raw_mae = mean_absolute_error(Y_test, prediction, multioutput='raw_values')  # multioutput='raw_values' will give the error for all 31days*8enduses (248, )
-
-        #print(lineno(), 'raw_mse', raw_mse.shape)
+        #TODO I should differentiate MSE between monthly and hourly response variables.
 
         time_list.append("{0:.4f}".format(((time.time() - stime))))
         r2_list.append("{0:.4f}".format((r2_score(Y_test, prediction, multioutput='uniform_average'))))
@@ -1146,50 +1251,8 @@ def SurrogateModel(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs, 
         evar_list.append("{0:.4f}".format((explained_variance_score(Y_test, prediction))))
         mae_list.append("{0:.4f}".format((mean_absolute_error(Y_test, prediction))))
 
-        #print(lineno(),'no. of predictions', len(prediction), prediction)
-        #print(lineno(), 'mae', mean_absolute_error(prediction, Y_test))
-
         abs_diff = [(j - i)**2 for i, j in zip(Y_test, prediction)]
         mse_abs_diff = [np.mean(i)/len(Y_test) for i in abs_diff] # the mean squared error for each iteration separately
-
-        # if end_uses is True:
-        #     abs_perc_error = [abs((i - j)/i)*100 if i > 0 else 0 for i, j in zip(Y_test[1,:], prediction[1,:])]
-        #     abs_perc_error_enduse = []
-        #     for i in range(8):
-        #         abs_perc_error_enduse.append(np.mean(abs_perc_error[i::8])) # sum mse of all 31 days for every end-use.
-        #
-        #     print(lineno(), 'single prediction', prediction[1,:].tolist())
-        #     print(lineno(), 'single test data', Y_test[1,:].tolist())
-        #     print(lineno(), 'single abs perc error per day per end use', abs_perc_error)
-        #     print(lineno(), 'mean abs perc error per end use', abs_perc_error_enduse)
-        #     #print(len(abs_perc_error))
-        #     #print(mse_abs_diff)
-        #     #print(len(abs_diff[0]))
-        # raw_rmse = []
-        # for mse in raw_mse:
-        #     raw_rmse.append(np.sqrt(mse)*1000)
-
-        #
-        # predictions = pd.concat([pd.DataFrame(Y_test), pd.DataFrame(prediction)], axis=1)
-        #
-        # if write_data == True:
-        #     predictions.to_csv(DataPath_model_real + name +'_predictions_' + time_step + end_use + '.csv')
-        #
-        #     # Get coefficients and intercepts, this actually works different for each algorithm
-        #     if model in {bayesm, svrm, gpr}:
-        #         print(lineno(), 'model score', models[x][1].score)
-        #         if name == 'SVR':
-        #             df_coef = pd.DataFrame(models[x][1].coef_, cols_outputs)
-        #             df_intercept = pd.DataFrame(models[x][1].intercept_, cols_outputs)
-        #             # print('params', models[x][1].get_params)
-        #     elif model in {lr, rr, nn, knn, rf, lasso, nn, pls}:
-        #         df_coef = pd.DataFrame(models[x][1].coef_, cols_outputs)
-        #         df_intercept = pd.DataFrame(models[x][1].intercept_, cols_outputs)
-        #
-        #     ## Send function coefficients and intercept for each model to csv
-        #     df_coef.to_csv(DataPath_model_real + name + '_coef_' + time_step + '.csv')
-        #     df_intercept.to_csv(DataPath_model_real + name + '_intercept_' + time_step + '.csv')
-        # x+=1
 
 
 
@@ -1246,8 +1309,10 @@ def mutGaussianWithLimits(individual, mus, sigmas, lower_limits, upper_limits, d
             elif dist[i] == 'unif':
                 individual[i] = random.uniform(lower_limits[i], upper_limits[i])
             elif dist[i] == 'disc':
-                individual[i] = random.randrange(int(lower_limits[i]), int(upper_limits[i] + 1), int(1))  # integer discrete value
-    
+                individual[i] = random.randrange(lower_limits[i], upper_limits[i] + 1, mu[i])  # integer discrete value
+                print(individual[i])
+                exit()
+                #stepsize in mu
     return individual,
 
 def UniformWithLimits(individual, lower_limits, upper_limits, indpb):
@@ -1287,7 +1352,12 @@ def EvaluateObjective(individual):
     prediction = calculate(individual, for_sensitivity)
     prediction = [i for i in prediction]
     weights = [(i) / sum(targets) for i in targets]
-    rmse = (sum(w*(i - j) ** 2 for w, i, j in zip(weights, targets, prediction)) / len(targets)) # minimise the total
+    #todo weights probably doesn't work with hourly values typical weekdays
+    rmse = sum(((i - j) ** 2) / len(targets) for i, j in zip(targets, prediction))  # minimise the total
+
+    #rmse = sum(w*((i - j) ** 2)/len(targets) for w, i, j in zip(weights, targets, prediction)) # minimise the total
+
+
     #rmse = np.sqrt((sum((i - j)**2 for i, j in zip(targets, prediction)) / len(targets))) #minimise the total
     #rmse = tuple(((i - j) ** 2 for i, j in zip(targets, prediction))) #minimise each objective
     # cvrmse = np.sqrt((sum((i - j) ** 2 for i, j in zip(targets, prediction)) / len(targets))) / np.average(targets) * 100
@@ -1476,13 +1546,11 @@ def OptimisationAlgorithm(toolbox, X_real):
     pop = toolbox.population(n=POPULATION_SIZE)
     hof = tools.ParetoFront()
 
-
     # print(lineno(), X_real.shape)
     # print(lineno(), pop[0])
     #
     # pd.DataFrame(pop).to_csv(DataPath_model_real+'pop.csv')
     # print(lineno(), 'test an individual from optimisation data', [int(i) for i in calculate(pop[0], for_sensitivity)])
-
 
     # Test fitness values of an individual
     # ind_test = toolbox.individual()
@@ -1561,7 +1629,8 @@ def OptimisationAlgorithm(toolbox, X_real):
             for individual in potential_individuals:
                 prediction = calculate(individual, for_sensitivity)
                 prediction = [i for i in prediction]
-                cvrmse = np.sqrt((sum((i - j) ** 2 for i, j in zip(targets, prediction)) / len(targets))) / np.average(targets) * 100
+                #cvrmse_month = np.sqrt(sum(((i - j) ** 2) / len(df_month) if i > 0 else 0 if j > 0 else 0 for i, j in zip(df_month, df_pred_month))) / np.average(df_month) * 100
+                cvrmse = np.sqrt(sum(((i - j) ** 2) / len(targets) for i, j in zip(targets, prediction))) / np.average(targets) * 100
                 mbe = sum([i - j for i, j in zip(prediction, targets)]) / sum(prediction) * 100
 
                 if cvrmse < 2 and mbe < 3 and mbe > -3:
@@ -1591,9 +1660,6 @@ def OptimiseModel(time_step, targets, mus, sigmas, lower_limits, upper_limits, d
     toolbox.register('expr', CreateElements, mus, sigmas, lower_limits, upper_limits, dist) ## using custom function for input generation
     toolbox.register('individual', tools.initIterate, creator.Individual, toolbox.expr)
     toolbox.register('population', tools.initRepeat, list, toolbox.individual)
-
-    # TODO there needs to be constraint handling on the input parameters, because it's more realistic if some inputs don't change at all. Or for example the office heating setpoint seems to change to 31, which makes no sense in reality...
-    # Constraint handling _> http://deap.gel.ulaval.ca/doc/dev/tutorials/advanced/constraints.html
 
     # TODO try different selection criteria/mutate/mate
     toolbox.register('mate', tools.cxTwoPoint)
@@ -1643,103 +1709,110 @@ def OptimiseModel(time_step, targets, mus, sigmas, lower_limits, upper_limits, d
     print('best    ', [i/floor_area for i in [int(e) for e in calculate(best_inds[-1], for_sensitivity).tolist()]])
     print('targets ', [i/floor_area for i in targets])
 
-
-
     # print(logbook)
     # print(pop)
 
     return best_inds, best_inds_fitness, df_calibrated
 
 def main(end_uses):
-    X_real, cols_inputs = ImportOutputs(DataPath_model_real, inputs, run_numbers, feature_selection)  # real input data
+    np.random.seed(0)
+    if generate_inputsoutputs: #create outputs file (combine each simulation results file into one)
+        df_pred, runs, df_runs, df_enduses, df_weather, df_runs_weekdays = ReadRuns(building, base_case, calibrated_case, compare_models, c_file_name, floor_area, building_harddisk, building_abr, time_step, write_data, NO_ITERATIONS, end_uses, include_weekdays, for_sensitivity)
 
+        if time_step == 'month' and end_uses is False:
+            if include_weekdays is True:
+                runs = pd.merge(runs, df_runs_weekdays, left_index=True, right_index=True)
 
-    # test_individual = X_real[:1]
-    # popu = pd.read_csv(DataPath_model_real+'pop.csv', index_col=0, header=0)
-    # print(np.array(popu.iloc[1]).tolist())
-    # print(test_individual[0].tolist())
-    # print(len(np.array(popu.iloc[1]).tolist()))
-    # print(len(test_individual[0].tolist()))
-    # print(lineno(), 'test an individual from real data', [int(i) for i in calculate(test_individual[0], for_sensitivity)])
-    # print(lineno(), 'test an individual from real data', [int(i) for i in calculate(np.array(popu.iloc[1]), for_sensitivity)])
-    # #exit()
+        if time_step == 'month' and end_uses is True:
+            end_uses_list = list(runs.columns.levels[0])
+            if include_weekdays is True:#
+                time_list = [i for i in df_runs_weekdays.columns.levels[1]]
+                runs = pd.merge(runs, df_runs_weekdays, left_index=True, right_index=True)
 
-    calibrated_case = ''
-    df_pred, runs, df_runs, df_enduses, df_weather = ReadRuns(building, base_case, calibrated_case, floor_area, building_harddisk, building_abr, time_step, write_data, NO_ITERATIONS, end_uses, for_sensitivity)
-    cols_outputs = runs.columns.tolist()
+        print(runs.head())
+        print(runs.columns)
+        print(runs.columns.tolist())
 
-    print(NO_ITERATIONS, runs.head())
+        # saving outputs to hdf file because then I don't have to read the eplusmtr files each time.
+        runs.to_hdf(DataPath_model_real + 'inputs_outputs_'+time_step+'_'+str(end_uses)+'_'+str(include_weekdays)+'.hdf', 'runs', mode='w')
+        exit()
 
-    if time_step == 'month' and end_uses is False:
-        cols_outputs = [item.strftime('%b %y') for item in cols_outputs]
+    else:
+        runs = pd.read_hdf(DataPath_model_real + 'inputs_outputs_'+time_step+'_'+str(end_uses)+'_'+str(include_weekdays)+'.hdf', 'runs')
+        #print(runs.head(3))
+        #print(runs.shape)
+        #print(runs.columns.levels[0])
+        level_0 = [i for i in runs.columns.levels[0]]
+        level_1 = [i for i in runs.columns.levels[1]]
+        cols_outputs = [str(i)+ ' ' +str(j) for i in level_0 for j in level_1] #combine levels)
 
-    if time_step == 'month' and end_uses is True:
-        end_uses_list = list(runs.columns.levels[0])
-        month_list = [item.strftime('%b %y') for item in list(runs.columns.levels[1])]
-        #cols_outputs = [str(i) + ' ' + str(j) for j in month_list for i in end_uses_list]
-        cols_outputs = [str(i)+ ' ' +str(j) for i in end_uses_list for j in month_list]
+        print(len(cols_outputs), cols_outputs)
 
-        print(lineno(), len(cols_outputs), cols_outputs)
-
-    df_inputs = pd.read_csv(DataPath_model_real + inputs_basecase, header=0)
-    df_inputs = df_inputs[cols_inputs] # select only those after feature selection filter!
-    print(df_inputs.head())
-    mus = df_inputs.iloc[0, :].values.tolist()
-    mus = [float(i) for i in mus]
-    sigmas = df_inputs.iloc[1, :].values.tolist()
-    sigmas = [float(i) for i in sigmas]
-    sigmas_optimise = [float(i) for i in sigmas]
-    lower_limits, upper_limits = df_inputs.iloc[2, :].values.tolist(), df_inputs.iloc[3,:].values.tolist()
-    lower_limits = [float(i) for i in lower_limits]
-    upper_limits = [float(i) for i in upper_limits]
-    dist = df_inputs.iloc[5, :].tolist()
-
-    print(lineno(), 'mus', mus)
-    print(lineno(), 'sigmas', sigmas)
-    print(lineno(), 'lower', lower_limits)
-    print(lineno(), 'upper', upper_limits)
-
-    if sensitivity_analysis_predictions is True:
-        ### SENSITIVITY ANALYSIS OF REAL DATA
-        Y_real = runs.as_matrix()
-        print(lineno(), X_real.shape, Y_real.shape, )
-
-        df_corr = Correlations(DataPath_model_real, X_real, Y_real, cols_outputs, cols_inputs, time_step, metamodel_sensitivity)
-        print(lineno(), df_corr.head())
-        #PlotCorrelations(df_corr, cols_outputs)
-        #HeatmapCorrelations(df_corr, cols_outputs, building_label)
+    #select inputs and outputs and run feature selection if True
+    Y_real = runs.as_matrix()
+    X_real, cols_inputs = ImportOutputs(DataPath_model_real, inputs, Y_real, cols_outputs, run_numbers, feature_selection)  # real input data
 
     if build_surrogate_model is True:
-        Y_real = runs.as_matrix()
+        # i can change the selection of runs for a specific end-use to train on that, this will help me identify where the meta-model is having trouble learning behaviour.
 
-        # print(X_real[128])
-        print(Y_real[125:129])
-        print(lineno(), X_real.shape, Y_real.shape, )
-        # Test data for testing algorithms.
-        X_real_data = np.vstack((cols_inputs, X_real))
-        Y_real_data = np.vstack((cols_outputs, Y_real))
+        #cols_outputs = cols_outputs[Y_real.shape[1]*2:3*Y_real.shape[1]]
         X_train, X_test, Y_train, Y_test = train_test_split(X_real, Y_real)  # randomly split data to create test set
 
         ### BUILDING THE SURROGATE MODEL USING TRAINING DATA
-        #PlotSurrogateLearningRate(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs, time_step, end_uses, for_sensitivity, plot_progression, write_model, write_data, ) # this creates the model mutiple times.
+        if plot_progression is True:
+            PlotSurrogateLearningRate(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs, time_step, end_uses, for_sensitivity, plot_progression, write_model, write_data, ) # this creates the model mutiple times.
+
         mse_list, df_r2, df_scores, Y_test, prediction = SurrogateModel(X_train, X_test, Y_train, Y_test, cols_outputs, cols_inputs, time_step, end_uses, for_sensitivity, plot_progression, write_model, write_data, )
 
         #PlotValidateModelFit(Y_test, prediction, cols_outputs, time_step)
         PlotSurrogateModelPerformance(df_scores, df_r2, building_label)
 
-        feature_scores = []
-        for i in range(Y_real.shape[1]):
-            f_test, _ = f_regression(X_real, Y_real[:, i])
-            feature_scores.append(f_test)
-            # print('f test', f_test)
-        df_feature_scores = pd.DataFrame(list(map(list, zip(*feature_scores))), columns=cols_outputs, index=cols_inputs)  # transpose list of lists and make a dataframe of it
-        # df_feature_scores.plot(kind='bar', stacked=True)
 
         if write_data is True:
+            X_real_data = np.vstack((cols_inputs, X_real))
+            Y_real_data = np.vstack((cols_outputs, Y_real))
             input_outputs = np.hstack((X_real_data, Y_real_data))
             with open(DataPath_model_real + 'input_outputs_' + time_step + '.csv', "w", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerows(input_outputs)
+
+    print('runs shape', runs.shape)
+    if sensitivity_analysis_predictions is True:
+        ### SENSITIVITY ANALYSIS OF REAL DATA
+        Y_real = runs.as_matrix()
+        print(lineno(), X_real.shape, Y_real.shape, )
+
+        df_corr, df_corr_standardized, df_corr_spearman, df_corr_pearson = Correlations(DataPath_model_real, X_real, Y_real, cols_outputs, cols_inputs, time_step, metamodel_sensitivity)
+
+        #print(lineno(), df_corr.head())
+        #PlotCorrelations(df_corr, cols_outputs)
+        df_outputs = pd.DataFrame(Y_real, columns=[cols_outputs])
+        HeatmapCorrelations(df_corr, df_outputs, cols_outputs, include_sobol, building_label)
+
+    if metamodel_sensitivity is True or function_optimisation is True:
+
+        df_inputs = pd.read_csv(DataPath_model_real + inputs_basecase, index_col=0, header=0)
+        df_inputs = df_inputs[cols_inputs] # select only those after feature selection filter!
+
+        mus = df_inputs.loc['mu',:].values.tolist()
+        mus = [float(i) for i in mus]
+        if evidenced_range is True:
+            perc_var = df_inputs.loc['perc_var_evidence',:].values.tolist()
+        else:
+            perc_var = df_inputs.loc['perc_var',:].values.tolist()
+
+        perc_var = [float(i) for i in perc_var]
+        sigmas = [i*j if i*j>0 else 0 for i,j in zip(mus, perc_var)]
+        lower_limits, upper_limits = [i-(j*3) for i,j in zip(mus, sigmas)], [i+(j*3) for i,j in zip(mus, sigmas)]
+        sigmas_optimise = [float(i) for i in sigmas] # to see what happens when variables are allowed out of bounds.
+        dist = df_inputs.loc['distribution',:].tolist()
+
+        print(lineno(), 'mus', mus)
+        print(lineno(), 'sigmas', sigmas)
+        print(lineno(), 'lower', lower_limits)
+        print(lineno(), 'upper', upper_limits)
+        print(lineno(), 'dist', dist)
+
 
     if metamodel_sensitivity is True:
 
@@ -1749,7 +1822,6 @@ def main(end_uses):
         # X_real, Y_real = PKL_SurrogateModel(samples, mus, sigmas, lower_limits, upper_limits, dist)
         # df_computed_inputs = pd.DataFrame(X_real, columns=[cols_inputs])
         # df_outputs = pd.DataFrame(Y_real, columns=[cols_outputs])
-
 
         #PlotParallelCoordinates(df_inputs, df_computed_inputs, df_outputs, building_label)
 
@@ -1773,8 +1845,8 @@ def main(end_uses):
         # PlotSurrogateStandardError(X_real, Y_real, cols_outputs, cols_inputs, time_step, end_uses, for_sensitivity, plot_progression, write_model, write_data, )
         # PlotSurrogateSpearmanConvergence(X_real, Y_real, cols_outputs, cols_inputs, time_step, end_uses, for_sensitivity, plot_progression, write_model, write_data, )
 
-        #HeatmapCorrelations(df_corr, df_outputs, cols_outputs, include_sobol, building_label)
-        #HeatmapCorrelations(df_sobol_first, df_outputs, cols_outputs, include_sobol, building_label)
+        # HeatmapCorrelations(df_corr, df_outputs, cols_outputs, include_sobol, building_label)
+        # HeatmapCorrelations(df_sobol_first, df_outputs, cols_outputs, include_sobol, building_label)
 
         # PlotSurrogateLearningRate(X_real, X_test, Y_train, Y_test, cols_outputs, cols_inputs, time_step, end_uses, for_sensitivity, plot_progression, write_model, write_data, )
         # PlotSobolIndices(Si_sobol, cols_outputs, cols_inputs,)
@@ -1787,7 +1859,7 @@ def main(end_uses):
         best_inds, best_inds_fitness, df_calibrated = OptimiseModel(time_step, targets, mus, sigmas_optimise, lower_limits, upper_limits, dist, cols_outputs, X_real)
 
         best_individual = pd.DataFrame(best_inds[-1].tolist(), index=cols_inputs, columns=['best_ind'])
-        best_individual.T.to_csv(DataPath_model_real + 'best_individual'  + time_step + str(end_uses) + '.csv')
+        best_individual.T.to_csv(DataPath_model_real + 'best_individual'  + time_step + str(end_uses) + weekday_str + '.csv')
 
         if df_calibrated.empty:
             print('df_calibrated contains no solutions that fit the criteria')
@@ -1798,7 +1870,7 @@ def main(end_uses):
 
         else:
             df_calibrated.columns = cols_inputs
-            df_calibrated.to_csv(DataPath_model_real + 'CalibratedInputs_FromOptimisation' + time_step + str(end_uses) + '.csv')
+            df_calibrated.to_csv(DataPath_model_real + 'CalibratedInputs_FromOptimisation' + time_step + str(end_uses) + weekday_str + '.csv')
 
             #PlotCalibratedSolutionsBoxplot(df_inputs, df_computed_inputs, df_calibrated, lower_limits, upper_limits, building_label) # boxplot
             #PlotCalibratedSolutions(df_inputs, df_calibrated, building_label) # distribution plot
@@ -1806,12 +1878,15 @@ def main(end_uses):
         # PlotPredictionGen()
         # PlotBestFit(cols_outputs, best_inds_fitness)
         PlotObjectiveConvergence(best_inds, cols_outputs, targets, floor_area, time_step, end_uses, building_label)  # shows each end use and how they change absolutely over the generations
+        if include_weekdays:
+            PlotObjectiveTimeConvergence(best_inds, cols_outputs, targets, floor_area, time_step, end_uses, building_label)  # shows each end use and how they change absolutely over the generations
 
     plt.show()
 
 if __name__ == '__main__':
     def start():
         print('start')
+
 
     COLORS = ['#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd', '#aec7e8', '#ffbb78', '#98df8a',
               '#c49c94', '#ff9896', '#c5b0d5', '#1f77b4', '#ff7f0e', '#2ca02c', '#8c564b', '#d62728', '#9467bd',
@@ -1822,34 +1897,43 @@ if __name__ == '__main__':
     DataFilePaths = ['MPEB', 'CentralHouse', '17', '71']  # Location of STM data and file naming
     BuildingLabels = ['MPEB', 'Central House', 'Office 17', 'Office 71']
     BuildingAbbreviations = ['MPEB', 'CH', '17', '71', 'Nothing']
-    InputVariables = ['inputs_MaletPlace11_08_16_11.csv', 'inputs_CentralHouse_22225_06_11_49.csv', '17', 'inputs_BH71_27_09_13_46.csv']
-    InputVariablesBaseCase = ['x', 'inputs_basecase_CentralHouse.csv', '17', 'inputs_basecase_BH71.csv']
+    InputVariables = ['inputs_MaletPlace11_08_16_11.csv', 'inputs_CentralHouse_222_08_11_15_21.csv', 'Inputs.csv', 'inputs_BH71_27_09_13_46.csv'] # 3000 inputs_CentralHouse_222_29_10_13_40
+    InputVariablesBaseCase = ['x', 'inputs_basecase_CentralHouse.csv', 'inputs_basecase_17.csv', 'inputs_basecase_BH71.csv']
     FloorAreas = [9579, 5876, 1924, 1691]
 
-    building_num = 3 # 0 = MPEB, 1 = CH, 2 = 17, 3 = 71
+    building_num = 1 # 0 = MPEB, 1 = CH, 2 = 17, 3 = 71
     base_case = False # only show a single run from the basecase, or multiple runs (will change both import and plotting)
-    NO_ITERATIONS = 1
-
-    time_step = 'year'  # 'year', 'month'
+    calibrated_case = False
+    NO_ITERATIONS = 500
+    time_step = 'month'  # 'year', 'month'
     end_uses = True # for month specifically (when True it will divide end-uses by month instead of aggregating to total)
     write_model = False # writes out the .pkl model.
     write_data = False # Writes out several .csv files some used for function optimisation script atm.
-    plot_progression = False # this will plot the learning progression of the model when set to True.
+    plot_progression = True # this will plot the learning progression of the model when set to True.
 
     sensitivity_analysis_predictions = False # sensitivity analysis only for the parallel simulation runs
 
-    build_surrogate_model = False # run and build surrogate model, and sensitivity of real data
+    generate_inputsoutputs = False #inupt and output hdf5 file for easy training.
+    build_surrogate_model = True # run and build surrogate model, and sensitivity of real data
+    include_weekdays = False # to include weekdays in the targets/runs for both surrogate model creation and/or calibration
+    feature_selection = True  # feature selection for when building a new model
+    evidenced_range = False # to use evidenced variability in the input parameters or a standard value (for the sigma).
     for_sensitivity = False # if to build/read the surrogate model for sensitivity analysis (include all end-uses even those not measured)
-    feature_selection = False  # feature selection for when building a new model
     metamodel_sensitivity = False # use the built model for sobol
     include_sobol = False
     method = 'sobol'  # 'sobol', 'morris'
-    function_optimisation = True # optimise towards mesured data  #if function_optimisation is True: NO_ITERATIONS = 1  # need col names...
+    function_optimisation = False # optimise towards mesured data  #if function_optimisation is True: NO_ITERATIONS = 1  # need col names...
 
+    if include_weekdays is True:
+        weekday_str = 'hourly'
+    else:
+        weekday_str = ''
 
+    compare_models = False
+    c_file_name = ''
     print('no of iterations', NO_ITERATIONS)
     # OPTIMISATION INPUTS
-    NGEN = 200  # is the number of generation for which the evolution runs
+    NGEN = 300  # is the number of generation for which the evolution runs
     POPULATION_SIZE = 24 # no of individuals/samples  For selTournamentDCD, pop size has to be multiple of four
     CXPB = 0.8  # is the probability with which two individuals are crossed
     MUTPB = 0.5 # probability of mutating the offspring
@@ -1880,9 +1964,10 @@ if __name__ == '__main__':
         else:
             not_run.append(str(format(i, '04')))
 
+    print(run_numbers)
     #ImportOutputs(DataPath_model_real, inputs, run_numbers, feature_selection)
 
-    if function_optimisation is True or metamodel_sensitivity is True:
+    if function_optimisation is True or metamodel_sensitivity is True or sensitivity_analysis_predictions is True:
         # READ DATA
         if building_num in {0, 1}:  # Does it have short term monitoring?
             df_stm = ReadSTM(DataPathSTM, building, building_num, write_data, datafile, floor_area)  # read short term monitoring
@@ -1898,56 +1983,72 @@ if __name__ == '__main__':
         ### FUNCTION OPTIMISATION
         if time_step == 'year':
             if building_abr in {'71'}:
-                df = df.loc['01-01-14 0:00':'31-12-14']
                 df_LVL1 = df_LVL1.loc['01-01-14 0:00':'31-12-14']
             df_LVL1 = df_LVL1.sum(axis=0)
             if building_abr in {'CH'}:
                 df_LVL1 = pd.concat([df_LVL1, df_gas.sum(axis=0)])
             print(lineno(), df_LVL1.head())
+
+            targets = df_LVL1
+
         elif time_step == 'month':
             if end_uses is True:
                 if building_abr in {'71'}:
                     df_LVL1 = df_LVL1.loc['01-01-14 0:00':'31-12-14 23:30']
+                    if include_weekdays is True:
+                        df_weekdays, df_weekdays_std = CreateAvgProfiles(df_LVL1.resample('H').sum(), day_type='three')
+                    df_LVL1 = df_LVL1.resample('M').sum()
+                if building_abr in {'CH'}:
+                    if include_weekdays is True:
+                        df_weekdays, df_weekdays_std = CreateAvgProfiles(df_LVL1.resample('H').sum(), day_type='three')
 
-                df_LVL1 = df_LVL1.resample('M').sum()
-                if building_abr in {'CH', 'MPEB'}:
-                    df_LVL1 = pd.concat([df_LVL1, df_gas], axis=1)
+                    df_LVL1 = pd.concat([df_LVL1.resample('M').sum(), df_gas], axis=1)
 
-                print(df_LVL1.head())
-                target=[]
+                targets=[]
                 for col in df_LVL1.columns:
-                    target.extend(df_LVL1[col].values.flatten().tolist())
+                    targets.extend(df_LVL1[col].values.flatten().tolist())
 
-                df_LVL1 = target
+                if include_weekdays is True:
+                    df_weekday = pd.concat([df_weekdays.loc['weekday'], df_weekdays.loc['weekend']], axis=0)
+                    targets.extend(df_weekday.values.flatten().tolist())
+
                 # todo be careful here, don't change end-uses and months, compare to what the meta-model is trained on (runs df)
             else:
+                if include_weekdays is True:
+                    df_weekdays, df_weekdays_std = CreateAvgProfiles(df_LVL1.resample('H').sum(), day_type='three')
+
                 if building_abr in {'71'}:
                     df_LVL1 = df_LVL1.loc['01-01-14 0:00':'31-12-14 23:30']
-                df_LVL1 = df_LVL1.sum(axis=1).resample('M').sum()
-                #print(df_LVL1)
+                    targets = df_LVL1.sum(axis=1).resample('M').sum().values.flatten().tolist()
+                elif building_abr in {'CH'}:
+                    targets = pd.concat([df_LVL1.resample('M').sum(), df_gas], axis=1).values.flatten().tolist()
 
-        targets = df_LVL1
-        targets = [i for i in targets]
-        print(lineno(), 'targets', targets)
+                if include_weekdays is True:
+                    df_weekday = pd.concat([df_weekdays.loc['weekday'], df_weekdays.loc['weekend']], axis=0)
+                    targets.extend(df_weekday.values.flatten().tolist())
+
+        #targets = [i for i in targets]
+        print(lineno(), len(targets), 'targets', targets)
+
     # plt.rcParams['font.family'] = prop.get_name()
     plt.rcParams.update({'font.size': 9})
 
-
-
     main(end_uses)
+
+
+
+
 
 # TODO sensitivity analysis / sobol indices / uncertainty decomposition
 # TODO for GPR, what kernel to use?
 # TODO MARS not implemented in sklearn it seems, could use pyearth https://statcompute.wordpress.com/2015/12/11/multivariate-adaptive-regression-splines-with-python/
 # TODO http://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py
 # TODO have to cross-validate SVR the choice of parameters to increase regression accuracy
-
 # TODO timeseries / monthly data.
 # http://stackoverflow.com/questions/20841167/how-to-predict-time-series-in-scikit-learn
 # http://stackoverflow.com/questions/30346605/time-series-forecasting-with-scikit-learn
 # http: // machinelearningmastery.com / arima - for -time - series - forecasting -with-python /
 # http: // stackoverflow.com / questions / 31379845 / forecasting - with-time - series - in -python
-
 # TODO Polynomial regression
 # TODO Logistic Regression is a classifier not a regressor....
 # TODO Principal component regression (not integrated in sklearn, but can be implemented using some data shuffling.)
