@@ -1,0 +1,6 @@
+Directory,Debug_runs,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Run Number,Built,BAT file Created,Data Good,Simulation Level (1 Default/3 HAMT),Weather,Building,Occupation,Environment,Package,,Start Day,Start Month,End Day,End Month,Time Steps per hour,,Permeability,Orientation,Window Open Thresh,Heater Thresh,Cook Fact,Wall U,Roof U,Window U,Floor U,Glaz Fract,Floor Height,Area Fact(Area),Gains Fact
+1,No,No,TRUE,1,cntr_Birmingham_2011,Semi,Family,Urban-Semi,Cavity,,1,7,31,7,6,,20,0,22,18,1,0.35,0.15,2,1.025641026,0.1,2.3,1.5,1
+2,Yes,No,TRUE,1,cntr_Birmingham_2011,Semi,Family,Urban-Semi,Cavity,,1,1,31,12,6,,20,0,22,18,1,1.6,1.5,2,1.025641026,0.3,0,101.48475,1
+3,Yes,No,TRUE,1,cntr_Birmingham_2011,Mid-Terrace,Family,Urban-MidTerrace,Solid,,1,1,31,12,6,,20,0,22,18,1,0.35,0.15,2,1.025641026,0.3,0,87.79625,1
+4,Yes,No,TRUE,1,cntr_Birmingham_2011,Mid-Terrace,Family,Urban-MidTerrace,Solid,,1,1,31,12,6,,20,0,22,18,1,1.6,1.5,2,1.025641026,0.3,0,87.79625,1

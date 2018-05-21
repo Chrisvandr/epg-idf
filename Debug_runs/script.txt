@@ -1,0 +1,82 @@
+#Script file for Jon and Anna
+
+#For latin hypercube how many experiments do you want:
+n_exps=10
+
+#time steps per hour
+timesteps=10  
+start_day=1
+start_month=1
+end_day=31
+end_month=12
+built=No
+simulated=No
+output_all=No
+use_AirflowNetwork=Yes
+#Simulation level (1 for default,3 for HAMT)
+sim_level=1
+
+##Discrete values
+
+# package properties found in data_files/pack_props.csv
+package=Cavity
+##HPRU: Solid, Solid-Shutters, Cavity-Shutters
+
+
+# occupation properties found in data_files/occupation_props.csv
+occupation=Family
+#WHO: WHO_PM25Ext
+##HPRU: HPRU_Family, HPRU_2Pensioners, HPRU_Family_Shutters, HPRU_2Pensioners_Shutters
+
+# building properties found in data_files/build_props.csv
+building=Semi
+##HPRU: End-Terrace, Detached, 
+
+
+# environment (weather etc...) properties found in data_files/env_props.csv
+environment=Urban-Semi
+##HPRU: Urban_Semi,Urban_Detached,Urban_EndTerrace,Urban_MidTerrace,Urban_HighRise
+
+#weather
+weather=cntr_Islington_DSY
+#WHO: BRA_Manaus.823310_SWERA
+
+
+##Continuous values
+# set the permeability (m3/(hm2)
+permeability=20
+perm_stdev=10
+
+# Orientation
+orientation=0
+
+# Window open thresh temperature
+window_openthresh=24
+window_openthresh_stdev=5
+
+# Window shading thresh temperature
+#window_shadethresh=20
+#window_shadethresh_stdev=10
+
+# Heating on threshold
+heater_thresh=22
+heater_thresh_stdev=3
+
+#cooking dep rate not currently used
+cook_pm25fact=1
+
+#building thermal resistance factor if 1 do uniform values if 0 use the default
+#walls u-value now
+wall_u=1
+
+#roof
+roof_u=1
+
+#window
+window_u=1
+
+#floor
+floor_u=1
+
+CreateRun
+Stop

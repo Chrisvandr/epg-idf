@@ -10,6 +10,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.6.1 (C:\Users\cvdronke\AppData\Local\Programs\Python\Python36\python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="UCLDataScripts" />
   </component>
   <component name="TestRunnerService">
     <option name="projectConfiguration" value="py.test" />

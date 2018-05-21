@@ -1,0 +1,217 @@
+Program Version,EnergyPlus-Darwin-64 8.1.0.009, YMD=2016.07.07 17:52,IDD_Version 8.1.0.009
+   ** Warning ** CheckEnvironmentSpecifications: SimulationControl specified doing design day simulations, but no design environments specified.
+   **   ~~~   ** ...No design environment results produced. For these results, add appropriate SizingPeriod:* objects for your simulation.
+   ** Warning ** Site:GroundTemperature:BuildingSurface: Some values fall outside the range of 15-25C.
+   **   ~~~   ** These values may be inappropriate.  Please consult the Input Output Reference for more details.
+   ** Severe  ** WeatherFile="GreaterLondon - UK MIDAS WMO#=", out of range data
+   **   ~~~   ** Out of range value field=Atmospheric Pressure, Value=[0], range={> 31000 and <=120000}
+   ** Severe  ** Out of Range errors found with initial day of WeatherFile
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_TOPHALL_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_TOPHALL_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_BEDROOM1_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_BEDROOM1_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_BEDROOM2_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_BEDROOM2_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_STAIRCASE_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_STAIRCASE_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_BEDROOM3_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_BEDROOM3_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_BATH1_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_BATH1_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="DOORS_AWESOME_KITCHEN_DOOR_HALL" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_KITCHEN_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_KITCHEN_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_DINING_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_DINING_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_HALL_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_HALL_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_LIVING_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_PENSIONER_LIVING_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** CalcSurfaceCentroid: 3 Surfaces have the Z coordinate < 0.
+   **   ~~~   ** ...in any calculations, Wind Speed will be 0.0 for these surfaces.
+   **   ~~~   ** ...in any calculations, Outside temperatures will be the outside temperature + 9.750E-003 for these surfaces.
+   **   ~~~   ** ...that is, these surfaces will have conditions as though at ground level.
+   ** Warning ** GetInternalHeatGains: People="PENSIONER2_LIVING", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="PENSIONER2_LIVING_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="PENSIONER1_LIVING", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="PENSIONER1_LIVING_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="PENSIONER1_BATH1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="PENSIONER1_BATH1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="PENSIONER2_BATH1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="PENSIONER2_BATH1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="PENSIONER2_KITCHEN", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="PENSIONER2_KITCHEN_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="PENSIONER1_KITCHEN", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="PENSIONER1_KITCHEN_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="PENSIONER2_BEDROOM1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="PENSIONER2_BEDROOM1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,80.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="PENSIONER1_BEDROOM1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="PENSIONER1_BEDROOM1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,80.0] W/person.
+   ************* Testing Individual Branch Integrity
+   ************* All Branches passed integrity testing
+   ************* Testing Individual Supply Air Path Integrity
+   ************* All Supply Air Paths passed integrity testing
+   ************* Testing Individual Return Air Path Integrity
+   ************* All Return Air Paths passed integrity testing
+   ************* No node connection errors were found.
+   ************* Beginning Simulation
+   ** Severe  ** WeatherFile="GreaterLondon - UK MIDAS WMO#=", out of range data
+   **   ~~~   ** Out of range value field=Atmospheric Pressure, Value=[0], range={> 31000 and <=120000}
+   ** Severe  ** Out of Range errors found with initial day of WeatherFile
+   ************* Simulation Error Summary *************
+   ** Warning ** The following Report Variables were requested but not generated
+   **   ~~~   ** because IDF did not contain these elements or misspelled variable name -- check .rdd file
+   ************* Key=LIVING_GF, VarName=ZONE OPERATIVE TEMPERATURE, Frequency=Hourly
+   ************* Key=BEDROOM1_GF, VarName=ZONE OPERATIVE TEMPERATURE, Frequency=Hourly
+   ************* Key=LIVING_MF, VarName=ZONE OPERATIVE TEMPERATURE, Frequency=Hourly
+   ************* Key=BEDROOM1_MF, VarName=ZONE OPERATIVE TEMPERATURE, Frequency=Hourly
+   ************* Key=LIVING_TF, VarName=ZONE OPERATIVE TEMPERATURE, Frequency=Hourly
+   ************* Key=BEDROOM1_TF, VarName=ZONE OPERATIVE TEMPERATURE, Frequency=Hourly
+   ************* Key=LIVING_GF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=KITCHEN_GF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=BEDROOM1_GF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=BATH1_GF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=LIVING_MF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=KITCHEN_MF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=BEDROOM1_MF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=BATH1_MF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=LIVING_TF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=KITCHEN_TF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=BEDROOM1_TF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=BATH1_TF, VarName=ZONE AIR RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=LIVING_GF, VarName=ZONE AIR GENERIC AIR CONTAMINANT CONCENTRATION, Frequency=Hourly
+   ************* Key=KITCHEN_GF, VarName=ZONE AIR GENERIC AIR CONTAMINANT CONCENTRATION, Frequency=Hourly
+   ************* Key=BEDROOM1_GF, VarName=ZONE AIR GENERIC AIR CONTAMINANT CONCENTRATION, Frequency=Hourly
+   ************* Key=LIVING_MF, VarName=ZONE AIR GENERIC AIR CONTAMINANT CONCENTRATION, Frequency=Hourly
+   ************* Key=KITCHEN_MF, VarName=ZONE AIR GENERIC AIR CONTAMINANT CONCENTRATION, Frequency=Hourly
+   ************* Key=BEDROOM1_MF, VarName=ZONE AIR GENERIC AIR CONTAMINANT CONCENTRATION, Frequency=Hourly
+   ************* Key=LIVING_TF, VarName=ZONE AIR GENERIC AIR CONTAMINANT CONCENTRATION, Frequency=Hourly
+   ************* Key=KITCHEN_TF, VarName=ZONE AIR GENERIC AIR CONTAMINANT CONCENTRATION, Frequency=Hourly
+   ************* Key=BEDROOM1_TF, VarName=ZONE AIR GENERIC AIR CONTAMINANT CONCENTRATION, Frequency=Hourly
+   ************* Key=LIVING_GF, VarName=AFN ZONE INFILTRATION AIR CHANGE RATE, Frequency=Hourly
+   ************* Key=KITCHEN_GF, VarName=AFN ZONE INFILTRATION AIR CHANGE RATE, Frequency=Hourly
+   ************* Key=BEDROOM1_GF, VarName=AFN ZONE INFILTRATION AIR CHANGE RATE, Frequency=Hourly
+   ************* Key=LIVING_MF, VarName=AFN ZONE INFILTRATION AIR CHANGE RATE, Frequency=Hourly
+   ************* Key=KITCHEN_MF, VarName=AFN ZONE INFILTRATION AIR CHANGE RATE, Frequency=Hourly
+   ************* Key=BEDROOM1_MF, VarName=AFN ZONE INFILTRATION AIR CHANGE RATE, Frequency=Hourly
+   ************* Key=LIVING_TF, VarName=AFN ZONE INFILTRATION AIR CHANGE RATE, Frequency=Hourly
+   ************* Key=KITCHEN_TF, VarName=AFN ZONE INFILTRATION AIR CHANGE RATE, Frequency=Hourly
+   ************* Key=BEDROOM1_TF, VarName=AFN ZONE INFILTRATION AIR CHANGE RATE, Frequency=Hourly
+   ************* Key=BEDROOM4, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=COMM, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=ENSUITE, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=LOO, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=STORAGE, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=ENTRANCE, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=UTILITY, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=CONSERVATORY, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=BATH1_GF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=BATH1_MF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=BATH1_TF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=BEDROOM1_GF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=BEDROOM1_MF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=BEDROOM1_TF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=BEDROOM2_GF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=BEDROOM2_MF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=BEDROOM2_TF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=COMM_GF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=COMM_MF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=COMM_TF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=HALL_GF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=HALL_MF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=HALL_TF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=KITCHEN_GF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=KITCHEN_MF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=KITCHEN_TF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=LIVING_GF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=LIVING_MF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=LIVING_TF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=STORAGE_GF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=STORAGE_MF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* Key=STORAGE_TF, VarName=ZONE AIR SYSTEM SENSIBLE HEATING ENERGY, Frequency=Annual
+   ************* There are 1 unused objects in input.
+   ************* Use Output:Diagnostics,DisplayUnusedObjects; to see them.
+   ************* There are 1 unused schedules in input.
+   ************* Use Output:Diagnostics,DisplayUnusedSchedules; to see them.
+   ************* EnergyPlus Warmup Error Summary. During Warmup: 0 Warning; 2 Severe Errors.
+   ************* EnergyPlus Sizing Error Summary. During Sizing: 0 Warning; 0 Severe Errors.
+   ************* EnergyPlus Completed Successfully-- 33 Warning; 4 Severe Errors; Elapsed Time=00hr 00min 29.76sec

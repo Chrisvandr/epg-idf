@@ -1,0 +1,3089 @@
+Version,
+8.1.0.009;
+
+SimulationControl,
+No,
+No,
+No,
+Yes,
+Yes;
+
+Building,
+Box,
+0.0,
+Urban,
+0.04,
+0.4,
+FullExterior,
+25,
+6;
+
+SurfaceConvectionAlgorithm:Inside,
+TARP;
+
+SurfaceConvectionAlgorithm:Outside,
+TARP;
+
+HeatBalanceAlgorithm,
+ConductionTransferFunction,
+200;
+
+Timestep,
+10;
+
+RunPeriod,
+,
+1,
+1,
+1,
+31,
+Monday,
+Yes,
+Yes,
+No,
+Yes,
+Yes,
+1;
+
+Site:GroundTemperature:BuildingSurface,
+8.3,
+6.4,
+5.8,
+6.3,
+8.9,
+11.7,
+14.4,
+16.4,
+17,
+16.1,
+13.8,
+11;
+
+ScheduleTypeLimits,
+Control,
+0,
+4,
+Discrete,
+Control;
+
+ScheduleTypeLimits,
+Thermal,
+-20.0,
+60.0,
+Continuous,
+Temperature;
+
+ScheduleTypeLimits,
+Fraction,
+0.0,
+10.0,
+Continuous,
+Dimensionless;
+
+ScheduleTypeLimits,
+Number,
+0.0,
+1000000000.0,
+Continuous,
+Dimensionless;
+
+Material,
+Gypsum_0.01,
+Rough,
+0.01,
+0.2,
+850,
+850,
+0.9,
+0.6,
+0.7;
+
+Material,
+Brick_0.11,
+Rough,
+0.11,
+0.6,
+1712,
+850,
+0.9,
+0.7,
+0.7;
+
+Material,
+AirGap_0.1,
+Rough,
+0.1,
+0.02485,
+1.204,
+1004,
+0.9,
+0.7,
+0.7;
+
+Material,
+Spruce_0.05,
+Rough,
+0.05,
+0.09,
+455,
+1500,
+0.9,
+0.7,
+0.7;
+
+Material,
+Concrete_0.04,
+Rough,
+0.04,
+1.6,
+2300,
+850,
+0.9,
+0.7,
+0.7;
+
+Material,
+AirGapExt_0.01,
+Rough,
+0.010650123011674355,
+0.02485,
+1.204,
+1004,
+0.9,
+0.7,
+0.7;
+
+Material,
+Spruce_0.0125,
+Rough,
+0.0125,
+0.09,
+455,
+1500,
+0.9,
+0.7,
+0.7;
+
+Material,
+Concrete_0.01,
+Rough,
+0.01,
+1.6,
+2300,
+850,
+0.9,
+0.7,
+0.7;
+
+Material,
+Gypsum_0.1,
+Rough,
+0.1,
+0.2,
+850,
+850,
+0.9,
+0.6,
+0.7;
+
+Material,
+GlassFiberFloor_0.0065,
+Rough,
+0.0075,
+0.04,
+80,
+840,
+0.9,
+0.7,
+0.7;
+
+Material,
+Concrete_0.5,
+Rough,
+0.5,
+1.6,
+2300,
+850,
+0.9,
+0.7,
+0.7;
+
+Material,
+Spruce_0.04,
+Rough,
+0.04,
+0.09,
+455,
+1500,
+0.9,
+0.7,
+0.7;
+
+Material,
+Brick_0.1,
+Rough,
+0.1,
+0.6,
+1712,
+850,
+0.9,
+0.7,
+0.7;
+
+Material,
+AirGapRoof_0.0001,
+Rough,
+0.014005623701581557,
+0.02485,
+1.204,
+1004,
+0.9,
+0.7,
+0.7;
+
+WindowMaterial:Glazing,
+Glass_0.01,
+SpectralAverage,
+,
+0.01,
+0.775,
+0.071,
+0.071,
+0.881,
+0.08,
+0.08,
+0.0,
+0.84,
+0.84,
+0.9;
+
+WindowMaterial:Gas,
+GasWin_0.01,
+Air,
+0.020452067456118803;
+
+WindowMaterial:Shade,
+Drapes_0.004,
+0.05,
+0.3,
+0.05,
+0.3,
+0.9,
+0.0,
+0.004,
+0.1,
+0.05,
+1.0,
+1.0,
+0.0,
+0.0,
+0.0;
+
+
+! Added for thermochromic glazings
+!  WindowMaterial:GlazingGroup:Thermochromic,
+!    TCGlazings,
+!    0 ,  TCGlazing0,
+!    20,  TCGlazing20,
+!    25,  TCGlazing25,
+!    30,  TCGlazing30,
+!    35,  TCGlazing35,
+!    40,  TCGlazing40,
+!    45,  TCGlazing45,
+!    50,  TCGlazing50,
+!    55,  TCGlazing55,
+!    60,  TCGlazing60,
+!    65,  TCGlazing65,
+!    75,  TCGlazing75,
+!    85,  TCGlazing85;
+
+  WindowMaterial:GlazingGroup:Thermochromic,
+    TCGlazings,
+    0 ,  TCGlazing0,
+    2,  TCGlazing20,
+    4,  TCGlazing25,
+    6,  TCGlazing30,
+    8,  TCGlazing35,
+    10,  TCGlazing40,
+    12,  TCGlazing45,
+    14,  TCGlazing50,
+    16,  TCGlazing55,
+    18,  TCGlazing60,
+    20,  TCGlazing65,
+    22,  TCGlazing75,
+    30,  TCGlazing85;
+
+
+WindowMaterial:Glazing,
+  TCGlazing0,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.9000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing20,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.8000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing25,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.7000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing30,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.6000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing35,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.5000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing40,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.4000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing45,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.3000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing50,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.2000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing55,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.1000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing60,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.1000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing65,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.1000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing75,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.1000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+WindowMaterial:Glazing,
+  TCGlazing85,  !- Name
+  SpectralAverage,  !- Optical Data Type
+  ,        !- Window Glass Spectral Data Set Name
+  0.0030,  !- Thickness
+  0.2442,  !- Solar Transmittance at Normal Incidence
+  0.7058,  !- Front Side Solar Reflectance at Normal Incidence
+  0.7058,  !- Back Side Solar Reflectance at Normal Incidence
+  0.3192,  !- Visible Transmittance at Normal Incidence
+  0.6308,  !- Front Side Visible Reflectance at Normal Incidence
+  0.6308,  !- Back Side Visible Reflectance at Normal Incidence
+  0.0000,  !- Infrared Transmittance at Normal Incidence
+  0.1000,  !- Front Side Infrared Hemispherical Emissivity
+  0.9000,  !- Back Side Infrared Hemispherical Emissivity
+  0.0199,  !- Conductivity
+  1.0000,  !- Dirt Correction Factor for Solar and Visible Transmittance
+  No;      !- Solar Diffusing
+
+
+Construction,
+Window_RandomU,
+Glass_0.01,
+GasWin_0.01,
+TCGlazings;
+
+Construction,
+LoftCeiling_RandomU,
+Gypsum_0.01,
+AirGapRoof_0.0001,
+Spruce_0.0125,
+Concrete_0.01;
+
+Construction,
+CAVITY_RandomU,
+Brick_0.11,
+AirGapExt_0.01,
+Brick_0.11,
+Gypsum_0.01;
+
+Construction,
+Suspended_Wooden_Ceiling,
+Spruce_0.05,
+AirGap_0.1,
+Gypsum_0.01;
+
+Construction,
+Curtains,
+Glass_0.01,
+GasWin_0.01,
+TCGlazings,
+Drapes_0.004;
+
+Construction,
+Single_Brick_Internal_Wall,
+Gypsum_0.01,
+Brick_0.1,
+Gypsum_0.01;
+
+Construction,
+3.10_Roof,
+Concrete_0.04,
+Gypsum_0.01;
+
+Construction,
+LoftFloor_RandomU,
+Concrete_0.01,
+Spruce_0.0125,
+AirGapRoof_0.0001,
+Gypsum_0.01;
+
+Construction,
+Suspended_Wooden_Floor,
+Gypsum_0.01,
+AirGap_0.1,
+Spruce_0.05;
+
+Construction,
+Wooden_Door,
+Spruce_0.04;
+
+Construction,
+FLOOR_RandomU,
+Concrete_0.5,
+GlassFiberFloor_0.0065,
+Gypsum_0.1;
+
+AirflowNetwork:SimulationControl,
+AF1,
+MultiZoneWithoutDistribution,
+Input,
+WParray,
+ExternalNode,
+LowRise,
+500,
+ZeroNodePressures,
+0.0001,
+1.E-6,
+-0.5,
+0,
+1;
+
+AirflowNetwork:MultiZone:ReferenceCrackConditions,
+RCC1,
+20,
+101325,
+0;
+
+AirflowNetwork:MultiZone:WindPressureCoefficientArray,
+WParray,
+0.0,
+30.0,
+60.0,
+90.0,
+120.0,
+150.0,
+180.0,
+210.0,
+240.0,
+270.0,
+300.0,
+330.0,
+360.0;
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+L2,
+WParray,
+-0.34,
+0.183,
+0.48,
+0.603,
+0.603,
+0.48,
+0.183,
+-0.34,
+-0.632,
+-0.37,
+-0.452,
+-0.37,
+-0.632;
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+Ceiling,
+WParray,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0;
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+L1,
+WParray,
+0.603,
+0.48,
+0.183,
+-0.34,
+-0.632,
+-0.37,
+-0.452,
+-0.37,
+-0.632,
+-0.34,
+0.183,
+0.48,
+0.603;
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+L4,
+WParray,
+-0.34,
+-0.632,
+-0.37,
+-0.452,
+-0.37,
+-0.632,
+-0.34,
+0.183,
+0.48,
+0.603,
+0.603,
+0.48,
+0.183;
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+L3,
+WParray,
+-0.452,
+-0.37,
+-0.632,
+-0.34,
+0.183,
+0.48,
+0.603,
+0.48,
+0.183,
+-0.34,
+-0.632,
+-0.37,
+-0.452;
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+Floor,
+WParray,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0;
+
+ZoneAirContaminantBalance,
+No,
+,
+Yes,
+Gas_PM25_test_Outside_Contaminant_;
+
+GlobalGeometryRules,
+UpperLeftCorner,
+CounterClockwise,
+Relative;
+
+Shading:Building:Detailed,
+House1_0,
+,
+4,
+16.0,
+0.0,
+0.0,
+16.0,
+0.0,
+2.7,
+8.0,
+0.0,
+2.7,
+8.0,
+0.0,
+0.0;
+
+Shading:Building:Detailed,
+House1_1,
+,
+4,
+8.0,
+0.0,
+0.0,
+8.0,
+0.0,
+2.7,
+8.0,
+-4.0,
+2.7,
+8.0,
+-4.0,
+0.0;
+
+Shading:Building:Detailed,
+House1_2,
+,
+4,
+8.0,
+-4.0,
+0.0,
+8.0,
+-4.0,
+2.7,
+16.0,
+-4.0,
+2.7,
+16.0,
+-4.0,
+0.0;
+
+Shading:Building:Detailed,
+House1_3,
+,
+4,
+16.0,
+-4.0,
+0.0,
+16.0,
+-4.0,
+2.7,
+16.0,
+0.0,
+2.7,
+16.0,
+0.0,
+0.0;
+
+Shading:Building:Detailed,
+House1_RoofShade_0,
+,
+3,
+12.0,
+0.0,
+4.7,
+8.0,
+0.0,
+2.7,
+16.0,
+0.0,
+2.7;
+
+Shading:Building:Detailed,
+House1_RoofShade_1,
+,
+4,
+12.0,
+0.0,
+4.7,
+12.0,
+-4.0,
+4.7,
+8.0,
+-4.0,
+2.7,
+8.0,
+0.0,
+2.7;
+
+Shading:Building:Detailed,
+House1_RoofShade_2,
+,
+3,
+12.0,
+-4.0,
+4.7,
+16.0,
+-4.0,
+2.7,
+8.0,
+-4.0,
+2.7;
+
+Shading:Building:Detailed,
+House1_RoofShade_3,
+,
+4,
+12.0,
+-4.0,
+4.7,
+12.0,
+0.0,
+4.7,
+16.0,
+0.0,
+2.7,
+16.0,
+-4.0,
+2.7;
+
+Zone,
+Living,
+0.0,
+0.0,
+0.0,
+0.0;
+
+AirflowNetwork:MultiZone:Zone,
+Living,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+ZoneContaminantSourceAndSink:Generic:DepositionRateSink,
+Gas_PM25_test_Living_DepRate_,
+Living,
+5e-05,
+Gas_PM25_test_Living_DepRate_;
+
+BuildingSurface:Detailed,
+Living_Floor,
+Floor,
+FLOOR_RandomU,
+Living,
+Ground,
+,
+NoSun,
+NoWind,
+autocalculate,
+autocalculate,
+0.0,
+0.0,
+0.0,
+8.0,
+0.0,
+0.0,
+8.0,
+-4.0,
+0.0,
+0.0,
+-4.0,
+0.0;
+
+BuildingSurface:Detailed,
+Living_L1,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+0.0,
+0.0,
+2.6,
+8.0,
+0.0,
+2.6,
+8.0,
+0.0,
+0.1,
+0.0,
+0.0,
+0.1;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L1,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L1,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+BuildingSurface:Detailed,
+Living_L2,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+8.0,
+0.0,
+2.6,
+8.0,
+-4.0,
+2.6,
+8.0,
+-4.0,
+0.1,
+8.0,
+0.0,
+0.1;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L2,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L2,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+BuildingSurface:Detailed,
+Living_L3,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+8.0,
+-4.0,
+2.6,
+0.0,
+-4.0,
+2.6,
+0.0,
+-4.0,
+0.1,
+8.0,
+-4.0,
+0.1;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L3,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L3,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+BuildingSurface:Detailed,
+Living_L4,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+0.0,
+-4.0,
+2.6,
+0.0,
+0.0,
+2.6,
+0.0,
+0.0,
+0.1,
+0.0,
+-4.0,
+0.1;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L4,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L4,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+FenestrationSurface:Detailed,
+Living_L4_window,
+Window,
+Window_RandomU,
+Living_L4,
+,
+autocalculate,
+Living_L4_window_Shader,
+,
+,
+autocalculate,
+0.0,
+-3.095445115010332,
+2.0346531968814574,
+0.0,
+-0.9046,
+2.0347,
+0.0,
+-0.9046,
+0.6654,
+0.0,
+-3.0955,
+0.6654;
+
+WindowProperty:ShadingControl,
+Living_L4_window_Shader,
+InteriorShade,
+Curtains,
+OnIfScheduleAllows,
+Window_shading_Living_Window_Shading_,
+,
+Yes,
+No,
+,
+FixedSlatAngle,
+ ;
+
+AirflowNetwork:MultiZone:Surface,
+Living_L4_window,
+Living_L4_window_Opening,
+Living_L4_window_extN,
+1.0,
+Temperature,
+Window_temperatureX_Living_Window_Temperature_,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Living_L4_window_extN,
+1.3499999999999999,
+L4;
+
+AirflowNetwork:MultiZone:Component:DetailedOpening,
+Living_L4_window_Opening,
+1e-08,
+0.66,
+HorizontallyPivoted,
+0.0,
+2,
+0.0,
+0.6,
+0.0,
+0.0,
+0.0,
+1.0,
+0.5,
+1.0,
+0.33333,
+0.66666;
+
+BuildingSurface:Detailed,
+Living_Ceiling,
+Ceiling,
+LoftCeiling_RandomU,
+Living,
+Surface,
+Attic_Floor,
+NoSun,
+NoWind,
+autocalculate,
+autocalculate,
+0.0,
+0.0,
+2.7,
+0.0,
+-4.0,
+2.7,
+8.0,
+-4.0,
+2.7,
+8.0,
+0.0,
+2.7;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_Ceiling,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+8.29;
+
+BuildingSurface:Detailed,
+Living_L1_pu,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+0.0,
+0.0,
+2.7,
+8.0,
+0.0,
+2.7,
+8.0,
+0.0,
+2.6,
+0.0,
+0.0,
+2.6;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L1_pu,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L1_pu,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Living_L1_pu,
+Living_L1_pu_Crack,
+Living_L1_pu_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Living_L1_pu_Crack,
+0.005058640060302036,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Living_L1_pu_extN,
+2.6500000000000004,
+L1;
+
+BuildingSurface:Detailed,
+Living_L1_pd,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+0.0,
+0.0,
+0.1,
+8.0,
+0.0,
+0.1,
+8.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L1_pd,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L1_pd,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Living_L1_pd,
+Living_L1_pd_Crack,
+Living_L1_pd_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Living_L1_pd_Crack,
+0.005058640060302036,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Living_L1_pd_extN,
+0.05,
+L1;
+
+BuildingSurface:Detailed,
+Living_L2_pu,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+8.0,
+0.0,
+2.7,
+8.0,
+-4.0,
+2.7,
+8.0,
+-4.0,
+2.6,
+8.0,
+0.0,
+2.6;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L2_pu,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L2_pu,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Living_L2_pu,
+Living_L2_pu_Crack,
+Living_L2_pu_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Living_L2_pu_Crack,
+0.002529320030151018,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Living_L2_pu_extN,
+2.6500000000000004,
+L2;
+
+BuildingSurface:Detailed,
+Living_L2_pd,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+8.0,
+0.0,
+0.1,
+8.0,
+-4.0,
+0.1,
+8.0,
+-4.0,
+0.0,
+8.0,
+0.0,
+0.0;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L2_pd,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L2_pd,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Living_L2_pd,
+Living_L2_pd_Crack,
+Living_L2_pd_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Living_L2_pd_Crack,
+0.002529320030151018,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Living_L2_pd_extN,
+0.05,
+L2;
+
+BuildingSurface:Detailed,
+Living_L3_pu,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+8.0,
+-4.0,
+2.7,
+0.0,
+-4.0,
+2.7,
+0.0,
+-4.0,
+2.6,
+8.0,
+-4.0,
+2.6;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L3_pu,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L3_pu,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Living_L3_pu,
+Living_L3_pu_Crack,
+Living_L3_pu_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Living_L3_pu_Crack,
+0.005058640060302036,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Living_L3_pu_extN,
+2.6500000000000004,
+L3;
+
+BuildingSurface:Detailed,
+Living_L3_pd,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+8.0,
+-4.0,
+0.1,
+0.0,
+-4.0,
+0.1,
+0.0,
+-4.0,
+0.0,
+8.0,
+-4.0,
+0.0;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L3_pd,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L3_pd,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Living_L3_pd,
+Living_L3_pd_Crack,
+Living_L3_pd_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Living_L3_pd_Crack,
+0.005058640060302036,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Living_L3_pd_extN,
+0.05,
+L3;
+
+BuildingSurface:Detailed,
+Living_L4_pu,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+0.0,
+-4.0,
+2.7,
+0.0,
+0.0,
+2.7,
+0.0,
+0.0,
+2.6,
+0.0,
+-4.0,
+2.6;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L4_pu,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L4_pu,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Living_L4_pu,
+Living_L4_pu_Crack,
+Living_L4_pu_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Living_L4_pu_Crack,
+0.002529320030151018,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Living_L4_pu_extN,
+2.6500000000000004,
+L4;
+
+BuildingSurface:Detailed,
+Living_L4_pd,
+Wall,
+CAVITY_RandomU,
+Living,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+0.0,
+-4.0,
+0.1,
+0.0,
+0.0,
+0.1,
+0.0,
+0.0,
+0.0,
+0.0,
+-4.0,
+0.0;
+
+SurfaceProperty:ConvectionCoefficients,
+Living_L4_pd,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Living_L4_pd,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Living_L4_pd,
+Living_L4_pd_Crack,
+Living_L4_pd_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Living_L4_pd_Crack,
+0.002529320030151018,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Living_L4_pd_extN,
+0.05,
+L4;
+
+ZoneControl:Thermostat,
+Living_Thermostat,
+Living,
+Heat1_Living_Heating_,
+ThermostatSetpoint:SingleHeating,
+Living_stat;
+
+ThermostatSetpoint:SingleHeating,
+Living_stat,
+ComfX_Living_Comfort_;
+
+ZoneHVAC:Baseboard:Convective:Electric,
+Living_heater,
+Heat1_Living_Heating_,
+3200.0,
+1.0;
+
+ZoneHVAC:EquipmentList,
+Living_equiplist,
+ZoneHVAC:Baseboard:Convective:Electric,
+Living_heater,
+1,
+1;
+
+ZoneHVAC:EquipmentConnections,
+Living,
+Living_equiplist,
+,
+,
+Living_Air,
+Living_Outlet;
+
+Zone,
+Attic,
+0.0,
+0.0,
+0.0,
+0.0;
+
+AirflowNetwork:MultiZone:Zone,
+Attic,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+ZoneContaminantSourceAndSink:Generic:DepositionRateSink,
+Gas_PM25_test_Attic_DepRate_,
+Attic,
+5e-05,
+Gas_PM25_test_Attic_DepRate_;
+
+BuildingSurface:Detailed,
+Attic_Floor,
+Floor,
+LoftFloor_RandomU,
+Attic,
+Surface,
+Living_Ceiling,
+NoSun,
+NoWind,
+autocalculate,
+autocalculate,
+0.0,
+0.0,
+2.7,
+8.0,
+0.0,
+2.7,
+8.0,
+-4.0,
+2.7,
+0.0,
+-4.0,
+2.7;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_Floor,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+8.29;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_Floor,
+Attic_Floor_Crack,
+,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Attic_Floor_Crack,
+0.016187648192966513,
+0.66,
+RCC1;
+
+BuildingSurface:Detailed,
+Attic_Side_L1,
+Wall,
+CAVITY_RandomU,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+3.8000000000000003,
+0.0,
+4.6000000000000005,
+4.2,
+0.0,
+4.6,
+7.8,
+0.0,
+2.8,
+0.2,
+0.0,
+2.8;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_Side_L1,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Attic_Side_L1,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+BuildingSurface:Detailed,
+Attic_PitchCeiling_L2,
+Ceiling,
+3.10_Roof,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+4.2,
+0.0,
+4.6000000000000005,
+4.2,
+-4.0,
+4.6,
+7.8,
+-4.0,
+2.8,
+7.8,
+0.0,
+2.8;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_PitchCeiling_L2,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+8.29;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_PitchCeiling_L2,
+Attic_PitchCeiling_L2_ELA,
+Attic_PitchCeiling_L2_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:EffectiveLeakageArea,
+Attic_PitchCeiling_L2_ELA,
+0.04,
+1.0,
+4.0,
+0.66;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_PitchCeiling_L2_extN,
+3.7000000000000006,
+L2;
+
+BuildingSurface:Detailed,
+Attic_Side_L3,
+Wall,
+CAVITY_RandomU,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+4.2,
+-4.0,
+4.6000000000000005,
+3.8,
+-4.0,
+4.6,
+0.2,
+-4.0,
+2.8,
+7.8,
+-4.0,
+2.8;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_Side_L3,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Attic_Side_L3,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+BuildingSurface:Detailed,
+Attic_PitchCeiling_L4,
+Ceiling,
+3.10_Roof,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+3.8,
+-4.0,
+4.6000000000000005,
+3.8,
+0.0,
+4.6,
+0.2,
+0.0,
+2.8,
+0.2,
+-4.0,
+2.8;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_PitchCeiling_L4,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+8.29;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_PitchCeiling_L4,
+Attic_PitchCeiling_L4_ELA,
+Attic_PitchCeiling_L4_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:EffectiveLeakageArea,
+Attic_PitchCeiling_L4_ELA,
+0.04,
+1.0,
+4.0,
+0.66;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_PitchCeiling_L4_extN,
+3.7000000000000006,
+L4;
+
+BuildingSurface:Detailed,
+Attic_PitchCeiling_L2_pu,
+Ceiling,
+3.10_Roof,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+4.0,
+0.0,
+4.7,
+4.0,
+-4.0,
+4.7,
+4.2,
+-4.0,
+4.6,
+4.2,
+0.0,
+4.6;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_PitchCeiling_L2_pu,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+8.29;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_PitchCeiling_L2_pu,
+Attic_PitchCeiling_L2_pu_Crack,
+Attic_PitchCeiling_L2_pu_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Attic_PitchCeiling_L2_pu_Crack,
+0.004072126697474036,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_PitchCeiling_L2_pu_extN,
+4.65,
+L2;
+
+BuildingSurface:Detailed,
+Attic_PitchCeiling_L2_pd,
+Ceiling,
+3.10_Roof,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+7.8,
+0.0,
+2.8000000000000003,
+7.8,
+-4.0,
+2.8,
+8.0,
+-4.0,
+2.7,
+8.0,
+0.0,
+2.7;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_PitchCeiling_L2_pd,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+8.29;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_PitchCeiling_L2_pd,
+Attic_PitchCeiling_L2_pd_Crack,
+Attic_PitchCeiling_L2_pd_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Attic_PitchCeiling_L2_pd_Crack,
+0.004072126697474036,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_PitchCeiling_L2_pd_extN,
+2.7500000000000004,
+L2;
+
+BuildingSurface:Detailed,
+Attic_PitchCeiling_L4_pu,
+Ceiling,
+3.10_Roof,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+4.0,
+-4.0,
+4.7,
+4.0,
+0.0,
+4.7,
+3.8,
+0.0,
+4.6,
+3.8,
+-4.0,
+4.6;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_PitchCeiling_L4_pu,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+8.29;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_PitchCeiling_L4_pu,
+Attic_PitchCeiling_L4_pu_Crack,
+Attic_PitchCeiling_L4_pu_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Attic_PitchCeiling_L4_pu_Crack,
+0.004072126697474036,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_PitchCeiling_L4_pu_extN,
+4.65,
+L4;
+
+BuildingSurface:Detailed,
+Attic_PitchCeiling_L4_pd,
+Ceiling,
+3.10_Roof,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+0.2,
+-4.0,
+2.8000000000000003,
+0.2,
+0.0,
+2.8,
+0.0,
+0.0,
+2.7,
+0.0,
+-4.0,
+2.7;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_PitchCeiling_L4_pd,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+8.29;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_PitchCeiling_L4_pd,
+Attic_PitchCeiling_L4_pd_Crack,
+Attic_PitchCeiling_L4_pd_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Attic_PitchCeiling_L4_pd_Crack,
+0.004072126697474036,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_PitchCeiling_L4_pd_extN,
+2.7500000000000004,
+L4;
+
+BuildingSurface:Detailed,
+Attic_Side_L1_pu,
+Wall,
+CAVITY_RandomU,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+4.0,
+0.0,
+4.7,
+4.2,
+0.0,
+4.6,
+3.8,
+0.0,
+4.6;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_Side_L1_pu,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Attic_Side_L1_pu,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_Side_L1_pu,
+Attic_Side_L1_pu_Crack,
+Attic_Side_L1_pu_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Attic_Side_L1_pu_Crack,
+9.105552108543698e-05,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_Side_L1_pu_extN,
+4.65,
+L1;
+
+BuildingSurface:Detailed,
+Attic_Side_L1_pd,
+Wall,
+CAVITY_RandomU,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+0.20000000000000107,
+0.0,
+2.8000000000000007,
+7.8,
+0.0,
+2.8,
+8.0,
+0.0,
+2.7,
+0.0,
+0.0,
+2.7;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_Side_L1_pd,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Attic_Side_L1_pd,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_Side_L1_pd,
+Attic_Side_L1_pd_Crack,
+Attic_Side_L1_pd_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Attic_Side_L1_pd_Crack,
+0.003551165322332031,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_Side_L1_pd_extN,
+2.7504273504273513,
+L1;
+
+BuildingSurface:Detailed,
+Attic_Side_L3_pu,
+Wall,
+CAVITY_RandomU,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+4.0,
+-4.0,
+4.7,
+3.8,
+-4.0,
+4.6,
+4.2,
+-4.0,
+4.6;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_Side_L3_pu,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Attic_Side_L3_pu,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_Side_L3_pu,
+Attic_Side_L3_pu_Crack,
+Attic_Side_L3_pu_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Attic_Side_L3_pu_Crack,
+9.105552108543698e-05,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_Side_L3_pu_extN,
+4.65,
+L3;
+
+BuildingSurface:Detailed,
+Attic_Side_L3_pd,
+Wall,
+CAVITY_RandomU,
+Attic,
+Outdoors,
+,
+SunExposed,
+WindExposed,
+autocalculate,
+autocalculate,
+7.799999999999999,
+-4.0,
+2.8000000000000007,
+0.2,
+-4.0,
+2.8,
+0.0,
+-4.0,
+2.7,
+8.0,
+-4.0,
+2.7;
+
+SurfaceProperty:ConvectionCoefficients,
+Attic_Side_L3_pd,
+Inside,
+Value,
+8.29,
+,
+,
+Outside,
+Value,
+29.3;
+
+SurfaceProperties:VaporCoefficients,
+Attic_Side_L3_pd,
+Yes,
+6.25e-08,
+Yes,
+2e-08;
+
+AirflowNetwork:MultiZone:Surface,
+Attic_Side_L3_pd,
+Attic_Side_L3_pd_Crack,
+Attic_Side_L3_pd_extN,
+1.0,
+Constant,
+,
+1.0,
+0.0,
+100.0,
+0.0,
+300000.0;
+
+AirflowNetwork:MultiZone:Surface:Crack,
+Attic_Side_L3_pd_Crack,
+0.003551165322332031,
+0.66,
+RCC1;
+
+AirflowNetwork:MultiZone:ExternalNode,
+Attic_Side_L3_pd_extN,
+2.7504273504273513,
+L3;
+
+Schedule:Compact,
+Gas_PM25_test_Living_DepRate_,
+Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,
+1;
+
+Schedule:Compact,
+Window_temperatureX_Living_Window_Temperature_,
+Thermal,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,
+24.0;
+
+Schedule:Compact,
+Window_shading_Living_Window_Shading_,
+Control,
+Through: 12/31,
+For: AllDays,
+Until: 08:00,
+1,
+Until: 22:00,
+0,
+Until: 24:00,
+1;
+
+Schedule:Compact,
+Heat1_Living_Heating_,
+Control,
+Through: 12/31,
+For: AllDays,
+Until: 06:00,
+0,
+Until: 08:00,
+1,
+Until: 17:00,
+0,
+Until: 21:00,
+1,
+Until: 24:00,
+0;
+
+Schedule:Compact,
+ComfX_Living_Comfort_,
+Thermal,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,
+22.0;
+
+Schedule:Compact,
+Gas_PM25_test_Attic_DepRate_,
+Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,
+1;
+
+Schedule:Compact,
+Gas_PM25_test_Outside_Contaminant_,
+Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,
+0.0614;
+
+Output:Variable,
+*,
+Site Outdoor Air Relative Humidity,
+Hourly;
+
+Output:Variable,
+*,
+Site Outdoor Air Drybulb Temperature,
+Hourly;
+
+Output:Variable,
+Living,
+Zone Operative Temperature,
+Hourly;
+
+Output:Variable,
+Bedroom1,
+Zone Operative Temperature,
+Hourly;
+
+Output:Variable,
+Living_GF,
+Zone Operative Temperature,
+Hourly;
+
+Output:Variable,
+Bedroom1_GF,
+Zone Operative Temperature,
+Hourly;
+
+Output:Variable,
+Living_MF,
+Zone Operative Temperature,
+Hourly;
+
+Output:Variable,
+Bedroom1_MF,
+Zone Operative Temperature,
+Hourly;
+
+Output:Variable,
+Living_TF,
+Zone Operative Temperature,
+Hourly;
+
+Output:Variable,
+Bedroom1_TF,
+Zone Operative Temperature,
+Hourly;
+
+Output:Variable,
+Living,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Kitchen,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Bedroom1,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Bath1,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Living_GF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Kitchen_GF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Bedroom1_GF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Bath1_GF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Living_MF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Kitchen_MF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Bedroom1_MF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Bath1_MF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Living_TF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Kitchen_TF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Bedroom1_TF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Bath1_TF,
+Zone Air Relative Humidity ,
+Hourly;
+
+Output:Variable,
+Living,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Kitchen,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Bedroom1,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Living_GF,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Kitchen_GF,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Bedroom1_GF,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Living_MF,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Kitchen_MF,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Bedroom1_MF,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Living_TF,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Kitchen_TF,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Bedroom1_TF,
+Zone Air Generic Air Contaminant Concentration,
+Hourly;
+
+Output:Variable,
+Living,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Kitchen,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Bedroom1,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Living_GF,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Kitchen_GF,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Bedroom1_GF,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Living_MF,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Kitchen_MF,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Bedroom1_MF,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Living_TF,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Kitchen_TF,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Bedroom1_TF,
+AFN Zone Infiltration Air Change Rate,
+Hourly;
+
+Output:Variable,
+Kitchen,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Living,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom1,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom2,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom3,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom4,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bath1,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Comm,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Ensuite,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Loo,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Storage,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Entrance,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Staircase,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Dining,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Hall,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+TopHall,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Utility,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Conservatory,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bath1_GF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bath1_MF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bath1_TF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom1_GF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom1_MF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom1_TF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom2_GF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom2_MF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Bedroom2_TF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Comm_GF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Comm_MF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Comm_TF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Hall_GF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Hall_MF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Hall_TF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Kitchen_GF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Kitchen_MF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Kitchen_TF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Living_GF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Living_MF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Living_TF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Storage_GF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Storage_MF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+Output:Variable,
+Storage_TF,
+Zone Air System Sensible Heating Energy,
+RunPeriod;
+
+  Output:Variable,Living_L4_window,Surface Window Thermochromic Layer Temperature,Hourly;
+
+  Output:Variable,Living_L4_window,Surface Window Thermochromic Layer Property Specification Temperature,Hourly;
+
+  Output:Variable,Living_L4_window,Surface Window Transmitted Solar Radiation Rate,Hourly;

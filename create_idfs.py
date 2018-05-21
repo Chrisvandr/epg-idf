@@ -34,6 +34,7 @@ if sys.platform=='win32':
     #rootdir="/".join(__file__.split('\\')[:-1])
     rootdir=os.path.dirname(os.path.abspath(__file__))
     harddrive_idfs="C:/EngD_hardrive/UCL_DemandLogic"
+    # harddrive_idfs="D:/EngD_hardrive/UCL_DemandLogic"
     idfdir=os.path.dirname(os.path.abspath(__file__))+"\IDFs"
     epdir="C:/EnergyPlusV8-6-0"
 else:
@@ -229,194 +230,215 @@ def replace_schedules(run_file, lhd, input_values, input_names, occ_schedules, l
     if building_abr in {'CH'}: #'MPEB'
         if parallel_simulation:
             #rand = 6
-            rand = random.choice(range(22))
+            #todo make this more efficient....
+            if building_abr == 'CH':
+                setpoints_strategy = [3, 4, 5, 10, 11, 12, 18, 19, 20, 26, 27, 28, 34, 35, 36, 37, 38]
+                rand = random.choice(setpoints_strategy)
+            else:
+                rand = random.choice(range(36))
+
+            if rand == 0:
+                HeatingSched = scheds['h_sched_225']
+                CoolingSched = scheds['c_sched_225']
+                hp, db = 22, 0
+            elif rand == 1:
+                HeatingSched = scheds['h_sched_225']
+                CoolingSched = scheds['c_sched_225']
+                hp, db = 22.5, 0
+            elif rand == 2:
+                HeatingSched = scheds['h_sched_230']
+                CoolingSched = scheds['c_sched_230']
+                hp, db = 23, 0
+            elif rand == 3:
+                HeatingSched = scheds['h_sched_235']
+                CoolingSched = scheds['c_sched_235']
+                hp, db = 23.5, 0
+            elif rand == 4:
+                HeatingSched = scheds['h_sched_240']
+                CoolingSched = scheds['c_sched_240']
+                hp, db = 24, 0
+            elif rand == 5:
+                HeatingSched = scheds['h_sched_245']
+                CoolingSched = scheds['c_sched_245']
+                hp, db = 24.5, 0
+
+            elif rand == 6:
+                HeatingSched = scheds['h_sched_215']
+                CoolingSched = scheds['c_sched_220']
+                hp, db = 21.5, 0.5
+
+            elif rand == 7:
+                HeatingSched = scheds['h_sched_220']
+                CoolingSched = scheds['c_sched_225']
+                hp, db = 22, 0.5
+
+            elif rand == 8:
+                HeatingSched = scheds['h_sched_225']
+                CoolingSched = scheds['c_sched_230']
+                hp, db = 22.5, 0.5
+
+            elif rand == 9:
+                HeatingSched = scheds['h_sched_230']
+                CoolingSched = scheds['c_sched_235']
+                hp, db = 23, 0.5
+
+            elif rand == 10:
+                HeatingSched = scheds['h_sched_235']
+                CoolingSched = scheds['c_sched_240']
+                hp, db = 23.5, 0.5
+
+            elif rand == 11:
+                HeatingSched = scheds['h_sched_240']
+                CoolingSched = scheds['c_sched_245']
+                hp, db = 24, 0.5
+
+            elif rand == 12:
+                HeatingSched = scheds['h_sched_245']
+                CoolingSched = scheds['c_sched_250']
+                hp, db = 24.5, 0.5
+
+            elif rand == 13:
+                HeatingSched = scheds['h_sched_210']
+                CoolingSched = scheds['c_sched_220']
+                hp, db = 21, 1
+
+            elif rand == 14:
+                HeatingSched = scheds['h_sched_215']
+                CoolingSched = scheds['c_sched_225']
+                hp, db = 21.5, 1
+
+            elif rand == 15:
+                HeatingSched = scheds['h_sched_220']
+                CoolingSched = scheds['c_sched_230']
+                hp, db = 22, 1
+
+            elif rand == 16:
+                HeatingSched = scheds['h_sched_225']
+                CoolingSched = scheds['c_sched_235']
+                hp, db = 22.5, 1
+
+            elif rand == 17:
+                HeatingSched = scheds['h_sched_230']
+                CoolingSched = scheds['c_sched_240']
+                hp, db = 23, 1
+
+            elif rand == 18:
+                HeatingSched = scheds['h_sched_235']
+                CoolingSched = scheds['c_sched_245']
+                hp, db = 23.5, 1
+
+            elif rand == 19:
+                HeatingSched = scheds['h_sched_240']
+                CoolingSched = scheds['c_sched_250']
+                hp, db = 24, 1
+
+            elif rand == 20:
+                HeatingSched = scheds['h_sched_245']
+                CoolingSched = scheds['c_sched_255']
+                hp, db = 24.5, 1
+
+            elif rand == 21:
+                HeatingSched = scheds['h_sched_210']
+                CoolingSched = scheds['c_sched_225']
+                hp, db = 21, 1.5
+
+            elif rand == 22:
+                HeatingSched = scheds['h_sched_215']
+                CoolingSched = scheds['c_sched_230']
+                hp, db = 21.5, 1.5
+
+            elif rand == 23:
+                HeatingSched = scheds['h_sched_220']
+                CoolingSched = scheds['c_sched_235']
+                hp, db = 22, 1.5
+
+            elif rand == 24:
+                HeatingSched = scheds['h_sched_225']
+                CoolingSched = scheds['c_sched_240']
+                hp, db = 22.5, 1.5
+
+            elif rand == 25:
+                HeatingSched = scheds['h_sched_230']
+                CoolingSched = scheds['c_sched_245']
+                hp, db = 23, 1.5
+
+            elif rand == 26:
+                HeatingSched = scheds['h_sched_235']
+                CoolingSched = scheds['c_sched_250']
+                hp, db = 23.5, 1.5
+
+            elif rand == 27:
+                HeatingSched = scheds['h_sched_240']
+                CoolingSched = scheds['c_sched_255']
+                hp, db = 24, 1.5
+
+            elif rand == 28:
+                HeatingSched = scheds['h_sched_245']
+                CoolingSched = scheds['c_sched_260']
+                hp, db = 24.5, 1.5
+
+            elif rand == 29:
+                HeatingSched = scheds['h_sched_210']
+                CoolingSched = scheds['c_sched_230']
+                hp, db = 21, 2
+
+            elif rand == 30:
+                HeatingSched = scheds['h_sched_215']
+                CoolingSched = scheds['c_sched_235']
+                hp, db = 21.5, 2
+
+            elif rand == 31:
+                HeatingSched = scheds['h_sched_220']
+                CoolingSched = scheds['c_sched_240']
+                hp, db = 22, 2
+
+            elif rand == 32:
+                HeatingSched = scheds['h_sched_225']
+                CoolingSched = scheds['c_sched_245']
+                hp, db = 22.5, 2
+
+            elif rand == 33:
+                HeatingSched = scheds['h_sched_230']
+                CoolingSched = scheds['c_sched_250']
+                hp, db = 23, 2
+
+            elif rand == 34:
+                HeatingSched = scheds['h_sched_235']
+                CoolingSched = scheds['c_sched_255']
+                hp, db = 23.5, 2
+
+            elif rand == 35:
+                HeatingSched = scheds['h_sched_240']
+                CoolingSched = scheds['c_sched_260']
+                hp, db = 24, 2
+
+            elif rand == 36:
+                HeatingSched = scheds['h_sched_245']
+                CoolingSched = scheds['c_sched_265']
+                hp, db = 24.5, 2
+
+            elif rand == 37:
+                HeatingSched = scheds['h_sched_245']
+                CoolingSched = scheds['c_sched_270']
+                hp, db = 24.5, 2.5
+
+            elif rand == 38:
+                HeatingSched = scheds['h_sched_240']
+                CoolingSched = scheds['c_sched_270']
+                hp, db = 24, 3
+
+            var_num += 1
 
         elif base_case:
             #rand = 4 # 23,23
-            rand = 6 # 23,24
-
-        if rand == 0:
-            HeatingSched = scheds['h_sched_225']
-            CoolingSched = scheds['c_sched_225']
-            hp, db = 22, 0
-
-        elif rand == 1:
-            HeatingSched = scheds['h_sched_225']
-            CoolingSched = scheds['c_sched_225']
-            hp, db = 22.5, 0
-
-        elif rand == 2:
-            HeatingSched = scheds['h_sched_23']
-            CoolingSched = scheds['c_sched_23']
-            hp, db = 23, 0
-
-        elif rand == 3:
-            HeatingSched = scheds['h_sched_215']
-            CoolingSched = scheds['c_sched_22']
-            hp, db = 21.5, 0.5
-
-        elif rand == 4:
-            HeatingSched = scheds['h_sched_22']
-            CoolingSched = scheds['c_sched_225']
-            hp, db = 22, 0.5
-
-        elif rand == 5:
-            HeatingSched = scheds['h_sched_225']
-            CoolingSched = scheds['c_sched_23']
-            hp, db = 22.5, 0.5
-
-        elif rand == 6:
-            HeatingSched = scheds['h_sched_23']
-            CoolingSched = scheds['c_sched_235']
-            hp, db = 23, 0.5
-
-        elif rand == 7:
-            HeatingSched = scheds['h_sched_21']
-            CoolingSched = scheds['c_sched_22']
-            hp, db = 21, 1
-
-        elif rand == 8:
-            HeatingSched = scheds['h_sched_215']
-            CoolingSched = scheds['c_sched_225']
-            hp, db = 21.5, 1
-
-        elif rand == 9:
-            HeatingSched = scheds['h_sched_22']
-            CoolingSched = scheds['c_sched_23']
-            hp, db = 22, 1
-
-        elif rand == 10:
-            HeatingSched = scheds['h_sched_225']
-            CoolingSched = scheds['c_sched_235']
-            hp, db = 22.5, 1
-
-        elif rand == 11:
-            HeatingSched = scheds['h_sched_23']
-            CoolingSched = scheds['c_sched_24']
-            hp, db = 23, 1
-
-        elif rand == 12:
-            HeatingSched = scheds['h_sched_21']
-            CoolingSched = scheds['c_sched_225']
-            hp, db = 21, 1.5
-
-        elif rand == 13:
-            HeatingSched = scheds['h_sched_215']
-            CoolingSched = scheds['c_sched_23']
-            hp, db = 21.5, 1.5
-
-        elif rand == 14:
-            HeatingSched = scheds['h_sched_22']
-            CoolingSched = scheds['c_sched_235']
-            hp, db = 22, 1.5
-
-        elif rand == 15:
-            HeatingSched = scheds['h_sched_225']
-            CoolingSched = scheds['c_sched_24']
-            hp, db = 22.5, 1.5
-
-        elif rand == 16:
-            HeatingSched = scheds['h_sched_23']
-            CoolingSched = scheds['c_sched_245']
-            hp, db = 23, 1.5
-
-        elif rand == 17:
-            HeatingSched = scheds['h_sched_21']
-            CoolingSched = scheds['c_sched_23']
-            hp, db = 21, 2
-
-        elif rand == 18:
-            HeatingSched = scheds['h_sched_215']
-            CoolingSched = scheds['c_sched_235']
-            hp, db = 21.5, 2
-
-        elif rand == 19:
-            HeatingSched = scheds['h_sched_22']
-            CoolingSched = scheds['c_sched_24']
-            hp, db = 22, 2
-
-        elif rand == 20:
-            HeatingSched = scheds['h_sched_225']
-            CoolingSched = scheds['c_sched_245']
-            hp, db = 22.5, 2
-
-        elif rand == 21:
-            HeatingSched = scheds['h_sched_23']
-            CoolingSched = scheds['c_sched_25']
-            hp, db = 23, 2
-
-        var_num += 1
+            rand = 38 # 24,24
 
         if calibrated_case:
             db = df_calibrated.iloc[0]['DeadBand']
             hp = df_calibrated.iloc[0]['Office_HeatingSP']
 
-            if db == 22 and db == 0:
-                HeatingSched = scheds['h_sched_225']
-                CoolingSched = scheds['c_sched_225']
-            elif db == 22.5 and db == 0:
-                HeatingSched = scheds['h_sched_225']
-                CoolingSched = scheds['c_sched_225']
-            elif db == 23 and db == 0:
-                HeatingSched = scheds['h_sched_23']
-                CoolingSched = scheds['c_sched_23']
-            elif db == 21.5 and db == 0.5:
-                HeatingSched = scheds['h_sched_215']
-                CoolingSched = scheds['c_sched_22']
-            elif db == 22 and db == 0.5:
-                HeatingSched = scheds['h_sched_22']
-                CoolingSched = scheds['c_sched_225']
-            elif db == 22.5 and db == 0.5:
-                HeatingSched = scheds['h_sched_225']
-                CoolingSched = scheds['c_sched_23']
-            elif db == 23 and db == 0.5:
-                HeatingSched = scheds['h_sched_23']
-                CoolingSched = scheds['c_sched_235']
-            elif db == 21 and db == 1:
-                HeatingSched = scheds['h_sched_21']
-                CoolingSched = scheds['c_sched_22']
-            elif db == 21.5 and db == 1:
-                HeatingSched = scheds['h_sched_215']
-                CoolingSched = scheds['c_sched_225']
-            elif db == 22 and db == 1:
-                HeatingSched = scheds['h_sched_22']
-                CoolingSched = scheds['c_sched_23']
-            elif db == 22.5 and db == 1:
-                HeatingSched = scheds['h_sched_225']
-                CoolingSched = scheds['c_sched_235']
-            elif db == 23 and db == 1:
-                HeatingSched = scheds['h_sched_23']
-                CoolingSched = scheds['c_sched_24']
-            elif db == 21 and db == 1.5:
-                HeatingSched = scheds['h_sched_21']
-                CoolingSched = scheds['c_sched_225']
-            elif db == 21.5 and db == 1.5:
-                HeatingSched = scheds['h_sched_215']
-                CoolingSched = scheds['c_sched_23']
-            elif db == 22 and db == 1.5:
-                HeatingSched = scheds['h_sched_22']
-                CoolingSched = scheds['c_sched_235']
-            elif db == 22.5 and db == 1.5:
-                HeatingSched = scheds['h_sched_225']
-                CoolingSched = scheds['c_sched_24']
-            elif db == 23 and db == 1.5:
-                HeatingSched = scheds['h_sched_23']
-                CoolingSched = scheds['c_sched_245']
-            elif db == 21 and db == 2:
-                HeatingSched = scheds['h_sched_21']
-                CoolingSched = scheds['c_sched_23']
-            elif db == 21.5 and db == 2:
-                HeatingSched = scheds['h_sched_215']
-                CoolingSched = scheds['c_sched_235']
-            elif db == 22 and db == 0:
-                HeatingSched = scheds['h_sched_22']
-                CoolingSched = scheds['c_sched_24']
-            elif db == 22.5 and db == 2:
-                HeatingSched = scheds['h_sched_225']
-                CoolingSched = scheds['c_sched_245']
-            elif db == 23 and db == 2:
-                HeatingSched = scheds['h_sched_23']
-                CoolingSched = scheds['c_sched_25']
+            HeatingSched = scheds['h_sched_'+str(hp).replace('.','')]
+            CoolingSched = scheds['c_sched_'+str(hp+db).replace('.','')]
 
         if print_statements is True: print(rand, hp, db)
 
@@ -508,8 +530,8 @@ def replace_schedules(run_file, lhd, input_values, input_names, occ_schedules, l
             office_c_scheds = ['LectureTheatre_Cooling', 'Meeting_Cooling', 'Office_Cooling', 'PrintRoom_Cooling',
                                'Circulation_Cooling', 'Library_Cooling', 'Kitchen_Cooling', 'ComputerCluster_Cooling', 'Reception_Cooling']
 
-        # elif building_abr == 'MPEB':
-        #     office_c_scheds = ['Office_Cooling']
+            # elif building_abr == 'MPEB':
+            #     office_c_scheds = ['Office_Cooling']
 
             temp_sched = [CoolingSched, HeatingSched]
             for sched in temp_sched:
@@ -558,7 +580,6 @@ def replace_schedules(run_file, lhd, input_values, input_names, occ_schedules, l
             hwheaters = []
         elif building_abr == 'MPEB':
             hwheaters = ["CWS_Sched", "HWS_Labs_Sched"]
-
         elif building_abr == '71':
             hwheaters = ["EWH_Fraction", "EWH_Kitchen_Fraction", "EWH_Shower_Fraction"]
 
@@ -598,7 +619,10 @@ def replace_schedules(run_file, lhd, input_values, input_names, occ_schedules, l
                 offset_heater = 0
             elif calibrated_case:
                 #forgot to make it a discrete variable..
-                offset_heater = int(df_calibrated.iloc[0][heater+'_Offset'])
+                if building_abr in {'CH', 'MPEB'}:
+                    offset_heater = 0 #turned off offsets for heater
+                else:
+                    offset_heater = int(df_calibrated.iloc[0][heater+'_Offset'])
 
             heater_profile_off = []
             for x, val in enumerate(heater_profile):
@@ -651,7 +675,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, occ_schedules, l
                 overtime_multiplier_equip = df_calibrated.iloc[0]['LightOvertimeMultiplier']
             if parallel_simulation:
                 sigma = overtime_multiplier_equip*(multiplier_variation/100) # * 20% variation
-                lower, upper = overtime_multiplier_equip - (3 * sigma), overtime_multiplier_equip + (3 * sigma)
+                lower, upper = overtime_multiplier_equip - (1 * sigma), overtime_multiplier_equip + (1 * sigma)
                 overtime_multiplier_equip = stats.truncnorm((lower - overtime_multiplier_equip) / sigma, (upper - overtime_multiplier_equip) / sigma, loc=overtime_multiplier_equip, scale=sigma).ppf(lhd[run_no, var_num])
                 var_num += 1
 
@@ -663,7 +687,7 @@ def replace_schedules(run_file, lhd, input_values, input_names, occ_schedules, l
 
             if parallel_simulation:
                 sigma = overtime_multiplier_light*(multiplier_variation/100)
-                lower, upper = overtime_multiplier_light - (3 * sigma), overtime_multiplier_light + (3 * sigma)
+                lower, upper = overtime_multiplier_light - (1 * sigma), overtime_multiplier_light + (1 * sigma)
                 overtime_multiplier_light = stats.truncnorm((lower - overtime_multiplier_light) / sigma, (upper - overtime_multiplier_light) / sigma, loc=overtime_multiplier_light, scale=sigma).ppf(lhd[run_no, var_num])
                 var_num += 1
 
@@ -687,15 +711,21 @@ def replace_schedules(run_file, lhd, input_values, input_names, occ_schedules, l
                     if print_statements is True: print(lineno(), day, len(occ_profile), occ_profile)
 
                     """OFFSET"""
-                    offset = [-1, 0, 1, 2]
+                    if building_abr == 'CH':
+                        offset = [0, 1, 2, 3, 4]
+                    else:
+                        offset = [-1,0,1,2,3]
                     if base_case is True:
-                        offset_LP = 0
+                        if building_abr =='CH':
+                            offset_LP = 2
+                        else:
+                            offset_LP = 0
                     elif parallel_simulation:
                         offset_LP = random.choice(offset)  # use random choice instead of LHS generator
                         #offset_LP = 0
                         var_num += 1
                     elif calibrated_case:
-                        offset_LP = int(df_calibrated.iloc[0]['LandPsched_Offset'])
+                        offset_LP = int(df_calibrated.iloc[0][day + 'LandPsched_Offset'])
 
                     input_names.append(day + 'LandPsched_Offset')
                     input_values.append(offset_LP)
@@ -1186,6 +1216,13 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                 else:
                     equip_name = equip.Name
 
+                if calibrated_case is True:
+                    # Read vars in .idf and see if they occur in calibrated file.
+                    if equip_name in df_calibrated.columns:
+                        print(equip_name)
+                    else:
+                        continue
+
                 #if print_statements is True: print(equip_name)
 
                 if print_statements is True: print(lineno(), 'name', equips[equip_name].name,)
@@ -1282,7 +1319,10 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                         else:
                             eq_infil = mu
                     elif calibrated_case:
-                        eq_infil = df_calibrated.iloc[0][equip_name]
+                        if building_abr in {'CH', 'MPEB'}:
+                            eq_infil = df_calibrated.iloc[0]['InfiltrationRate']
+                        else:
+                            eq_infil = df_calibrated.iloc[0][equip_name]
 
                     equip.Flow_per_Exterior_Surface_Area = eq_infil
                     if not infil_list_two:
@@ -1394,6 +1434,7 @@ def replace_equipment_eppy(idf1, lhd, input_values, input_names, var_num, run_no
                         else:
                             input = mu
                     elif calibrated_case:
+                        print(equip_name)
                         input = df_calibrated.iloc[0][equip_name]
 
                     equip.Peak_Flow_Rate = input
@@ -1412,16 +1453,16 @@ def add_groundtemps(idf1):
     out = idf1.newidfobject("Site:GroundTemperature:BuildingSurface".upper())
     out.January_Ground_Temperature = 8.3
     out.February_Ground_Temperature = 6.4
-    out.March_Ground_Temperature =5.8
-    out.April_Ground_Temperature =6.3
+    out.March_Ground_Temperature = 5.8
+    out.April_Ground_Temperature = 6.3
     out.May_Ground_Temperature = 8.9
-    out.June_Ground_Temperature =11.7
-    out.July_Ground_Temperature =14.4
-    out.August_Ground_Temperature =16.4
-    out.September_Ground_Temperature =17
-    out.October_Ground_Temperature =16.1
-    out.November_Ground_Temperature =13.8
-    out.December_Ground_Temperature =11
+    out.June_Ground_Temperature = 11.7
+    out.July_Ground_Temperature = 14.4
+    out.August_Ground_Temperature = 16.4
+    out.September_Ground_Temperature = 17
+    out.October_Ground_Temperature = 16.1
+    out.November_Ground_Temperature = 13.8
+    out.December_Ground_Temperature = 11
 
 #From City of London weatherfile
 #	3	0.5				6.65	6.05	7.12	8.8	13.19	16.58	18.87	19.56	18.38	15.75	12.23	8.96	2	8.88	7.8	8.02	8.91	11.85	14.51	16.63	17.77	17.53	16.04000	13.61000	11.05	4				10.72	9.61	9.37	9.71	11.37	13.16	14.8	15.94	16.21	15.56	14.14	12.4
@@ -1494,7 +1535,7 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
             outvar.Key_Value = ''
             outvar.Variable_Name = name
             if base_case is True:
-                outvar.Reporting_Frequency = 'timestep'  # 'timestep', 'hourly', 'detailed',
+                outvar.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
             else:
                 outvar.Reporting_Frequency = 'hourly' #'timestep', 'hourly', 'detailed',
 
@@ -1763,7 +1804,7 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
                 new_meter = idf1.newidfobject("Output:Meter".upper())
                 new_meter.Name = str(custom_meters[meter][output][0])+':'+str(custom_meters[meter][output][1])
                 if base_case is True:
-                    new_meter.Reporting_Frequency = 'timestep'  # 'timestep', 'hourly', 'detailed',
+                    new_meter.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
                 else:
                     new_meter.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
 
@@ -2129,7 +2170,7 @@ def add_outputs(idf1, base_case, add_variables, building_abr): # add outputvaria
         outmeter = idf1.newidfobject("Output:Meter:MeterFileOnly".upper())
         outmeter.Name = name
         if base_case is True:
-            outmeter.Reporting_Frequency = 'timestep'  # 'timestep', 'hourly', 'detailed',
+            outmeter.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
         else:
             outmeter.Reporting_Frequency = 'hourly'  # 'timestep', 'hourly', 'detailed',
 
@@ -2146,6 +2187,7 @@ def remove_comments(run_file):
 
 def set_runperiod(idf1, building_abr, run_periods):
     idf1.popidfobject('RunPeriod'.upper(), 0)
+
     for i in run_periods:
         obj = idf1.newidfobject('RunPeriod'.upper())
         obj.Begin_Month = i[0]
@@ -2180,7 +2222,7 @@ def set_holidays(idf1, building_abr):
         holiday.Duration = 1
         holiday.Special_Day_Type = 'Holiday'
 
-def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_variables, run_periods, n_samples, save_idfs, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation, seasonal_occ_factor_week, seasonal_occ_factor_weekend):
+def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_variables, run_periods, n_samples, from_samples, save_idfs, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation, seasonal_occ_factor_week, seasonal_occ_factor_weekend):
     if base_case is False | remove_sql is True:
         idf1.popidfobject('Output:SQLite'.upper(), 0) # remove sql output, have all the outputs in the .eso and meter data in .mtr
     idf1.popidfobject('Output:VariableDictionary'.upper(), 0)
@@ -2206,25 +2248,33 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_v
     # var_num +=1 implies a new random number for another variable generated with LHS
 
     collect_inputs = []
-    if base_case is True | calibrated_case == True: # search script for base_case to adjust internal base_case values
+    if base_case is True | calibrated_case is True: # search script for base_case to adjust internal base_case values
         n_samples = 1
+        from_samples = 0
 
     occ_schedules = []
     light_schedules = []
     equip_schedules = []
-    for run_no in range(n_samples):
-        var_num = 0
 
+    if base_case is True:
+        csv_outfile = save_dir + "/inputs_basecase_" + building_name + strftime("_%d_%m_%H_%M", gmtime()) + ".csv"
+    elif base_case is not True:
+        csv_outfile = save_dir + "/inputs_" + building_name + strftime("_%d_%m_%H_%M", gmtime()) + ".csv"
+
+    for run_no in range(from_samples, n_samples):
+        print(run_no)
+        var_num = 0
         input_names = []
         input_values = []
 
-
         if base_case is True:
             run_file = save_dir + building_name + "_basecase.idf"  # use new folder for save location, zero pad to 4 numbers
+        if base_case is True and diagnose_basecase is True:
+            run_file = save_dir + building_name + "_diagnose_basecase.idf"  # use new folder for save location, zero pad to 4 numbers
         if parallel_simulation is True:
             run_file = save_dir + "/" + building_name + "_" + str(format(run_no, '04')) + ".idf"  # use new folder for save location, zero pad to 4 numbers
         elif calibrated_case:
-            run_file = save_dir + building_name + time_step + str(end_uses) + "_calibrated.idf"  # use new folder for save location, zero pad to 4 numbers
+            run_file = save_dir + building_name + time_step + str(end_uses) + hours + "_calibrated.idf"  # use new folder for save location, zero pad to 4 numbers
 
         input_values, input_names, var_num = replace_equipment_eppy(idf1, lhd, input_values,input_names,var_num,run_no,building_abr, base_case)
 
@@ -2245,6 +2295,11 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_v
 
         if print_statements is True: print("number of variables changed for schedules", var_scheds)
 
+        if len(input_names) != len(input_values):
+            raise ValueError('Length of input names and input values not equal.')
+
+        input_names.append('run_no')
+        input_values.append(run_no)
         collect_inputs.append(input_values)
 
         if print_statements is True: print("total number of variables ", var_num)
@@ -2253,33 +2308,39 @@ def run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_v
         print('file saved here', run_file)
         if print_statements is True: print('file used', "{}".format(rootdir) + "/" + building_name + ".idf")
 
+        if from_samples != 0: #todo instead I should append to existing file (but no time)
+            if run_no % 20 == 0:
+                df_inputs = pd.DataFrame(collect_inputs, columns=input_names)
+                df_inputs = df_inputs.reindex(sorted(df_inputs.columns), axis=1)  # sort columns alphabetically
+                df_inputs.to_csv(csv_outfile, index=False)
+        else:
+            if run_no % 20 == 0:
+                df_inputs = pd.DataFrame(collect_inputs, columns=input_names)
+                df_inputs = df_inputs.reindex(sorted(df_inputs.columns), axis=1)  # sort columns alphabetically
+                df_inputs.to_csv(csv_outfile, index=False)
+
     #Write inputs to csv file
     if print_statements is True: print(len(input_values), len(input_names))
 
-    if len(input_names) != len(input_values):
-        raise ValueError('Length of input names and input values not equal.')
-    df_inputs = pd.DataFrame(collect_inputs, columns=input_names)
-    df_inputs = df_inputs.reindex_axis(sorted(df_inputs.columns), axis=1) # sort columns alphabetically
 
-    if base_case is True:
-        csv_outfile = save_dir + "/inputs_basecase_" + building_name + strftime("_%d_%m_%H_%M", gmtime()) + ".csv"
-    elif base_case is not True:
-        csv_outfile = save_dir + "/inputs_" + building_name + strftime("_%d_%m_%H_%M", gmtime()) + ".csv"
+    df_inputs = pd.DataFrame(collect_inputs, columns=input_names)
+    df_inputs = df_inputs.reindex(sorted(df_inputs.columns), axis=1) # sort columns alphabetically
 
     pd.DataFrame(occ_schedules).to_csv('C:/EngD_hardrive/UCL_DemandLogic/' + building_harddisk + '/ParallelSimulation/' + 'occ_schedules.csv', index=False)
     pd.DataFrame(light_schedules).to_csv('C:/EngD_hardrive/UCL_DemandLogic/' + building_harddisk + '/ParallelSimulation/' + 'light_schedules.csv', index=False)
     pd.DataFrame(equip_schedules).to_csv('C:/EngD_hardrive/UCL_DemandLogic/' + building_harddisk + '/ParallelSimulation/' + 'equip_schedules.csv', index=False)
 
-    df_inputs.to_csv(csv_outfile, index=False)
+    df_inputs.to_csv(csv_outfile[:-4]+'final.csv', index=False)
 
 def main():
+    print("{}".format(rootdir) + "/" + building_name + ".idf")
     idf1 = IDF("{}".format(rootdir) + "/" + building_name + ".idf")
     if print_statements is True: print(idf1)
 
     lhd = doe_lhs.lhs(no_variables, samples=n_samples)
     print(lhd.shape)
 
-    run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_variables, run_periods, n_samples, save_idfs, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation, seasonal_occ_factor_week, seasonal_occ_factor_weekend)
+    run_lhs(idf1, lhd, building_name, building_abr, base_case, remove_sql, add_variables, run_periods, n_samples, from_samples, save_idfs, overtime_multiplier_equip, overtime_multiplier_light, multiplier_variation, seasonal_occ_factor_week, seasonal_occ_factor_weekend)
 
     # if print_statements is True: print idf1.idfobjects['PEOPLE'][0].objls #fieldnames
     # if print_statements is True: print idf1.idfobjects['ELECTRICEQUIPMENT'][0].objls #fieldnames
@@ -2289,67 +2350,90 @@ if __name__ == '__main__':
     def start():
         if print_statements is True: print('start')
 
-    iddfile = "C:/EnergyPlusV8-6-0/Energy+.idd"
-    IDF.setiddname(iddfile)
-
     BuildingAbbreviations = ['MPEB', 'CH', '17', '71', 'Nothing']
     BuildingHardDisk = ['05_MaletPlaceEngineering_Project', '01_CentralHouse_Project', '02_BuroHappold_17', '03_BuroHappold_71']
 
-    # VARIABLES
-    base_case = False #todo run basecase straight away with eppy http://pythonhosted.org/eppy/runningeplus.html
+    """ WHICH BUILDING AND NO OF SAMPLES """
+    building_num = 3 #0 = MPEB, 1 = CH, 2 = 17, 3 = 71
+    n_samples =  1 # how many idfs need to be created
+    from_samples = 0 #from what number to start creating files (in case i need to stop creation)
+
+    """ TYPE OF SIMULATION """
+    base_case = True #todo run basecase straight away with eppy http://pythonhosted.org/eppy/runningeplus.html
+    parallel_simulation = False
     calibrated_case = False
-    parallel_simulation = True
+    diagnose_basecase = False # if both base_case and diagnose_basecase are true, simulate a summer and winterday
+
+    """ FOR CALIBRATED CASE """
+    time_step = 'month'
+    end_uses = True
+    hourly = True
+
+    """ ADDITIONAL SETTINGS """
     add_variables = False # these are additional variables written to .eso (which are only done when basecase is true, but can be turned of here if not necessary.
     remove_sql = True # when doing MPEB, sql is too big (1gb+)
     save_idfs = True # to create new idfs files or not (in case just to check input generation)
     print_statements = False
     vertical_scaling = False
-    #if print_statements is True: print_statements = False
-    
-    building_num = 1 #[0=MPEB', '1=CH', '2=17', '3=71', 'Nothing']
-    n_samples =  5000 # how many idfs need to be created
 
+    iddfile = "C:/EnergyPlusV8-6-0/Energy+.idd"
+    IDF.setiddname(iddfile)
     building_harddisk = BuildingHardDisk[building_num]
     building_abr = BuildingAbbreviations[building_num]
 
-
     if building_abr == 'MPEB':
         no_variables = 350
-        seasonal_occ_factor_week = [0.85, .9, 0.85, 0.7, 0.55, 0.55, 0.55, 0.4, 0.65, 0.65, 0.65, 0.7]
-        seasonal_occ_factor_weekend = [0.85, .9, 0.85, 0.7, 0.55, 0.55, 0.55, 0.4, 0.65, 0.65, 0.65, 0.7]
-        overtime_multiplier_equip = 60
-        overtime_multiplier_light = 25
-        multiplier_variation = 20
-        run_periods = [[9, 1, 12, 31, '2016', 'Thursday', 'RunPeriod1'], [1, 1, 4, 30, '2017','Sunday', 'RunPeriod2']]  # first month, first day, last month, last day, 'Start Year', Start week, 'Name'
+        #todo factor by max of monthly l&p consumption and then -.2 so to allow variation...
+        #                           Jan   Feb   Mar   Apr   May   jun,  jul,  aug,  sept, oct,  nov,  dec
+        seasonal_occ_factor_week = [0.72, 0.66, 0.64, 0.58, 0.74, 0.74, 0.8, 0.77, 0.61, 0.68, 0.66, 0.63] # TODO!!! This is from January to December!!!!
+        seasonal_occ_factor_weekend =  [0.72, .66, 0.64, 0.58, 0.74, 0.74, .8, .77, .61, .68, .66, .63]  # TODO!!! This is from January to December!!!!
+        overtime_multiplier_equip = 85
+        overtime_multiplier_light = 65
+        multiplier_variation = 10
+        run_periods = [[9, 1, 12, 31, '2016', 'Thursday', 'RunPeriod1'], [1, 1, 8, 31, '2017','Sunday', 'RunPeriod2']]  # first month, first day, last month, last day, 'Start Year', Start week, 'Name'
 
         building_name = 'MaletPlace'
         if base_case | calibrated_case is True:
             save_dir = harddrive_idfs + "/05_MaletPlaceEngineering_Project/BaseCase/"
-        else:
+
+        if parallel_simulation is True:
             save_dir = harddrive_idfs + "/05_MaletPlaceEngineering_Project/IDFs/"
+
+        if diagnose_basecase is True:
+            save_dir = harddrive_idfs + "/05_MaletPlaceEngineering_Project/Diagnosis/"
+            run_periods = [[1, 9, 1, 15, '2017', 'Sunday', 'Winter'], [7, 10, 7, 16, '2017', 'Sunday', 'Summer']]
+            add_variables = True # these are additional variables written to .eso (which are only done when basecase is true, but can be turned of here if not necessary.
+            remove_sql = False # when doing MPEB, sql is too big (1gb+)
+
     elif building_abr == 'CH':
         no_variables = 300
-        seasonal_occ_factor_week = [0.67, .71, 0.67, 0.67, 0.63, 0.55, 0.47, 0.51, 0.42, 0.55, 0.67, 0.71]
-        seasonal_occ_factor_weekend = [0.50, 0.73, 1.0, 0.92, 0.85, 0.47, 0.51, 0.61, 0.20, 0.42, 0.77, 0.81]
-        overtime_multiplier_equip = 60
+        #                           Jan   Feb  Mar   Apr   May   jun,  jul,  aug,  sept, oct,  nov,  dec
+        seasonal_occ_factor_week = [0.63, .67, 0.63, 0.66, 0.60, 0.53, 0.50, 0.48, 0.45, 0.44, 0.63, 0.61]
+        seasonal_occ_factor_weekend = [0.63, .67, 0.63, 0.66, 0.60, 0.53, 0.50, 0.48, 0.45, 0.44, 0.63, 0.61]
+        overtime_multiplier_equip = 65
         overtime_multiplier_light = 20
-        multiplier_variation = 20
-        run_periods = [[9, 1, 12, 31, '2016', 'Thursday', 'RunPeriod1'], [1, 1, 4, 30, '2017','Sunday', 'RunPeriod2']]  # first month, first day, last month, last day, 'Start Year', Start week, 'Name'
+        multiplier_variation = 10
+        run_periods = [[9, 1, 12, 31, '2016', 'Thursday', 'RunPeriod1'], [1, 1, 8, 31, '2017','Sunday', 'RunPeriod2']]  # first month, first day, last month, last day, 'Start Year', Start week, 'Name'
 
         building_name = 'CentralHouse_222'  # 'MalletPlace', 'CentralHouse_222' # building_name
         if base_case | calibrated_case is True:
             save_dir = harddrive_idfs + "/01_CentralHouse_Project/BaseCase/"
         if parallel_simulation is True:
             save_dir = harddrive_idfs + "/01_CentralHouse_Project/IDFs/"
+        if base_case is True and diagnose_basecase is True:
+            save_dir = harddrive_idfs + "/01_CentralHouse_Project/Diagnosis/"
+            run_periods = [[1, 9, 1, 15, '2017', 'Sunday', 'Winter'], [7, 10, 7, 16, '2017', 'Sunday', 'Summer']]
+            add_variables = True # these are additional variables written to .eso (which are only done when basecase is true, but can be turned of here if not necessary.
+            remove_sql = False # when doing MPEB, sql is too big (1gb+)
 
     elif building_abr == '71':
         no_variables = 300 # make sure there are more than necessary
-        seasonal_occ_factor_week = [1 for i in range(1, 13)]
-        seasonal_occ_factor_weekend = [1 for i in range(1, 13)]
+        seasonal_occ_factor_week = [1 for i in range(1, 13)] # TODO!!! This is from January to December!!!!
+        seasonal_occ_factor_weekend = [1 for i in range(1, 13)] # TODO!!! This is from January to December!!!!
         overtime_multiplier_equip = 20 # not used
         overtime_multiplier_light = 15 # not used
         multiplier_variation = 20 # not used
-        run_periods = [1, 1, 12, 31, 'Sunday', 'RunPeriod1'] # first month, first day, last month, last day, 'Start Year', Start week, 'Name'
+        run_periods = [[1, 1, 12, 31, '2012', 'Sunday', 'RunPeriod1']] # first month, first day, last month, last day, 'Start Year', Start week, 'Name'
 
         building_name = 'BH71'
         if base_case | calibrated_case is True:
@@ -2358,17 +2442,20 @@ if __name__ == '__main__':
             save_dir = harddrive_idfs + "/03_BuroHappold_71/IDFs/"
 
     if calibrated_case is True:
-        time_step = 'year'
-        end_uses = True
-
         DataPath_model_real = 'C:/EngD_hardrive/UCL_DemandLogic/' + building_harddisk + '/ParallelSimulation/'
-        df_calibrated = pd.read_csv(DataPath_model_real + 'best_individual' + time_step + str(end_uses) + '.csv', index_col=0, header=0)
+        hours = 'hourly' if hourly == True else ''
+        print(hours)
+        print(DataPath_model_real + 'best_individual' + time_step + str(end_uses) + hours + '.csv')
+        df_calibrated = pd.read_csv(DataPath_model_real + 'best_individual' + time_step + str(end_uses) + hours + '.csv', index_col=0, header=0)
         #df_calibrated = pd.DataFrame(df_calibrated.iloc[-1]) #last calibrated individual
 
         print(df_calibrated.columns.tolist())
-        print(df_calibrated.iloc[0]["Design Specification Outdoor Air 1"])#, df_calibrated.columns.tolist()))
+        print(len(df_calibrated.columns.tolist()))
+        print(pd.DataFrame(df_calibrated).T)
 
-        # months_in_year = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        # print(df_calibrated.iloc[0]["Design Specification Outdoor Air 1"])#, df_calibrated.columns.tolist()))
+
+        # months_in_year = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'O0ct', 'Nov', 'Dec']
         # seasonal_occ_factor_week_names = [str('SeasonWeekOccFactor_') + str(month) for month in months_in_year]
         # seasonal_occ_factor_weekend_names = [str('SeasonWeekendOccFactor_') + str(month) for month in months_in_year]
         # seasonal_occ_factor_week = [df_calibrated.iloc[0][i] for i in seasonal_occ_factor_week_names]

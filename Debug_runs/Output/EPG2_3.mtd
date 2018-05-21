@@ -1,0 +1,1290 @@
+
+ Meters for 8,BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BEDROOM1 [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:BEDROOM1 [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 69,BATH1_WORKINGADULT1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 90,BATH1_WORKINGADULT2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 91,BATH1_CHILD1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 92,BATH1_CHILD2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 93,BATH1_CHILD3_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 94,BEDROOM4_CHILD3_BEDROOM4_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BEDROOM4 [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:BEDROOM4 [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 115,BEDROOM2_CHILD1_BEDROOM2_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BEDROOM2 [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:BEDROOM2 [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 136,KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:KITCHEN [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:KITCHEN [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 157,BEDROOM3_CHILD2_BEDROOM3_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BEDROOM3 [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:BEDROOM3 [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 178,LIVING_WORKINGADULT1_LIVING_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:LIVING [J]
+  OnMeter=InteriorLights:Electricity [J]
+  OnMeter=InteriorLights:Electricity:Zone:LIVING [J]
+  OnMeter=General:InteriorLights:Electricity [J]
+
+ Meters for 199,BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BEDROOM1 [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:BEDROOM1 [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 230,BEDROOM1_WORKINGADULT2_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BEDROOM1 [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:BEDROOM1 [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 231,BATH1_WORKINGADULT1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 242,BATH1_WORKINGADULT2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 243,BATH1_WORKINGADULT2_BATH1_APPLIANCE_NIST_HAIRDRYER_NIST_HAIRDRYER:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 244,BATH1_CHILD1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 245,BATH1_CHILD2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 246,BATH1_CHILD3_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:BATH1 [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:BATH1 [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 247,KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_HOB_NIST_HOB:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:KITCHEN [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:KITCHEN [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 258,KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_OVEN_NIST_OVEN:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:KITCHEN [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:KITCHEN [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 259,KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_CIBSE_COOK_MOISTURE_CIBSE_COOK_MOISTURE:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:KITCHEN [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:KITCHEN [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 260,KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_FRIDGE_NIST_FRIDGE:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:KITCHEN [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:KITCHEN [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 261,KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_WASHINGMACHINE_NIST_WASHINGMACHINE:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:KITCHEN [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:KITCHEN [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 262,KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_DISHWASHER_NIST_DISHWASHER:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:KITCHEN [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:KITCHEN [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 263,LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_TV_NIST_TV:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:LIVING [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:LIVING [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 274,LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:LIVING [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:LIVING [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 275,LIVING_WORKINGADULT2_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:LIVING [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:LIVING [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 276,LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_TV-STANDBY_TV-STANDBY:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:LIVING [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:LIVING [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 277,LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_LAPTOP_NIST_LAPTOP:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:LIVING [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:LIVING [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 278,LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_WIRELESSROUTER_NIST_WIRELESSROUTER:Electric Equipment Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:Building [J]
+  OnMeter=Electricity:Zone:LIVING [J]
+  OnMeter=InteriorEquipment:Electricity [J]
+  OnMeter=InteriorEquipment:Electricity:Zone:LIVING [J]
+  OnMeter=General:InteriorEquipment:Electricity [J]
+
+ Meters for 285,BATH1_L2_PU_EXHAUSTFAN:Fan Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Fans:Electricity [J]
+  OnMeter=General:Fans:Electricity [J]
+
+ Meters for 316,KITCHEN_L1_PU_EXHAUSTFAN:Fan Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Fans:Electricity [J]
+  OnMeter=General:Fans:Electricity [J]
+
+ Meters for 317,BEDROOM1:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BEDROOM1 [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:BEDROOM1 [J]
+
+ Meters for 368,BEDROOM1:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BEDROOM1 [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:BEDROOM1 [J]
+
+ Meters for 389,HALL:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:HALL [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:HALL [J]
+
+ Meters for 410,HALL:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:HALL [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:HALL [J]
+
+ Meters for 421,CELLAR:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:CELLAR [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:CELLAR [J]
+
+ Meters for 442,CELLAR:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:CELLAR [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:CELLAR [J]
+
+ Meters for 453,LOFT:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:LOFT [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:LOFT [J]
+
+ Meters for 474,LOFT:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:LOFT [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:LOFT [J]
+
+ Meters for 485,BATH1:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BATH1 [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:BATH1 [J]
+
+ Meters for 506,BATH1:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BATH1 [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:BATH1 [J]
+
+ Meters for 517,BEDROOM4:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BEDROOM4 [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:BEDROOM4 [J]
+
+ Meters for 538,BEDROOM4:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BEDROOM4 [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:BEDROOM4 [J]
+
+ Meters for 549,BEDROOM2:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BEDROOM2 [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:BEDROOM2 [J]
+
+ Meters for 570,BEDROOM2:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BEDROOM2 [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:BEDROOM2 [J]
+
+ Meters for 581,LOO:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:LOO [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:LOO [J]
+
+ Meters for 602,LOO:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:LOO [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:LOO [J]
+
+ Meters for 613,KITCHEN:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:KITCHEN [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:KITCHEN [J]
+
+ Meters for 634,KITCHEN:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:KITCHEN [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:KITCHEN [J]
+
+ Meters for 646,ENSUITE:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:ENSUITE [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:ENSUITE [J]
+
+ Meters for 667,ENSUITE:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:ENSUITE [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:ENSUITE [J]
+
+ Meters for 678,DINING:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:DINING [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:DINING [J]
+
+ Meters for 699,DINING:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:DINING [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:DINING [J]
+
+ Meters for 710,TOPHALL:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:TOPHALL [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:TOPHALL [J]
+
+ Meters for 731,TOPHALL:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:TOPHALL [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:TOPHALL [J]
+
+ Meters for 742,BEDROOM3:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BEDROOM3 [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:BEDROOM3 [J]
+
+ Meters for 763,BEDROOM3:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:BEDROOM3 [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:BEDROOM3 [J]
+
+ Meters for 774,STAIRCASE:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:STAIRCASE [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:STAIRCASE [J]
+
+ Meters for 795,STAIRCASE:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:STAIRCASE [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:STAIRCASE [J]
+
+ Meters for 806,UTILITY:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:UTILITY [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:UTILITY [J]
+
+ Meters for 827,UTILITY:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:UTILITY [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:UTILITY [J]
+
+ Meters for 838,LIVING:Zone Air System Sensible Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:LIVING [J]
+  OnMeter=Heating:EnergyTransfer [J]
+  OnMeter=Heating:EnergyTransfer:Zone:LIVING [J]
+
+ Meters for 859,LIVING:Zone Air System Sensible Cooling Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:Building [J]
+  OnMeter=EnergyTransfer:Zone:LIVING [J]
+  OnMeter=Cooling:EnergyTransfer [J]
+  OnMeter=Cooling:EnergyTransfer:Zone:LIVING [J]
+
+ Meters for 870,BEDROOM1_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 891,BEDROOM1_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 902,HALL_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 903,HALL_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 904,BATH1_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 905,BATH1_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 906,BEDROOM4_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 907,BEDROOM4_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 908,BEDROOM2_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 909,BEDROOM2_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 910,LOO_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 911,LOO_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 912,KITCHEN_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 913,KITCHEN_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 914,ENSUITE_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 915,ENSUITE_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 916,DINING_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 917,DINING_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 918,TOPHALL_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 919,TOPHALL_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 920,BEDROOM3_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 921,BEDROOM3_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 922,STAIRCASE_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 923,STAIRCASE_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 924,UTILITY_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 925,UTILITY_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 926,LIVING_HEATER:Baseboard Total Heating Energy [J]
+  OnMeter=EnergyTransfer:Facility [J]
+  OnMeter=EnergyTransfer:HVAC [J]
+  OnMeter=Baseboard:EnergyTransfer [J]
+
+ Meters for 927,LIVING_HEATER:Baseboard Electric Energy [J]
+  OnMeter=Electricity:Facility [J]
+  OnMeter=Electricity:HVAC [J]
+  OnMeter=Heating:Electricity [J]
+
+ Meters for 928,Whole Building:Facility Total Purchased Electric Energy [J]
+  OnMeter=ElectricityPurchased:Facility [J]
+  OnMeter=ElectricityPurchased:Plant [J]
+  OnMeter=Cogeneration:ElectricityPurchased [J]
+
+ Meters for 959,Whole Building:Facility Total Surplus Electric Energy [J]
+  OnMeter=ElectricitySurplusSold:Facility [J]
+  OnMeter=ElectricitySurplusSold:Plant [J]
+  OnMeter=Cogeneration:ElectricitySurplusSold [J]
+
+ Meters for 990,Whole Building:Facility Net Purchased Electric Energy [J]
+  OnMeter=ElectricityNet:Facility [J]
+  OnMeter=ElectricityNet:Plant [J]
+  OnMeter=Cogeneration:ElectricityNet [J]
+
+ Meters for 1021,Site:Environmental Impact Total N2O Emissions Carbon Equivalent Mass [kg]
+  OnMeter=Carbon Equivalent:Facility [kg]
+  OnMeter=CarbonEquivalentEmissions:Carbon Equivalent [kg]
+
+ Meters for 1042,Site:Environmental Impact Total CH4 Emissions Carbon Equivalent Mass [kg]
+  OnMeter=Carbon Equivalent:Facility [kg]
+  OnMeter=CarbonEquivalentEmissions:Carbon Equivalent [kg]
+
+ Meters for 1043,Site:Environmental Impact Total CO2 Emissions Carbon Equivalent Mass [kg]
+  OnMeter=Carbon Equivalent:Facility [kg]
+  OnMeter=CarbonEquivalentEmissions:Carbon Equivalent [kg]
+
+ For Meter=Electricity:Facility [J], ResourceType=Electricity, contents are:
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM4_CHILD3_BEDROOM4_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM2_CHILD1_BEDROOM2_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM3_CHILD2_BEDROOM3_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BEDROOM1_WORKINGADULT2_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_NIST_HAIRDRYER_NIST_HAIRDRYER:Electric Equipment Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_HOB_NIST_HOB:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_OVEN_NIST_OVEN:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_CIBSE_COOK_MOISTURE_CIBSE_COOK_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_FRIDGE_NIST_FRIDGE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_WASHINGMACHINE_NIST_WASHINGMACHINE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_DISHWASHER_NIST_DISHWASHER:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_TV_NIST_TV:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT2_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_TV-STANDBY_TV-STANDBY:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_LAPTOP_NIST_LAPTOP:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_WIRELESSROUTER_NIST_WIRELESSROUTER:Electric Equipment Electric Energy
+  BATH1_L2_PU_EXHAUSTFAN:Fan Electric Energy
+  KITCHEN_L1_PU_EXHAUSTFAN:Fan Electric Energy
+  BEDROOM1_HEATER:Baseboard Electric Energy
+  HALL_HEATER:Baseboard Electric Energy
+  BATH1_HEATER:Baseboard Electric Energy
+  BEDROOM4_HEATER:Baseboard Electric Energy
+  BEDROOM2_HEATER:Baseboard Electric Energy
+  LOO_HEATER:Baseboard Electric Energy
+  KITCHEN_HEATER:Baseboard Electric Energy
+  ENSUITE_HEATER:Baseboard Electric Energy
+  DINING_HEATER:Baseboard Electric Energy
+  TOPHALL_HEATER:Baseboard Electric Energy
+  BEDROOM3_HEATER:Baseboard Electric Energy
+  STAIRCASE_HEATER:Baseboard Electric Energy
+  UTILITY_HEATER:Baseboard Electric Energy
+  LIVING_HEATER:Baseboard Electric Energy
+
+ For Meter=Electricity:Building [J], ResourceType=Electricity, Group=Building, contents are:
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM4_CHILD3_BEDROOM4_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM2_CHILD1_BEDROOM2_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM3_CHILD2_BEDROOM3_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BEDROOM1_WORKINGADULT2_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_NIST_HAIRDRYER_NIST_HAIRDRYER:Electric Equipment Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_HOB_NIST_HOB:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_OVEN_NIST_OVEN:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_CIBSE_COOK_MOISTURE_CIBSE_COOK_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_FRIDGE_NIST_FRIDGE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_WASHINGMACHINE_NIST_WASHINGMACHINE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_DISHWASHER_NIST_DISHWASHER:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_TV_NIST_TV:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT2_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_TV-STANDBY_TV-STANDBY:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_LAPTOP_NIST_LAPTOP:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_WIRELESSROUTER_NIST_WIRELESSROUTER:Electric Equipment Electric Energy
+
+ For Meter=Electricity:Zone:BEDROOM1 [J], ResourceType=Electricity, Group=Zone, contents are:
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BEDROOM1_WORKINGADULT2_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+
+ For Meter=InteriorLights:Electricity [J], ResourceType=Electricity, EndUse=InteriorLights, contents are:
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM4_CHILD3_BEDROOM4_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM2_CHILD1_BEDROOM2_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM3_CHILD2_BEDROOM3_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=InteriorLights:Electricity:Zone:BEDROOM1 [J], ResourceType=Electricity, EndUse=InteriorLights, Group=Zone, contents are:
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=General:InteriorLights:Electricity [J], ResourceType=Electricity, EndUse=InteriorLights, contents are:
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM4_CHILD3_BEDROOM4_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM2_CHILD1_BEDROOM2_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BEDROOM3_CHILD2_BEDROOM3_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=Electricity:Zone:BATH1 [J], ResourceType=Electricity, Group=Zone, contents are:
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_NIST_HAIRDRYER_NIST_HAIRDRYER:Electric Equipment Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+
+ For Meter=InteriorLights:Electricity:Zone:BATH1 [J], ResourceType=Electricity, EndUse=InteriorLights, Group=Zone, contents are:
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=Electricity:Zone:BEDROOM4 [J], ResourceType=Electricity, Group=Zone, contents are:
+  BEDROOM4_CHILD3_BEDROOM4_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=InteriorLights:Electricity:Zone:BEDROOM4 [J], ResourceType=Electricity, EndUse=InteriorLights, Group=Zone, contents are:
+  BEDROOM4_CHILD3_BEDROOM4_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=Electricity:Zone:BEDROOM2 [J], ResourceType=Electricity, Group=Zone, contents are:
+  BEDROOM2_CHILD1_BEDROOM2_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=InteriorLights:Electricity:Zone:BEDROOM2 [J], ResourceType=Electricity, EndUse=InteriorLights, Group=Zone, contents are:
+  BEDROOM2_CHILD1_BEDROOM2_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=Electricity:Zone:KITCHEN [J], ResourceType=Electricity, Group=Zone, contents are:
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_HOB_NIST_HOB:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_OVEN_NIST_OVEN:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_CIBSE_COOK_MOISTURE_CIBSE_COOK_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_FRIDGE_NIST_FRIDGE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_WASHINGMACHINE_NIST_WASHINGMACHINE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_DISHWASHER_NIST_DISHWASHER:Electric Equipment Electric Energy
+
+ For Meter=InteriorLights:Electricity:Zone:KITCHEN [J], ResourceType=Electricity, EndUse=InteriorLights, Group=Zone, contents are:
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=Electricity:Zone:BEDROOM3 [J], ResourceType=Electricity, Group=Zone, contents are:
+  BEDROOM3_CHILD2_BEDROOM3_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=InteriorLights:Electricity:Zone:BEDROOM3 [J], ResourceType=Electricity, EndUse=InteriorLights, Group=Zone, contents are:
+  BEDROOM3_CHILD2_BEDROOM3_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=Electricity:Zone:LIVING [J], ResourceType=Electricity, Group=Zone, contents are:
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_TV_NIST_TV:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT2_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_TV-STANDBY_TV-STANDBY:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_LAPTOP_NIST_LAPTOP:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_WIRELESSROUTER_NIST_WIRELESSROUTER:Electric Equipment Electric Energy
+
+ For Meter=InteriorLights:Electricity:Zone:LIVING [J], ResourceType=Electricity, EndUse=InteriorLights, Group=Zone, contents are:
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_LIGHTS_LIGHTS:Lights Electric Energy
+
+ For Meter=InteriorEquipment:Electricity [J], ResourceType=Electricity, EndUse=InteriorEquipment, contents are:
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BEDROOM1_WORKINGADULT2_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_NIST_HAIRDRYER_NIST_HAIRDRYER:Electric Equipment Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_HOB_NIST_HOB:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_OVEN_NIST_OVEN:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_CIBSE_COOK_MOISTURE_CIBSE_COOK_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_FRIDGE_NIST_FRIDGE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_WASHINGMACHINE_NIST_WASHINGMACHINE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_DISHWASHER_NIST_DISHWASHER:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_TV_NIST_TV:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT2_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_TV-STANDBY_TV-STANDBY:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_LAPTOP_NIST_LAPTOP:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_WIRELESSROUTER_NIST_WIRELESSROUTER:Electric Equipment Electric Energy
+
+ For Meter=InteriorEquipment:Electricity:Zone:BEDROOM1 [J], ResourceType=Electricity, EndUse=InteriorEquipment, Group=Zone, contents are:
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BEDROOM1_WORKINGADULT2_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+
+ For Meter=General:InteriorEquipment:Electricity [J], ResourceType=Electricity, EndUse=InteriorEquipment, contents are:
+  BEDROOM1_WORKINGADULT1_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BEDROOM1_WORKINGADULT2_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_NIST_HAIRDRYER_NIST_HAIRDRYER:Electric Equipment Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_HOB_NIST_HOB:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_OVEN_NIST_OVEN:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_CIBSE_COOK_MOISTURE_CIBSE_COOK_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_FRIDGE_NIST_FRIDGE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_WASHINGMACHINE_NIST_WASHINGMACHINE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_DISHWASHER_NIST_DISHWASHER:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_TV_NIST_TV:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT2_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_TV-STANDBY_TV-STANDBY:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_LAPTOP_NIST_LAPTOP:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_WIRELESSROUTER_NIST_WIRELESSROUTER:Electric Equipment Electric Energy
+
+ For Meter=InteriorEquipment:Electricity:Zone:BATH1 [J], ResourceType=Electricity, EndUse=InteriorEquipment, Group=Zone, contents are:
+  BATH1_WORKINGADULT1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_WORKINGADULT2_BATH1_APPLIANCE_NIST_HAIRDRYER_NIST_HAIRDRYER:Electric Equipment Electric Energy
+  BATH1_CHILD1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD2_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+  BATH1_CHILD3_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE_CIBSE_SHOWER_MOISTURE:Electric Equipment Electric Energy
+
+ For Meter=InteriorEquipment:Electricity:Zone:KITCHEN [J], ResourceType=Electricity, EndUse=InteriorEquipment, Group=Zone, contents are:
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_HOB_NIST_HOB:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_NIST_OVEN_NIST_OVEN:Electric Equipment Electric Energy
+  KITCHEN_WORKINGADULT2_KITCHEN_APPLIANCE_CIBSE_COOK_MOISTURE_CIBSE_COOK_MOISTURE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_FRIDGE_NIST_FRIDGE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_WASHINGMACHINE_NIST_WASHINGMACHINE:Electric Equipment Electric Energy
+  KITCHEN_HPRU_ROUTINE_KITCHEN_APPLIANCE_NIST_DISHWASHER_NIST_DISHWASHER:Electric Equipment Electric Energy
+
+ For Meter=InteriorEquipment:Electricity:Zone:LIVING [J], ResourceType=Electricity, EndUse=InteriorEquipment, Group=Zone, contents are:
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_TV_NIST_TV:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT1_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_WORKINGADULT2_LIVING_APPLIANCE_NIST_MOBILEPHONES_NIST_MOBILEPHONES:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_TV-STANDBY_TV-STANDBY:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_LAPTOP_NIST_LAPTOP:Electric Equipment Electric Energy
+  LIVING_HPRU_ROUTINE_LIVING_APPLIANCE_NIST_WIRELESSROUTER_NIST_WIRELESSROUTER:Electric Equipment Electric Energy
+
+ For Meter=Electricity:HVAC [J], ResourceType=Electricity, Group=HVAC, contents are:
+  BATH1_L2_PU_EXHAUSTFAN:Fan Electric Energy
+  KITCHEN_L1_PU_EXHAUSTFAN:Fan Electric Energy
+  BEDROOM1_HEATER:Baseboard Electric Energy
+  HALL_HEATER:Baseboard Electric Energy
+  BATH1_HEATER:Baseboard Electric Energy
+  BEDROOM4_HEATER:Baseboard Electric Energy
+  BEDROOM2_HEATER:Baseboard Electric Energy
+  LOO_HEATER:Baseboard Electric Energy
+  KITCHEN_HEATER:Baseboard Electric Energy
+  ENSUITE_HEATER:Baseboard Electric Energy
+  DINING_HEATER:Baseboard Electric Energy
+  TOPHALL_HEATER:Baseboard Electric Energy
+  BEDROOM3_HEATER:Baseboard Electric Energy
+  STAIRCASE_HEATER:Baseboard Electric Energy
+  UTILITY_HEATER:Baseboard Electric Energy
+  LIVING_HEATER:Baseboard Electric Energy
+
+ For Meter=Fans:Electricity [J], ResourceType=Electricity, EndUse=Fans, contents are:
+  BATH1_L2_PU_EXHAUSTFAN:Fan Electric Energy
+  KITCHEN_L1_PU_EXHAUSTFAN:Fan Electric Energy
+
+ For Meter=General:Fans:Electricity [J], ResourceType=Electricity, EndUse=Fans, contents are:
+  BATH1_L2_PU_EXHAUSTFAN:Fan Electric Energy
+  KITCHEN_L1_PU_EXHAUSTFAN:Fan Electric Energy
+
+ For Meter=EnergyTransfer:Facility [J], ResourceType=EnergyTransfer, contents are:
+  BEDROOM1:Zone Air System Sensible Heating Energy
+  BEDROOM1:Zone Air System Sensible Cooling Energy
+  HALL:Zone Air System Sensible Heating Energy
+  HALL:Zone Air System Sensible Cooling Energy
+  CELLAR:Zone Air System Sensible Heating Energy
+  CELLAR:Zone Air System Sensible Cooling Energy
+  LOFT:Zone Air System Sensible Heating Energy
+  LOFT:Zone Air System Sensible Cooling Energy
+  BATH1:Zone Air System Sensible Heating Energy
+  BATH1:Zone Air System Sensible Cooling Energy
+  BEDROOM4:Zone Air System Sensible Heating Energy
+  BEDROOM4:Zone Air System Sensible Cooling Energy
+  BEDROOM2:Zone Air System Sensible Heating Energy
+  BEDROOM2:Zone Air System Sensible Cooling Energy
+  LOO:Zone Air System Sensible Heating Energy
+  LOO:Zone Air System Sensible Cooling Energy
+  KITCHEN:Zone Air System Sensible Heating Energy
+  KITCHEN:Zone Air System Sensible Cooling Energy
+  ENSUITE:Zone Air System Sensible Heating Energy
+  ENSUITE:Zone Air System Sensible Cooling Energy
+  DINING:Zone Air System Sensible Heating Energy
+  DINING:Zone Air System Sensible Cooling Energy
+  TOPHALL:Zone Air System Sensible Heating Energy
+  TOPHALL:Zone Air System Sensible Cooling Energy
+  BEDROOM3:Zone Air System Sensible Heating Energy
+  BEDROOM3:Zone Air System Sensible Cooling Energy
+  STAIRCASE:Zone Air System Sensible Heating Energy
+  STAIRCASE:Zone Air System Sensible Cooling Energy
+  UTILITY:Zone Air System Sensible Heating Energy
+  UTILITY:Zone Air System Sensible Cooling Energy
+  LIVING:Zone Air System Sensible Heating Energy
+  LIVING:Zone Air System Sensible Cooling Energy
+  BEDROOM1_HEATER:Baseboard Total Heating Energy
+  HALL_HEATER:Baseboard Total Heating Energy
+  BATH1_HEATER:Baseboard Total Heating Energy
+  BEDROOM4_HEATER:Baseboard Total Heating Energy
+  BEDROOM2_HEATER:Baseboard Total Heating Energy
+  LOO_HEATER:Baseboard Total Heating Energy
+  KITCHEN_HEATER:Baseboard Total Heating Energy
+  ENSUITE_HEATER:Baseboard Total Heating Energy
+  DINING_HEATER:Baseboard Total Heating Energy
+  TOPHALL_HEATER:Baseboard Total Heating Energy
+  BEDROOM3_HEATER:Baseboard Total Heating Energy
+  STAIRCASE_HEATER:Baseboard Total Heating Energy
+  UTILITY_HEATER:Baseboard Total Heating Energy
+  LIVING_HEATER:Baseboard Total Heating Energy
+
+ For Meter=EnergyTransfer:Building [J], ResourceType=EnergyTransfer, Group=Building, contents are:
+  BEDROOM1:Zone Air System Sensible Heating Energy
+  BEDROOM1:Zone Air System Sensible Cooling Energy
+  HALL:Zone Air System Sensible Heating Energy
+  HALL:Zone Air System Sensible Cooling Energy
+  CELLAR:Zone Air System Sensible Heating Energy
+  CELLAR:Zone Air System Sensible Cooling Energy
+  LOFT:Zone Air System Sensible Heating Energy
+  LOFT:Zone Air System Sensible Cooling Energy
+  BATH1:Zone Air System Sensible Heating Energy
+  BATH1:Zone Air System Sensible Cooling Energy
+  BEDROOM4:Zone Air System Sensible Heating Energy
+  BEDROOM4:Zone Air System Sensible Cooling Energy
+  BEDROOM2:Zone Air System Sensible Heating Energy
+  BEDROOM2:Zone Air System Sensible Cooling Energy
+  LOO:Zone Air System Sensible Heating Energy
+  LOO:Zone Air System Sensible Cooling Energy
+  KITCHEN:Zone Air System Sensible Heating Energy
+  KITCHEN:Zone Air System Sensible Cooling Energy
+  ENSUITE:Zone Air System Sensible Heating Energy
+  ENSUITE:Zone Air System Sensible Cooling Energy
+  DINING:Zone Air System Sensible Heating Energy
+  DINING:Zone Air System Sensible Cooling Energy
+  TOPHALL:Zone Air System Sensible Heating Energy
+  TOPHALL:Zone Air System Sensible Cooling Energy
+  BEDROOM3:Zone Air System Sensible Heating Energy
+  BEDROOM3:Zone Air System Sensible Cooling Energy
+  STAIRCASE:Zone Air System Sensible Heating Energy
+  STAIRCASE:Zone Air System Sensible Cooling Energy
+  UTILITY:Zone Air System Sensible Heating Energy
+  UTILITY:Zone Air System Sensible Cooling Energy
+  LIVING:Zone Air System Sensible Heating Energy
+  LIVING:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:BEDROOM1 [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  BEDROOM1:Zone Air System Sensible Heating Energy
+  BEDROOM1:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer [J], ResourceType=EnergyTransfer, EndUse=Heating, contents are:
+  BEDROOM1:Zone Air System Sensible Heating Energy
+  HALL:Zone Air System Sensible Heating Energy
+  CELLAR:Zone Air System Sensible Heating Energy
+  LOFT:Zone Air System Sensible Heating Energy
+  BATH1:Zone Air System Sensible Heating Energy
+  BEDROOM4:Zone Air System Sensible Heating Energy
+  BEDROOM2:Zone Air System Sensible Heating Energy
+  LOO:Zone Air System Sensible Heating Energy
+  KITCHEN:Zone Air System Sensible Heating Energy
+  ENSUITE:Zone Air System Sensible Heating Energy
+  DINING:Zone Air System Sensible Heating Energy
+  TOPHALL:Zone Air System Sensible Heating Energy
+  BEDROOM3:Zone Air System Sensible Heating Energy
+  STAIRCASE:Zone Air System Sensible Heating Energy
+  UTILITY:Zone Air System Sensible Heating Energy
+  LIVING:Zone Air System Sensible Heating Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:BEDROOM1 [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  BEDROOM1:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer [J], ResourceType=EnergyTransfer, EndUse=Cooling, contents are:
+  BEDROOM1:Zone Air System Sensible Cooling Energy
+  HALL:Zone Air System Sensible Cooling Energy
+  CELLAR:Zone Air System Sensible Cooling Energy
+  LOFT:Zone Air System Sensible Cooling Energy
+  BATH1:Zone Air System Sensible Cooling Energy
+  BEDROOM4:Zone Air System Sensible Cooling Energy
+  BEDROOM2:Zone Air System Sensible Cooling Energy
+  LOO:Zone Air System Sensible Cooling Energy
+  KITCHEN:Zone Air System Sensible Cooling Energy
+  ENSUITE:Zone Air System Sensible Cooling Energy
+  DINING:Zone Air System Sensible Cooling Energy
+  TOPHALL:Zone Air System Sensible Cooling Energy
+  BEDROOM3:Zone Air System Sensible Cooling Energy
+  STAIRCASE:Zone Air System Sensible Cooling Energy
+  UTILITY:Zone Air System Sensible Cooling Energy
+  LIVING:Zone Air System Sensible Cooling Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:BEDROOM1 [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  BEDROOM1:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:HALL [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  HALL:Zone Air System Sensible Heating Energy
+  HALL:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:HALL [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  HALL:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:HALL [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  HALL:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:CELLAR [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  CELLAR:Zone Air System Sensible Heating Energy
+  CELLAR:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:CELLAR [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  CELLAR:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:CELLAR [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  CELLAR:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:LOFT [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  LOFT:Zone Air System Sensible Heating Energy
+  LOFT:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:LOFT [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  LOFT:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:LOFT [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  LOFT:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:BATH1 [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  BATH1:Zone Air System Sensible Heating Energy
+  BATH1:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:BATH1 [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  BATH1:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:BATH1 [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  BATH1:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:BEDROOM4 [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  BEDROOM4:Zone Air System Sensible Heating Energy
+  BEDROOM4:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:BEDROOM4 [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  BEDROOM4:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:BEDROOM4 [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  BEDROOM4:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:BEDROOM2 [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  BEDROOM2:Zone Air System Sensible Heating Energy
+  BEDROOM2:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:BEDROOM2 [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  BEDROOM2:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:BEDROOM2 [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  BEDROOM2:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:LOO [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  LOO:Zone Air System Sensible Heating Energy
+  LOO:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:LOO [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  LOO:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:LOO [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  LOO:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:KITCHEN [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  KITCHEN:Zone Air System Sensible Heating Energy
+  KITCHEN:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:KITCHEN [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  KITCHEN:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:KITCHEN [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  KITCHEN:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:ENSUITE [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  ENSUITE:Zone Air System Sensible Heating Energy
+  ENSUITE:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:ENSUITE [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  ENSUITE:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:ENSUITE [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  ENSUITE:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:DINING [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  DINING:Zone Air System Sensible Heating Energy
+  DINING:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:DINING [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  DINING:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:DINING [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  DINING:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:TOPHALL [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  TOPHALL:Zone Air System Sensible Heating Energy
+  TOPHALL:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:TOPHALL [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  TOPHALL:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:TOPHALL [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  TOPHALL:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:BEDROOM3 [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  BEDROOM3:Zone Air System Sensible Heating Energy
+  BEDROOM3:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:BEDROOM3 [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  BEDROOM3:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:BEDROOM3 [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  BEDROOM3:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:STAIRCASE [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  STAIRCASE:Zone Air System Sensible Heating Energy
+  STAIRCASE:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:STAIRCASE [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  STAIRCASE:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:STAIRCASE [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  STAIRCASE:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:UTILITY [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  UTILITY:Zone Air System Sensible Heating Energy
+  UTILITY:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:UTILITY [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  UTILITY:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:UTILITY [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  UTILITY:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:Zone:LIVING [J], ResourceType=EnergyTransfer, Group=Zone, contents are:
+  LIVING:Zone Air System Sensible Heating Energy
+  LIVING:Zone Air System Sensible Cooling Energy
+
+ For Meter=Heating:EnergyTransfer:Zone:LIVING [J], ResourceType=EnergyTransfer, EndUse=Heating, Group=Zone, contents are:
+  LIVING:Zone Air System Sensible Heating Energy
+
+ For Meter=Cooling:EnergyTransfer:Zone:LIVING [J], ResourceType=EnergyTransfer, EndUse=Cooling, Group=Zone, contents are:
+  LIVING:Zone Air System Sensible Cooling Energy
+
+ For Meter=EnergyTransfer:HVAC [J], ResourceType=EnergyTransfer, Group=HVAC, contents are:
+  BEDROOM1_HEATER:Baseboard Total Heating Energy
+  HALL_HEATER:Baseboard Total Heating Energy
+  BATH1_HEATER:Baseboard Total Heating Energy
+  BEDROOM4_HEATER:Baseboard Total Heating Energy
+  BEDROOM2_HEATER:Baseboard Total Heating Energy
+  LOO_HEATER:Baseboard Total Heating Energy
+  KITCHEN_HEATER:Baseboard Total Heating Energy
+  ENSUITE_HEATER:Baseboard Total Heating Energy
+  DINING_HEATER:Baseboard Total Heating Energy
+  TOPHALL_HEATER:Baseboard Total Heating Energy
+  BEDROOM3_HEATER:Baseboard Total Heating Energy
+  STAIRCASE_HEATER:Baseboard Total Heating Energy
+  UTILITY_HEATER:Baseboard Total Heating Energy
+  LIVING_HEATER:Baseboard Total Heating Energy
+
+ For Meter=Baseboard:EnergyTransfer [J], ResourceType=EnergyTransfer, EndUse=Baseboard, contents are:
+  BEDROOM1_HEATER:Baseboard Total Heating Energy
+  HALL_HEATER:Baseboard Total Heating Energy
+  BATH1_HEATER:Baseboard Total Heating Energy
+  BEDROOM4_HEATER:Baseboard Total Heating Energy
+  BEDROOM2_HEATER:Baseboard Total Heating Energy
+  LOO_HEATER:Baseboard Total Heating Energy
+  KITCHEN_HEATER:Baseboard Total Heating Energy
+  ENSUITE_HEATER:Baseboard Total Heating Energy
+  DINING_HEATER:Baseboard Total Heating Energy
+  TOPHALL_HEATER:Baseboard Total Heating Energy
+  BEDROOM3_HEATER:Baseboard Total Heating Energy
+  STAIRCASE_HEATER:Baseboard Total Heating Energy
+  UTILITY_HEATER:Baseboard Total Heating Energy
+  LIVING_HEATER:Baseboard Total Heating Energy
+
+ For Meter=Heating:Electricity [J], ResourceType=Electricity, EndUse=Heating, contents are:
+  BEDROOM1_HEATER:Baseboard Electric Energy
+  HALL_HEATER:Baseboard Electric Energy
+  BATH1_HEATER:Baseboard Electric Energy
+  BEDROOM4_HEATER:Baseboard Electric Energy
+  BEDROOM2_HEATER:Baseboard Electric Energy
+  LOO_HEATER:Baseboard Electric Energy
+  KITCHEN_HEATER:Baseboard Electric Energy
+  ENSUITE_HEATER:Baseboard Electric Energy
+  DINING_HEATER:Baseboard Electric Energy
+  TOPHALL_HEATER:Baseboard Electric Energy
+  BEDROOM3_HEATER:Baseboard Electric Energy
+  STAIRCASE_HEATER:Baseboard Electric Energy
+  UTILITY_HEATER:Baseboard Electric Energy
+  LIVING_HEATER:Baseboard Electric Energy
+
+ For Meter=ElectricityPurchased:Facility [J], ResourceType=ElectricityPurchased, contents are:
+  Whole Building:Facility Total Purchased Electric Energy
+
+ For Meter=ElectricityPurchased:Plant [J], ResourceType=ElectricityPurchased, Group=Plant, contents are:
+  Whole Building:Facility Total Purchased Electric Energy
+
+ For Meter=Cogeneration:ElectricityPurchased [J], ResourceType=ElectricityPurchased, EndUse=Cogeneration, contents are:
+  Whole Building:Facility Total Purchased Electric Energy
+
+ For Meter=ElectricitySurplusSold:Facility [J], ResourceType=ElectricitySurplusSold, contents are:
+  Whole Building:Facility Total Surplus Electric Energy
+
+ For Meter=ElectricitySurplusSold:Plant [J], ResourceType=ElectricitySurplusSold, Group=Plant, contents are:
+  Whole Building:Facility Total Surplus Electric Energy
+
+ For Meter=Cogeneration:ElectricitySurplusSold [J], ResourceType=ElectricitySurplusSold, EndUse=Cogeneration, contents are:
+  Whole Building:Facility Total Surplus Electric Energy
+
+ For Meter=ElectricityNet:Facility [J], ResourceType=ElectricityNet, contents are:
+  Whole Building:Facility Net Purchased Electric Energy
+
+ For Meter=ElectricityNet:Plant [J], ResourceType=ElectricityNet, Group=Plant, contents are:
+  Whole Building:Facility Net Purchased Electric Energy
+
+ For Meter=Cogeneration:ElectricityNet [J], ResourceType=ElectricityNet, EndUse=Cogeneration, contents are:
+  Whole Building:Facility Net Purchased Electric Energy
+
+ For Meter=Carbon Equivalent:Facility [kg], ResourceType=Carbon Equivalent, contents are:
+  Site:Environmental Impact Total N2O Emissions Carbon Equivalent Mass
+  Site:Environmental Impact Total CH4 Emissions Carbon Equivalent Mass
+  Site:Environmental Impact Total CO2 Emissions Carbon Equivalent Mass
+
+ For Meter=CarbonEquivalentEmissions:Carbon Equivalent [kg], ResourceType=Carbon Equivalent, EndUse=CarbonEquivalentEmissions, contents are:
+  Site:Environmental Impact Total N2O Emissions Carbon Equivalent Mass
+  Site:Environmental Impact Total CH4 Emissions Carbon Equivalent Mass
+  Site:Environmental Impact Total CO2 Emissions Carbon Equivalent Mass

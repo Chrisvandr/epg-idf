@@ -1,0 +1,37 @@
+*'=All,Output data from EP,
+Zone Name,Output,Frequency
+*,Site Outdoor Air Relative Humidity,Hourly
+*,Site Outdoor Air Drybulb Temperature,Hourly
+,Site Outdoor Air Barometric Pressure,Hourly
+,Site Wind Speed,Hourly
+,Site Wind Direction,Hourly
+,Zone Mean Air Temperature,Hourly
+Living:Kitchen:Bedroom1:Bath1:Living_GF:Kitchen_GF:Bedroom1_GF:Bath1_GF:Living_MF:Kitchen_MF:Bedroom1_MF:Bath1_MF:Living_TF:Kitchen_TF:Bedroom1_TF:Bath1_TF,Zone Operative Temperature,Hourly
+Living:Kitchen:Bedroom1:Bath1:Living_GF:Kitchen_GF:Bedroom1_GF:Bath1_GF:Living_MF:Kitchen_MF:Bedroom1_MF:Bath1_MF:Living_TF:Kitchen_TF:Bedroom1_TF:Bath1_TF,Zone Air Relative Humidity ,Hourly
+,Generic Air Contaminant Constant Source Generation Volume Flow Rate,Hourly
+,Zone Air Humidity Ratio,Hourly
+Living:Kitchen:Bedroom1:Bath1:Living_GF:Kitchen_GF:Bedroom1_GF:Bath1_GF:Living_MF:Kitchen_MF:Bedroom1_MF:Bath1_MF:Living_TF:Kitchen_TF:Bedroom1_TF:Bath1_TF,Zone Air Relative Humidity ,Hourly
+Living:Kitchen:Bedroom1:Living_GF:Kitchen_GF:Bedroom1_GF:Living_MF:Kitchen_MF:Bedroom1_MF:Living_TF:Kitchen_TF:Bedroom1_TF,Zone Air Generic Air Contaminant Concentration,Hourly
+,Generic Air Contaminant Constant Source Generation Volume Flow Rate,Hourly
+,Zone Generic Air Contaminant Generation Volume Flow Rate,Hourly
+,Zone Generic Air Contaminant Predicted Load to Setpoint Mass Flow Rate,Hourly
+,Zone Generic Air Contaminant Setpoint Concentration,Hourly
+,Schedule Value,Hourly
+Living:Kitchen:Bedroom1:Living_GF:Kitchen_GF:Bedroom1_GF:Living_MF:Kitchen_MF:Bedroom1_MF:Living_TF:Kitchen_TF:Bedroom1_TF,AFN Zone Infiltration Air Change Rate,Hourly
+,AFN Zone Outdoor Air Generic Air Contaminant Mass Flow Rate ,Hourly
+,AFN Linkage Node 2 to Node 1 Volume Flow Rate ,Timestep
+,AFN Linkage Node 1 to Node 2 Volume Flow Rate ,Timestep
+,AFN Node Temperature,Timestep
+,AFN Node Humidity Ratio,Timestep
+,AFN Node Total Pressure,Hourly
+,AFN Linkage Node 1 to Node 2 Mass Flow Rate,Timestep
+,AFN Linkage Node 2 to Node 1 Mass Flow Rate,Timestep
+,Schedule Value,Timestep
+,AFN Zone Infiltration Volume [m3],Hourly
+,AFN Zone Mixing Volume,Hourly
+,AFN Surface Venting Window or Door Opening Factor,Hourly
+Kitchen:Living:Bedroom1:Bedroom2:Bedroom3:Bedroom4:Bath1:Comm:Ensuite:Loo:Storage:Entrance:Staircase:Dining:Hall:TopHall:Utility:Conservatory:Bath1_GF:Bath1_MF:Bath1_TF:Bedroom1_GF:Bedroom1_MF:Bedroom1_TF:Bedroom2_GF:Bedroom2_MF:Bedroom2_TF:Comm_GF:Comm_MF:Comm_TF:Hall_GF:Hall_MF:Hall_TF:Kitchen_GF:Kitchen_MF:Kitchen_TF:Living_GF:Living_MF:Living_TF:Storage_GF:Storage_MF:Storage_TF,Zone Air System Sensible Heating Energy,RunPeriod
+,HAMT Surface Inside Face Vapor Pressure,Hourly
+,HAMT Surface Inside Face Relative Humidity,Hourly
+,HAMT Surface Inside Face Temperature,Hourly
+Living_L1:Kitchen_L1:Bedroom1_L1:Bath1_L1:Living_L2:Kitchen_L2:Bedroom1_L2:Bath1_L2:Living_L3:Kitchen_L3:Bedroom1_L3:Bath1_L3:Living_L4:Kitchen_L4:Bedroom1_L4:Bath1_L4:Living_GF_L1:Kitchen_GF_L1:Bedroom1_GF_L1:Bath1_GF_L1:Living_GF_L2:Kitchen_GF_L2:Bedroom1_GF_L2:Bath1_GF_L2:Living_GF_L3:Kitchen_GF_L3:Bedroom1_GF_L3:Bath1_GF_L3:Living_GF_L4:Kitchen_GF_L4:Bedroom1_GF_L4:Bath1_GF_L4:Living_MF_L1:Kitchen_MF_L1:Bedroom1_MF_L1:Bath1_MF_L1:Living_MF_L2:Kitchen_MF_L2:Bedroom1_MF_L2:Bath1_MF_L2:Living_MF_L3:Kitchen_MF_L3:Bedroom1_MF_L3:Bath1_MF_L3:Living_MF_L4:Kitchen_MF_L4:Bedroom1_MF_L4:Bath1_MF_L4:Living_TF_L1:Kitchen_TF_L1:Bedroom1_TF_L1:Bath1_TF_L1:Living_TF_L2:Kitchen_TF_L2:Bedroom1_TF_L2:Bath1_TF_L2:Living_TF_L3:Kitchen_TF_L3:Bedroom1_TF_L3:Bath1_TF_L3:Living_TF_L4:Kitchen_TF_L4:Bedroom1_TF_L4:Bath1_TF_L4,Surface Inside Face Temperature,Hourly

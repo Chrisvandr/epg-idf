@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<svg width="250mm" height="200mm" viewBox="0 0   2500    1500"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:ev="http://www.w3.org/2001/xml-events">
+<g font-family="Verdana" font-size="8" >
+  <text x="   200" y="    40">Unused Non-Parent Objects:</text>
+  <text x="   220" y="    60">BATH1_L2_PU_EXHAUSTFAN</text>
+  <text x="   220" y="    80">KITCHEN_L1_PU_EXHAUSTFAN</text>
+  <text x="   220" y="   100">BEDROOM1</text>
+  <text x="   220" y="   120">HALL</text>
+  <text x="   220" y="   140">BATH1</text>
+  <text x="   220" y="   160">BEDROOM4</text>
+  <text x="   220" y="   180">BEDROOM2</text>
+  <text x="   220" y="   200">LOO</text>
+  <text x="   220" y="   220">KITCHEN</text>
+  <text x="   220" y="   240">ENSUITE</text>
+  <text x="   220" y="   260">DINING</text>
+  <text x="   220" y="   280">TOPHALL</text>
+  <text x="   220" y="   300">BEDROOM3</text>
+  <text x="   220" y="   320">STAIRCASE</text>
+  <text x="   220" y="   340">UTILITY</text>
+  <text x="   220" y="   360">LIVING</text>
+  <text x="   200" y="   400">
+The following are not supported: objects related to controls, AirTerminal:SingleDuct:Uncontrolled, or ZoneHVAC:IdealLoadsAirSystem</text>
+</g>
+</svg>

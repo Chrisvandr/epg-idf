@@ -1,0 +1,1960 @@
+Program Version:,EnergyPlus-Darwin-64 8.1.0.009, YMD=2016.01.20 13:59
+ Tabular Output Report in Format: ,Comma
+
+Building:,Benchmark Small Office New V1.0_3.0
+Environment:,4250290 - UK WG data WMO#=03534
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Annual Building Utility Performance Summary
+FOR:,Entire Facility
+Values gathered over       744.00 hours
+WARNING: THE REPORT DOES NOT REPRESENT A FULL ANNUAL SIMULATION.
+
+Site and Source Energy
+
+,,Total Energy [GJ],Energy Per Total Building Area [MJ/m2],Energy Per Conditioned Building Area [MJ/m2]
+,Total Site Energy,19.61,18.18,38.37
+,Net Site Energy,19.61,18.18,38.37
+,Total Source Energy,67.90,62.92,132.83
+,Net Source Energy,67.90,62.92,132.83
+
+
+Site to Source Energy Conversion Factors
+
+,,Site=>Source Conversion Factor
+,Electricity,3.577
+,Natural Gas,1.092
+,District Cooling,1.192
+,District Heating,3.640
+,Steam,0.250
+,Gasoline,1.050
+,Diesel,1.050
+,Coal,1.050
+,Fuel Oil #1,1.158
+,Fuel Oil #2,1.050
+,Propane,1.151
+,Other Fuel 1,1.000
+,Other Fuel 2,1.000
+
+
+Building Area
+
+,,Area [m2]
+,Total Building Area,1079.13
+,Net Conditioned Building Area,511.16
+,Unconditioned Building Area,567.98
+
+
+End Uses
+
+,,Electricity [GJ],Natural Gas [GJ],Additional Fuel [GJ],District Cooling [GJ],District Heating [GJ],Water [m3]
+,Heating,0.00,0.03,0.00,0.00,0.00,0.00
+,Cooling,1.63,0.00,0.00,0.00,0.00,0.00
+,Interior Lighting,4.73,0.00,0.00,0.00,0.00,0.00
+,Exterior Lighting,1.34,0.00,0.00,0.00,0.00,0.00
+,Interior Equipment,5.54,0.00,0.00,0.00,0.00,0.00
+,Exterior Equipment,0.00,0.00,0.00,0.00,0.00,0.00
+,Fans,5.47,0.00,0.00,0.00,0.00,0.00
+,Pumps,0.00,0.00,0.00,0.00,0.00,0.00
+,Heat Rejection,0.00,0.00,0.00,0.00,0.00,0.00
+,Humidification,0.00,0.00,0.00,0.00,0.00,0.00
+,Heat Recovery,0.00,0.00,0.00,0.00,0.00,0.00
+,Water Systems,0.00,0.88,0.00,0.00,0.00,1.47
+,Refrigeration,0.00,0.00,0.00,0.00,0.00,0.00
+,Generators,0.00,0.00,0.00,0.00,0.00,0.00
+,,,,,,,
+,Total End Uses,18.70,0.91,0.00,0.00,0.00,1.47
+Note: Natural gas appears to be the principal heating source based on energy usage.
+
+
+End Uses By Subcategory
+
+,,Subcategory,Electricity [GJ],Natural Gas [GJ],Additional Fuel [GJ],District Cooling [GJ],District Heating [GJ],Water [m3]
+,Heating,General,0.00,0.03,0.00,0.00,0.00,0.00
+,Cooling,General,1.63,0.00,0.00,0.00,0.00,0.00
+,Interior Lighting,General,4.73,0.00,0.00,0.00,0.00,0.00
+,Exterior Lighting,Exterior Facade Lighting,1.34,0.00,0.00,0.00,0.00,0.00
+,Interior Equipment,MiscPlug,5.54,0.00,0.00,0.00,0.00,0.00
+,Exterior Equipment,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Fans,Fan Energy,5.47,0.00,0.00,0.00,0.00,0.00
+,Pumps,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Heat Rejection,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Humidification,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Heat Recovery,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Water Systems,Water Heater,0.00,0.88,0.00,0.00,0.00,0.00
+,,General,0.00,0.00,0.00,0.00,0.00,1.47
+,Refrigeration,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Generators,General,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Normalized Metrics
+Utility Use Per Conditioned Floor Area
+
+,,Electricity Intensity [MJ/m2],Natural Gas Intensity [MJ/m2],Additional Fuel Intensity [MJ/m2],District Cooling Intensity [MJ/m2],District Heating Intensity [MJ/m2],Water Intensity [m3/m2]
+,Lighting,11.87,0.00,0.00,0.00,0.00,0.00
+,HVAC,13.88,1.78,0.00,0.00,0.00,0.00
+,Other,10.84,0.00,0.00,0.00,0.00,0.00
+,Total,36.59,1.78,0.00,0.00,0.00,0.00
+
+
+Utility Use Per Total Floor Area
+
+,,Electricity Intensity [MJ/m2],Natural Gas Intensity [MJ/m2],Additional Fuel Intensity [MJ/m2],District Cooling Intensity [MJ/m2],District Heating Intensity [MJ/m2],Water Intensity [m3/m2]
+,Lighting,5.62,0.00,0.00,0.00,0.00,0.00
+,HVAC,6.57,0.84,0.00,0.00,0.00,0.00
+,Other,5.13,0.00,0.00,0.00,0.00,0.00
+,Total,17.33,0.84,0.00,0.00,0.00,0.00
+
+
+Electric Loads Satisfied
+
+,,Electricity [GJ],Percent Electricity [%]
+,Fuel-Fired Power Generation,0.00,0.00
+,High Temperature Geothermal*,0.00,0.00
+,Photovoltaic Power,0.00,0.00
+,Wind Power,0.00,0.00
+,Net Decrease in On-Site Storage,0.00,0.00
+,Total On-Site Electric Sources,0.00,0.00
+,,,
+,Electricity Coming From Utility,18.70,100.00
+,Surplus Electricity Going To Utility,0.00,0.00
+,Net Electricity From Utility,18.70,100.00
+,,,
+,Total On-Site and Utility Electric Sources,18.70,100.00
+,Total Electricity End Uses,18.70,100.00
+
+
+On-Site Thermal Sources
+
+,,Heat [GJ],Percent Heat [%]
+,Water-Side Heat Recovery,0.00,
+,Air to Air Heat Recovery for Cooling,0.00,
+,Air to Air Heat Recovery for Heating,0.00,
+,High-Temperature Geothermal*,0.00,
+,Solar Water Thermal,0.00,
+,Solar Air Thermal,0.00,
+,Total On-Site Thermal Sources,0.00,
+
+
+Water Source Summary
+
+,,Water [m3],Percent Water [%]
+,Rainwater Collection,0.00,0.00
+,Condensate Collection,0.00,0.00
+,Groundwater Well,0.00,0.00
+,Total On Site Water Sources,0.00,0.00
+,-,-,-
+,Initial Storage,0.00,0.00
+,Final Storage,0.00,0.00
+,Change in Storage,0.00,0.00
+,-,-,-
+,Water Supplied by Utility,1.47,100.00
+,-,-,-
+,Total On Site, Change in Storage, and Utility Water Sources,1.47,100.00
+,Total Water End Uses,1.47,100.00
+
+
+Setpoint Not Met Criteria
+
+,,Degrees [deltaC]
+,Tolerance for Zone Heating Setpoint Not Met Time,0.20
+,Tolerance for Zone Cooling Setpoint Not Met Time,0.20
+
+
+Comfort and Setpoint Not Met Summary
+
+,,Facility [Hours]
+,Time Setpoint Not Met During Occupied Heating,0.00
+,Time Setpoint Not Met During Occupied Cooling,0.00
+,Time Not Comfortable Based on Simple ASHRAE 55-2004,15.00
+
+
+Note 1: An asterisk (*) indicates that the feature is not yet implemented.
+----------------------------------------------------------------------------------------------------
+REPORT:,Input Verification and Results Summary
+FOR:,Entire Facility
+General
+
+,,Value
+,Program Version and Build,EnergyPlus-Darwin-64 8.1.0.009, YMD=2016.01.20 13:59
+,RunPeriod,4250290 - UK WG data WMO#=03534
+,Weather File,4250290 - UK WG data WMO#=03534
+,Latitude [deg],52.48
+,Longitude [deg],-1.7
+,Elevation [m],96.00
+,Time Zone,0.00
+,North Axis Angle [deg],0.00
+,Rotation for Appendix G [deg],0.00
+,Hours Simulated [hrs],744.00
+
+
+ENVELOPE
+Window-Wall Ratio
+
+,,Total,North (315 to 45 deg),East (45 to 135 deg),South (135 to 225 deg),West (225 to 315 deg)
+,Gross Wall Area [m2],281.51,84.45,56.30,84.45,56.30
+,Above Ground Wall Area [m2],281.51,84.45,56.30,84.45,56.30
+,Window Opening Area [m2],59.68,16.73,11.16,20.64,11.16
+,Gross Window-Wall Ratio [%],21.20,19.81,19.81,24.44,19.81
+,Above Ground Window-Wall Ratio [%],21.20,19.81,19.81,24.44,19.81
+
+
+Conditioned Window-Wall Ratio
+
+,,Total,North (315 to 45 deg),East (45 to 135 deg),South (135 to 225 deg),West (225 to 315 deg)
+,Gross Wall Area [m2],281.51,84.45,56.30,84.45,56.30
+,Above Ground Wall Area [m2],281.51,84.45,56.30,84.45,56.30
+,Window Opening Area [m2],59.68,16.73,11.16,20.64,11.16
+,Gross Window-Wall Ratio [%],21.20,19.81,19.81,24.44,19.81
+,Above Ground Window-Wall Ratio [%],21.20,19.81,19.81,24.44,19.81
+
+
+Skylight-Roof Ratio
+
+,,Total
+,Gross Roof Area [m2],598.76
+,Skylight Area [m2],0.00
+,Skylight-Roof Ratio [%],0.00
+
+
+PERFORMANCE
+Zone Summary
+
+,,Area [m2],Conditioned (Y/N),Part of Total Floor Area (Y/N),Volume [m3],Multipliers,Gross Wall Area [m2],Window Glass Area [m2],Lighting [W/m2],People [m2 per person],Plug and Process [W/m2]
+,CORE_ZN,149.66,Yes,Yes,456.46,1.00,0.00,0.00,10.7600,18.59,8.0700
+,PERIMETER_ZN_1,113.45,Yes,Yes,346.02,1.00,84.45,20.64,10.7600,18.59,8.0700
+,PERIMETER_ZN_2,67.30,Yes,Yes,205.26,1.00,56.30,11.16,10.7600,18.59,8.0700
+,PERIMETER_ZN_3,113.45,Yes,Yes,346.02,1.00,84.45,16.73,10.7600,18.59,8.0700
+,PERIMETER_ZN_4,67.30,Yes,Yes,205.26,1.00,56.30,11.16,10.7600,18.59,8.0700
+,ATTIC,567.98,No,Yes,720.19,1.00,0.00,0.00,0.0000,,0.0000
+,Total,1079.13,,,2279.22,,281.51,59.68,5.0967,39.24,3.8225
+,Conditioned Total,511.16,,,1559.03,,281.51,59.68,10.7600,18.59,8.0700
+,Unconditioned Total,567.98,,,720.19,,0.00,0.00,0.0000,,0.0000
+,Not Part of Total,0.00,,,0.00,,0.00,0.00,,,
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Demand End Use Components Summary
+FOR:,Entire Facility
+End Uses
+
+,,Electricity [W],Natural Gas [W],Propane [W],District Cooling [W],Steam [W],Water [m3/s]
+,Time of Peak,20-JUL-14:00,30-JUL-04:10,-,-,-,02-JUL-11:09
+,Heating,0.00,5336.80,0.00,0.00,0.00,0.00
+,Cooling,4046.19,0.00,0.00,0.00,0.00,0.00
+,Interior Lighting,4950.05,0.00,0.00,0.00,0.00,0.00
+,Exterior Lighting,0.00,0.00,0.00,0.00,0.00,0.00
+,Interior Equipment,3712.54,0.00,0.00,0.00,0.00,0.00
+,Exterior Equipment,0.00,0.00,0.00,0.00,0.00,0.00
+,Fans,3936.53,0.00,0.00,0.00,0.00,0.00
+,Pumps,0.00,0.00,0.00,0.00,0.00,0.00
+,Heat Rejection,0.00,0.00,0.00,0.00,0.00,0.00
+,Humidification,0.00,0.00,0.00,0.00,0.00,0.00
+,Heat Recovery,0.00,0.00,0.00,0.00,0.00,0.00
+,Water Systems,0.00,20.00,0.00,0.00,0.00,0.00
+,Refrigeration,0.00,0.00,0.00,0.00,0.00,0.00
+,Generators,0.00,0.00,0.00,0.00,0.00,0.00
+,,,,,,,
+,Total End Uses,16645.30,5356.80,0.00,0.00,0.00,0.00
+
+
+End Uses By Subcategory
+
+,,Subcategory,Electricity [W],Natural Gas [W],Propane [W],District Cooling [W],Steam [W],Water [m3/s]
+,Heating,General,0.00,5336.80,0.00,0.00,0.00,0.00
+,Cooling,General,4046.19,0.00,0.00,0.00,0.00,0.00
+,Interior Lighting,General,4950.05,0.00,0.00,0.00,0.00,0.00
+,Exterior Lighting,Exterior Facade Lighting,0.00,0.00,0.00,0.00,0.00,0.00
+,Interior Equipment,MiscPlug,3712.54,0.00,0.00,0.00,0.00,0.00
+,Exterior Equipment,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Fans,Fan Energy,3936.53,0.00,0.00,0.00,0.00,0.00
+,Pumps,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Heat Rejection,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Humidification,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Heat Recovery,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Water Systems,Water Heater,0.00,20.00,0.00,0.00,0.00,0.00
+,,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Refrigeration,General,0.00,0.00,0.00,0.00,0.00,0.00
+,Generators,General,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Source Energy End Use Components Summary
+FOR:,Entire Facility
+Values gathered over       744.00 hours
+WARNING: THE REPORT DOES NOT REPRESENT A FULL ANNUAL SIMULATION.
+
+Source Energy End Use Components Summary
+
+,,Source Electricity [GJ],Source Natural Gas [GJ],Source Additional Fuel [GJ],Source District Cooling [GJ],Source District Heating [GJ]
+,Heating,0.00,0.03,0.00,0.00,0.00
+,Cooling,5.83,0.00,0.00,0.00,0.00
+,Interior Lighting,16.92,0.00,0.00,0.00,0.00
+,Exterior Lighting,4.79,0.00,0.00,0.00,0.00
+,Interior Equipment,19.82,0.00,0.00,0.00,0.00
+,Exterior Equipment,0.00,0.00,0.00,0.00,0.00
+,Fans,19.55,0.00,0.00,0.00,0.00
+,Pumps,0.00,0.00,0.00,0.00,0.00
+,Heat Rejection,0.00,0.00,0.00,0.00,0.00
+,Humidification,0.00,0.00,0.00,0.00,0.00
+,Heat Recovery,0.00,0.00,0.00,0.00,0.00
+,Water Systems,0.00,0.96,0.00,0.00,0.00
+,Refrigeration,0.00,0.00,0.00,0.00,0.00
+,Generators,0.00,0.00,0.00,0.00,0.00
+,,,,,,
+,Total Source Energy End Use Components,66.90,0.99,0.00,0.00,0.00
+
+
+Normalized Metrics
+Source Energy End Use Components Per Conditioned Floor Area
+
+,,Source Electricity [MJ/m2],Source Natural Gas [MJ/m2],Source Additional Fuel [MJ/m2],Source District Cooling [MJ/m2],Source District Heating [MJ/m2]
+,Heating,0.00,0.06,0.00,0.00,0.00
+,Cooling,11.40,0.00,0.00,0.00,0.00
+,Interior Lighting,33.10,0.00,0.00,0.00,0.00
+,Exterior Lighting,9.37,0.00,0.00,0.00,0.00
+,Interior Equipment,38.77,0.00,0.00,0.00,0.00
+,Exterior Equipment,0.00,0.00,0.00,0.00,0.00
+,Fans,38.24,0.00,0.00,0.00,0.00
+,Pumps,0.00,0.00,0.00,0.00,0.00
+,Heat Rejection,0.00,0.00,0.00,0.00,0.00
+,Humidification,0.00,0.00,0.00,0.00,0.00
+,Heat Recovery,0.00,0.00,0.00,0.00,0.00
+,Water Systems,0.00,1.89,0.00,0.00,0.00
+,Refrigeration,0.00,0.00,0.00,0.00,0.00
+,Generators,0.00,0.00,0.00,0.00,0.00
+,,,,,,
+,Total Source Energy End Use Components,130.89,1.94,0.00,0.00,0.00
+
+
+Source Energy End Use Components Per Total Floor Area
+
+,,Source Electricity [MJ/m2],Source Natural Gas [MJ/m2],Source Additional Fuel [MJ/m2],Source District Cooling [MJ/m2],Source District Heating [MJ/m2]
+,Heating,0.00,0.06,0.00,0.00,0.00
+,Cooling,11.40,0.00,0.00,0.00,0.00
+,Interior Lighting,33.10,0.00,0.00,0.00,0.00
+,Exterior Lighting,9.37,0.00,0.00,0.00,0.00
+,Interior Equipment,38.77,0.00,0.00,0.00,0.00
+,Exterior Equipment,0.00,0.00,0.00,0.00,0.00
+,Fans,38.24,0.00,0.00,0.00,0.00
+,Pumps,0.00,0.00,0.00,0.00,0.00
+,Heat Rejection,0.00,0.00,0.00,0.00,0.00
+,Humidification,0.00,0.00,0.00,0.00,0.00
+,Heat Recovery,0.00,0.00,0.00,0.00,0.00
+,Water Systems,0.00,1.89,0.00,0.00,0.00
+,Refrigeration,0.00,0.00,0.00,0.00,0.00
+,Generators,0.00,0.00,0.00,0.00,0.00
+,,,,,,
+,Total Source Energy End Use Components,130.89,1.94,0.00,0.00,0.00
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Climatic Data Summary
+FOR:,Entire Facility
+SizingPeriod:DesignDay
+
+,,Maximum Dry Bulb [C],Daily Temperature Range [deltaC],Humidity Value,Humidity Type,Wind Speed [m/s],Wind Direction
+,LAS_VEGAS ANN HTG 99.6% CONDNS DB,-1.70,0.00,-1.70,Wetbulb [C],3.10,240.00
+,LAS_VEGAS ANN CLG .4% CONDNS DB=>MWB,42.40,13.60,19.40,Wetbulb [C],5.30,230.00
+
+
+Weather Statistics File
+
+,,Value
+,None,
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Envelope Summary
+FOR:,Entire Facility
+Opaque Exterior
+
+,,Construction,Reflectance,U-Factor with Film [W/m2-K],U-Factor no Film [W/m2-K],Gross Area [m2],Azimuth [deg],Tilt [deg],Cardinal Direction
+,CORE_ZN_FLOOR,EXT-SLAB,0.30,2.193,3.401,149.66,270.00,180.00,
+,PERIMETER_ZN_1_WALL_SOUTH,EXT-WALLS,0.08,0.856,0.982,84.45,180.00,90.00,S
+,PERIMETER_ZN_1_FLOOR,EXT-SLAB,0.30,2.193,3.401,113.45,135.00,180.00,
+,PERIMETER_ZN_2_WALL_EAST,EXT-WALLS,0.08,0.856,0.982,56.30,90.00,90.00,E
+,PERIMETER_ZN_2_FLOOR,EXT-SLAB,0.30,2.193,3.401,67.30,270.00,180.00,
+,PERIMETER_ZN_3_WALL_NORTH,EXT-WALLS,0.08,0.856,0.982,84.45,0.00,90.00,N
+,PERIMETER_ZN_3_FLOOR,EXT-SLAB,0.30,2.193,3.401,113.45,180.00,180.00,
+,PERIMETER_ZN_4_WALL_WEST,EXT-WALLS,0.08,0.856,0.982,56.30,270.00,90.00,W
+,PERIMETER_ZN_4_FLOOR,EXT-SLAB,0.30,2.193,3.401,67.30,90.00,180.00,
+,ATTIC_SOFFIT_WEST,EXPOSED-FLOOR,0.30,0.639,0.713,11.44,270.00,180.00,
+,ATTIC_SOFFIT_SOUTH,EXPOSED-FLOOR,0.30,0.639,0.713,16.97,225.00,180.00,
+,ATTIC_SOFFIT_EAST,EXPOSED-FLOOR,0.30,0.639,0.713,11.44,45.00,180.00,
+,ATTIC_SOFFIT_NORTH,EXPOSED-FLOOR,0.30,0.639,0.713,16.97,315.00,180.00,
+,ATTIC_ROOF_NORTH,ROOFS,0.22,0.196,0.201,197.51,0.00,18.45,
+,ATTIC_ROOF_WEST,ROOFS,0.22,0.196,0.201,101.87,270.00,18.45,
+,ATTIC_ROOF_EAST,ROOFS,0.22,0.196,0.201,101.87,90.00,18.45,
+,ATTIC_ROOF_SOUTH,ROOFS,0.22,0.196,0.201,197.51,180.00,18.45,
+
+
+Exterior Fenestration
+
+,,Construction,Glass Area [m2],Frame Area [m2],Divider Area [m2],Area of One Opening [m2],Area of Multiplied Openings [m2],Glass U-Factor [W/m2-K],Glass SHGC,Glass Visible Transmittance,Frame Conductance [W/m2-K],Divider Conductance [W/m2-K],Shade Control,Parent Surface,Azimuth [deg],Tilt [deg],Cardinal Direction
+,PERIMETER_ZN_1_WALL_SOUTH_WINDOW_1,TCWINDOW,2.79,0.00,0.00,2.79,2.79,1.666,0.429,0.520,,,No,PERIMETER_ZN_1_WALL_SOUTH,180.00,90.00,S
+,PERIMETER_ZN_1_WALL_SOUTH_WINDOW_2,WINDOW_SOUTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_1_WALL_SOUTH,180.00,90.00,S
+,PERIMETER_ZN_1_WALL_SOUTH_WINDOW_3,WINDOW_SOUTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_1_WALL_SOUTH,180.00,90.00,S
+,PERIMETER_ZN_1_WALL_SOUTH_WINDOW_4,WINDOW_SOUTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_1_WALL_SOUTH,180.00,90.00,S
+,PERIMETER_ZN_1_WALL_SOUTH_WINDOW_5,WINDOW_SOUTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_1_WALL_SOUTH,180.00,90.00,S
+,PERIMETER_ZN_1_WALL_SOUTH_WINDOW_6,WINDOW_SOUTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_1_WALL_SOUTH,180.00,90.00,S
+,PERIMETER_ZN_1_WALL_SOUTH_DOOR,WINDOW_SOUTH,3.91,0.00,0.00,3.91,3.91,3.178,0.262,0.318,,,No,PERIMETER_ZN_1_WALL_SOUTH,180.00,90.00,S
+,PERIMETER_ZN_2_WALL_EAST_WINDOW_4,WINDOW_EAST,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_2_WALL_EAST,90.00,90.00,E
+,PERIMETER_ZN_2_WALL_EAST_WINDOW_3,WINDOW_EAST,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_2_WALL_EAST,90.00,90.00,E
+,PERIMETER_ZN_2_WALL_EAST_WINDOW_2,WINDOW_EAST,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_2_WALL_EAST,90.00,90.00,E
+,PERIMETER_ZN_2_WALL_EAST_WINDOW_1,WINDOW_EAST,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_2_WALL_EAST,90.00,90.00,E
+,PERIMETER_ZN_3_WALL_NORTH_WINDOW_1,WINDOW_NORTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_3_WALL_NORTH,0.00,90.00,N
+,PERIMETER_ZN_3_WALL_NORTH_WINDOW_2,WINDOW_NORTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_3_WALL_NORTH,0.00,90.00,N
+,PERIMETER_ZN_3_WALL_NORTH_WINDOW_3,WINDOW_NORTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_3_WALL_NORTH,0.00,90.00,N
+,PERIMETER_ZN_3_WALL_NORTH_WINDOW_4,WINDOW_NORTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_3_WALL_NORTH,0.00,90.00,N
+,PERIMETER_ZN_3_WALL_NORTH_WINDOW_5,WINDOW_NORTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_3_WALL_NORTH,0.00,90.00,N
+,PERIMETER_ZN_3_WALL_NORTH_WINDOW_6,WINDOW_NORTH,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_3_WALL_NORTH,0.00,90.00,N
+,PERIMETER_ZN_4_WALL_WEST_WINDOW_4,WINDOW_WEST,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_4_WALL_WEST,270.00,90.00,W
+,PERIMETER_ZN_4_WALL_WEST_WINDOW_3,WINDOW_WEST,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_4_WALL_WEST,270.00,90.00,W
+,PERIMETER_ZN_4_WALL_WEST_WINDOW_2,WINDOW_WEST,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_4_WALL_WEST,270.00,90.00,W
+,PERIMETER_ZN_4_WALL_WEST_WINDOW_1,WINDOW_WEST,2.79,0.00,0.00,2.79,2.79,3.178,0.262,0.318,,,No,PERIMETER_ZN_4_WALL_WEST,270.00,90.00,W
+,Total or Average,,,,,,59.68,3.107,0.269,0.328,,,,,,,
+,North Total or Average,,,,,,16.73,3.178,0.262,0.318,,,,,,,
+,Non-North Total or Average,,,,,,42.95,3.080,0.272,0.332,,,,,,,
+
+
+Interior Fenestration
+
+,,Construction,Area of One Opening [m2],Area of Openings [m2],Glass U-Factor [W/m2-K],Glass SHGC,Glass Visible Transmittance,Parent Surface
+,Total or Average,,,0.00,-,-,-,
+
+
+Exterior Door
+
+,,Construction,U-Factor with Film [W/m2-K],U-Factor no Film [W/m2-K],Gross Area [m2],Parent Surface
+,None,,,,,
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Shading Summary
+FOR:,Entire Facility
+Sunlit Fraction
+
+,,March 21 9am,March 21 noon,March 21 3pm,June 21 9am,June 21 noon,June 21 3pm,December 21 9am,December 21 noon,December 21 3pm
+,None,,,,,,,,,
+
+
+Window Control
+
+,,Name,Type,Shaded Construction,Control,Glare Control
+,None,,,,,
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Lighting Summary
+FOR:,Entire Facility
+Interior Lighting
+
+,,Zone,Lighting Power Density [W/m2],Zone Area [m2],Total Power [W],End Use Subcategory,Schedule Name,Scheduled Hours/Week [hr],Hours/Week > 1% [hr],Full Load Hours/Week [hr],Return Air Fraction,Conditioned (Y/N),Consumption [GJ]
+,CORE_ZN_LIGHTS,CORE_ZN,10.7600,149.66,1610.31,General,BLDG_LIGHT_SCH,56.37,167.96,53.94,0.0000,Y,1.38
+,PERIMETER_ZN_1_LIGHTS,PERIMETER_ZN_1,10.7600,113.45,1220.72,General,BLDG_LIGHT_SCH,56.37,167.96,53.94,0.0000,Y,1.05
+,PERIMETER_ZN_2_LIGHTS,PERIMETER_ZN_2,10.7600,67.30,724.15,General,BLDG_LIGHT_SCH,56.37,167.96,53.94,0.0000,Y,0.62
+,PERIMETER_ZN_3_LIGHTS,PERIMETER_ZN_3,10.7600,113.45,1220.72,General,BLDG_LIGHT_SCH,56.37,167.96,53.94,0.0000,Y,1.05
+,PERIMETER_ZN_4_LIGHTS,PERIMETER_ZN_4,10.7600,67.30,724.15,General,BLDG_LIGHT_SCH,56.37,167.96,53.94,0.0000,Y,0.62
+,Interior Lighting Total,,10.7600,511.16,5500.05,,,,,,,,4.73
+
+
+Daylighting
+
+,,Zone,Daylighting Type,Control Type,Fraction Controlled,Lighting Installed in Zone [W],Lighting Controlled [W]
+,None,,,,,,
+
+
+Exterior Lighting
+
+,,Total Watts,Astronomical Clock/Schedule,Schedule Name,Scheduled Hours/Week [hr],Hours/Week > 1% [hr],Full Load Hours/Week [hr],Consumption [GJ]
+,EXTERIOR FACADE LIGHTING,1514.09,AstronomicalClock,-,,55.47,55.47,1.34
+,Exterior Lighting Total,1514.09,,,,,,1.34
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Equipment Summary
+FOR:,Entire Facility
+Central Plant
+
+,,Type,Nominal Capacity [W],Nominal Efficiency [W/W],IPLV in SI Units [W/W],IPLV in IP Units [Btu/W-h]
+,None,,,,,
+
+
+Cooling Coils
+
+,,Type,Design Coil Load [W],Nominal Total Capacity [W],Nominal Sensible Capacity [W],Nominal Latent Capacity [W],Nominal Sensible Heat Ratio,Nominal Efficiency [W/W],Nominal Coil UA Value [W/C],Nominal Coil Surface Area [m2]
+,PSZ-AC:1_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,,6648.62,5309.95,1338.66,0.80,3.05,,
+,PSZ-AC:2_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,,9153.33,7278.86,1874.47,0.80,3.05,,
+,PSZ-AC:3_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,,5818.74,4647.17,1171.57,0.80,3.05,,
+,PSZ-AC:4_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,,7279.82,5814.07,1465.75,0.80,3.05,,
+,PSZ-AC:5_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,,5549.51,4432.14,1117.36,0.80,3.05,,
+Nominal values are gross at rated conditions, i.e., the supply air fan heat and electric power NOT accounted for.
+
+
+DX Cooling Coils
+
+,,DX Cooling Coil Type,Standard Rated Net Cooling Capacity [W],Standard Rated Net COP [W/W],EER [Btu/W-h],SEER [Btu/W-h],IEER [Btu/W-h]
+,PSZ-AC:1_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,6354.8,2.57,8.76,8.82,8.81
+,PSZ-AC:2_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,8752.8,2.57,8.78,8.84,8.83
+,PSZ-AC:3_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,5561.6,2.57,8.76,8.82,8.81
+,PSZ-AC:4_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,6958.1,2.57,8.76,8.82,8.81
+,PSZ-AC:5_COOLC DXCOIL,Coil:Cooling:DX:SingleSpeed,5304.2,2.57,8.76,8.82,8.81
+ANSI/AHRI ratings account for supply air fan heat and electric power.
+
+
+DX Heating Coils
+
+,,DX Heating Coil Type,High Temperature Heating (net) Rating Capacity [W],Low Temperature Heating (net) Rating Capacity [W],HSPF [Btu/W-h],Region Number
+,None,,,,,
+
+
+Heating Coils
+
+,,Type,Design Coil Load [W],Nominal Total Capacity [W],Nominal Efficiency [W/W]
+,PSZ-AC:1_HEATC,Coil:Heating:Gas,,4942.58,0.80
+,PSZ-AC:2_HEATC,Coil:Heating:Gas,,5435.71,0.80
+,PSZ-AC:3_HEATC,Coil:Heating:Gas,,3409.52,0.80
+,PSZ-AC:4_HEATC,Coil:Heating:Gas,,4685.69,0.80
+,PSZ-AC:5_HEATC,Coil:Heating:Gas,,3296.56,0.80
+
+
+Fans
+
+,,Type,Total Efficiency [W/W],Delta Pressure [pa],Max Air Flow Rate [m3/s],Rated Electric Power [W],Rated Power Per Max Air Flow Rate [W-s/m3],Motor Heat In Air Fraction,End Use
+,PSZ-AC:1 FAN,Fan:ConstantVolume,0.26,500.00,0.40,761.62,1896.25,1.00,Fan Energy
+,PSZ-AC:2 FAN,Fan:ConstantVolume,0.26,500.00,0.55,1038.73,1896.25,1.00,Fan Energy
+,PSZ-AC:3 FAN,Fan:ConstantVolume,0.26,500.00,0.35,666.55,1896.25,1.00,Fan Energy
+,PSZ-AC:4 FAN,Fan:ConstantVolume,0.26,500.00,0.44,833.92,1896.25,1.00,Fan Energy
+,PSZ-AC:5 FAN,Fan:ConstantVolume,0.26,500.00,0.34,635.71,1896.25,1.00,Fan Energy
+
+
+Pumps
+
+,,Type,Control,Head [pa],Water Flow [m3/s],Electric Power [W],Power Per Water Flow Rate [W-s/m3],Motor Efficiency [W/W]
+,SHWSYS1 PUMP,Pump:ConstantSpeed,Intermittent,0.00,0.0000,0.00,0.00,1.00
+
+
+Service Water Heating
+
+,,Type,Storage Volume [m3],Input [W],Thermal Efficiency [W/W],Recovery Efficiency [W/W],Energy Factor
+,SHWSYS1 WATER HEATER,WaterHeater:Mixed,0.15,845000.00,0.80,4.58,0.57
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,HVAC Sizing Summary
+FOR:,Entire Facility
+Zone Cooling
+
+,,Calculated Design Load [W],User Design Load [W],User Design Load per Area [W/m2],Calculated Design Air Flow [m3/s],User Design Air Flow [m3/s],Design Day Name,Date/Time Of Peak,Thermostat Setpoint Temperature at Peak Load [C],Indoor Temperature at Peak Load [C],Indoor Humidity Ratio at Peak Load [kgWater/kgAir],Outdoor Temperature at Peak Load [C],Outdoor Humidity Ratio at Peak Load [kgWater/kgAir]
+,CORE_ZN,4375.32,5250.39,35.08,0.335,0.402,LAS_VEGAS ANN CLG .4% CONDNS DB=>MWB,7/21 07:00:00,0.00,24.00,0.00891,30.02,0.00587
+,PERIMETER_ZN_1,5547.01,6656.41,58.67,0.456,0.548,LAS_VEGAS ANN CLG .4% CONDNS DB=>MWB,7/21 13:50:00,0.00,24.00,0.00864,42.29,0.00587
+,PERIMETER_ZN_2,3801.07,4561.28,67.78,0.293,0.352,LAS_VEGAS ANN CLG .4% CONDNS DB=>MWB,7/21 07:00:00,0.00,24.00,0.00862,30.02,0.00587
+,PERIMETER_ZN_3,4778.99,5734.79,50.55,0.366,0.440,LAS_VEGAS ANN CLG .4% CONDNS DB=>MWB,7/21 07:00:00,0.00,24.00,0.00867,30.02,0.00587
+,PERIMETER_ZN_4,3394.84,4073.81,60.53,0.279,0.335,LAS_VEGAS ANN CLG .4% CONDNS DB=>MWB,7/21 17:20:00,0.00,24.00,0.00864,40.04,0.00587
+
+
+Zone Heating
+
+,,Calculated Design Load [W],User Design Load [W],User Design Load per Area [W/m2],Calculated Design Air Flow [m3/s],User Design Air Flow [m3/s],Design Day Name,Date/Time Of Peak,Thermostat Setpoint Temperature at Peak Load [C],Indoor Temperature at Peak Load [C],Indoor Humidity Ratio at Peak Load [kgWater/kgAir],Outdoor Temperature at Peak Load [C],Outdoor Humidity Ratio at Peak Load [kgWater/kgAir]
+,CORE_ZN,5205.10,6246.12,41.74,0.218,0.262,LAS_VEGAS ANN HTG 99.6% CONDNS DB,1/21 06:00:00,0.00,21.00,0.00800,-1.70,0.00355
+,PERIMETER_ZN_1,8458.22,10149.86,89.47,0.356,0.427,LAS_VEGAS ANN HTG 99.6% CONDNS DB,1/21 06:00:00,0.00,21.00,0.00723,-1.70,0.00355
+,PERIMETER_ZN_2,5336.83,6404.20,95.16,0.225,0.270,LAS_VEGAS ANN HTG 99.6% CONDNS DB,1/21 06:00:00,0.00,21.00,0.00725,-1.70,0.00355
+,PERIMETER_ZN_3,8339.07,10006.88,88.21,0.351,0.421,LAS_VEGAS ANN HTG 99.6% CONDNS DB,1/21 06:00:00,0.00,21.00,0.00722,-1.70,0.00355
+,PERIMETER_ZN_4,5333.31,6399.97,95.10,0.225,0.270,LAS_VEGAS ANN HTG 99.6% CONDNS DB,1/21 06:00:00,0.00,21.00,0.00725,-1.70,0.00355
+
+
+System Design Air Flow Rates
+
+,,Calculated cooling [m3/s],User cooling [m3/s],Calculated heating [m3/s],User heating [m3/s]
+,PSZ-AC:1,0.40,0.40,0.26,0.26
+,PSZ-AC:2,0.55,0.55,0.43,0.43
+,PSZ-AC:3,0.35,0.35,0.27,0.27
+,PSZ-AC:4,0.44,0.44,0.42,0.42
+,PSZ-AC:5,0.34,0.34,0.27,0.27
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,System Summary
+FOR:,Entire Facility
+Economizer
+
+,,High Limit Shutoff Control,Minimum Outdoor Air [m3/s],Maximum Outdoor Air [m3/s],Return Air Temp Limit,Return Air Enthalpy Limit,Outdoor Air Temperature Limit [C],Outdoor Air Enthalpy Limit [C]
+,None,,,,,,,
+
+
+Demand Controlled Ventilation using Controller:MechanicalVentilation
+
+,,Controller:MechanicalVentilation Name,Outdoor Air Per Person [m3/s-person],Outdoor Air Per Area [m3/s-m2],Air Distribution Effectiveness in Cooling Mode,Air Distribution Effectiveness in Heating Mode,Air Distribution Effectiveness Schedule
+,None,,,,,,
+
+
+Time Not Comfortable Based on Simple ASHRAE 55-2004
+
+,,Winter Clothes [hr],Summer Clothes [hr],Summer or Winter Clothes [hr]
+,CORE_ZN,15.00,390.17,15.00
+,PERIMETER_ZN_1,17.50,282.33,0.00
+,PERIMETER_ZN_2,4.50,297.00,0.00
+,PERIMETER_ZN_3,0.00,386.00,0.00
+,PERIMETER_ZN_4,8.50,301.67,0.00
+,ATTIC,0.00,0.00,0.00
+,Facility,33.67,392.33,15.00
+Aggregated over the RunPeriods for Weather
+
+
+Time Setpoint Not Met
+
+,,During Heating [hr],During Cooling [hr],During Occupied Heating [hr],During Occupied Cooling [hr]
+,CORE_ZN,0.00,0.00,0.00,0.00
+,PERIMETER_ZN_1,3.50,0.00,0.00,0.00
+,PERIMETER_ZN_2,3.50,0.00,0.00,0.00
+,PERIMETER_ZN_3,4.33,0.00,0.00,0.00
+,PERIMETER_ZN_4,3.33,0.00,0.00,0.00
+,ATTIC,0.00,0.00,0.00,0.00
+,Facility,6.67,0.00,0.00,0.00
+Aggregated over the RunPeriods for Weather
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Outdoor Air Summary
+FOR:,Entire Facility
+Average Outdoor Air During Occupied Hours
+
+,,Average Number of Occupants,Nominal Number of Occupants,Zone Volume [m3],Mechanical Ventilation [ach],Infiltration [ach],AFN Infiltration [ach],Simple Ventilation [ach]
+,CORE_ZN,4.57,8.05,456.46,0.580,0.000,0.000,0.000
+,PERIMETER_ZN_1,3.47,6.10,346.02,0.579,0.206,0.000,0.000
+,PERIMETER_ZN_2,2.06,3.62,205.26,0.579,0.219,0.000,0.000
+,PERIMETER_ZN_3,3.47,6.10,346.02,0.579,0.206,0.000,0.000
+,PERIMETER_ZN_4,2.06,3.62,205.26,0.579,0.219,0.000,0.000
+Values shown for a single zone without multipliers
+
+
+Minimum Outdoor Air During Occupied Hours
+
+,,Average Number of Occupants,Nominal Number of Occupants,Zone Volume [m3],Mechanical Ventilation [ach],Infiltration [ach],AFN Infiltration [ach],Simple Ventilation [ach]
+,CORE_ZN,4.57,8.05,456.46,0.000,0.000,0.000,0.000
+,PERIMETER_ZN_1,3.47,6.10,346.02,0.000,0.009,0.000,0.000
+,PERIMETER_ZN_2,2.06,3.62,205.26,0.000,0.009,0.000,0.000
+,PERIMETER_ZN_3,3.47,6.10,346.02,0.000,0.009,0.000,0.000
+,PERIMETER_ZN_4,2.06,3.62,205.26,0.000,0.009,0.000,0.000
+Values shown for a single zone without multipliers
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Object Count Summary
+FOR:,Entire Facility
+Surfaces by Class
+
+,,Total,Outdoors
+,Wall,20,4
+,Floor,14,9
+,Roof,9,4
+,Internal Mass,5,0
+,Building Detached Shading,0,0
+,Fixed Detached Shading,0,0
+,Window,21,21
+,Door,0,0
+,Glass Door,0,0
+,Shading,0,0
+,Overhang,0,0
+,Fin,0,0
+,Tubular Daylighting Device Dome,0,0
+,Tubular Daylighting Device Diffuser,0,0
+
+
+HVAC
+
+,,Count
+,HVAC Air Loops,5
+,Conditioned Zones,5
+,Unconditioned Zones,1
+,Supply Plenums,0
+,Return Plenums,0
+
+
+Input Fields
+
+,,Count
+,IDF Objects,601
+,Defaulted Fields,58
+,Fields with Defaults,1099
+,Autosized Fields,60
+,Autosizable Fields,70
+,Autocalculated Fields,76
+,Autocalculatable Fields,152
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Energy Meters
+FOR:,Entire Facility
+Annual and Peak Values - Electricity
+
+,,Electricity Annual Value [GJ],Electricity Minimum Value [W],Timestamp of Minimum,Electricity Maximum Value [W],Timestamp of Maximum
+,Electricity:Facility,18.70,1512.51,01-JUL-04:00,16645.30,20-JUL-15:00
+,Electricity:Building,10.27,1512.51,01-JUL-00:10,8662.58,02-JUL-07:10
+,Electricity:Zone:CORE_ZN,3.01,442.84,01-JUL-00:10,2536.24,02-JUL-07:10
+,InteriorLights:Electricity,4.73,275.00,01-JUL-00:10,4950.05,02-JUL-07:10
+,InteriorLights:Electricity:Zone:CORE_ZN,1.38,80.52,01-JUL-00:10,1449.28,02-JUL-07:10
+,General:InteriorLights:Electricity,4.73,275.00,01-JUL-00:10,4950.05,02-JUL-07:10
+,Electricity:Zone:PERIMETER_ZN_1,2.28,335.70,01-JUL-00:10,1922.64,02-JUL-07:10
+,InteriorLights:Electricity:Zone:PERIMETER_ZN_1,1.05,61.04,01-JUL-00:10,1098.65,02-JUL-07:10
+,Electricity:Zone:PERIMETER_ZN_2,1.35,199.14,01-JUL-00:10,1140.53,02-JUL-07:10
+,InteriorLights:Electricity:Zone:PERIMETER_ZN_2,0.62,36.21,01-JUL-00:10,651.73,02-JUL-07:10
+,Electricity:Zone:PERIMETER_ZN_3,2.28,335.70,01-JUL-00:10,1922.64,02-JUL-07:10
+,InteriorLights:Electricity:Zone:PERIMETER_ZN_3,1.05,61.04,01-JUL-00:10,1098.65,02-JUL-07:10
+,Electricity:Zone:PERIMETER_ZN_4,1.35,199.14,01-JUL-00:10,1140.53,02-JUL-07:10
+,InteriorLights:Electricity:Zone:PERIMETER_ZN_4,0.62,36.21,01-JUL-00:10,651.73,02-JUL-07:10
+,InteriorEquipment:Electricity,5.54,1237.51,01-JUL-00:10,3712.54,02-JUL-07:10
+,InteriorEquipment:Electricity:Zone:CORE_ZN,1.62,362.32,01-JUL-00:10,1086.96,02-JUL-07:10
+,MiscPlug:InteriorEquipment:Electricity,5.54,1237.51,01-JUL-00:10,3712.54,02-JUL-07:10
+,InteriorEquipment:Electricity:Zone:PERIMETER_ZN_1,1.23,274.66,01-JUL-00:10,823.99,02-JUL-07:10
+,InteriorEquipment:Electricity:Zone:PERIMETER_ZN_2,0.73,162.93,01-JUL-00:10,488.80,02-JUL-07:10
+,InteriorEquipment:Electricity:Zone:PERIMETER_ZN_3,1.23,274.66,01-JUL-00:10,823.99,02-JUL-07:10
+,InteriorEquipment:Electricity:Zone:PERIMETER_ZN_4,0.73,162.93,01-JUL-00:10,488.80,02-JUL-07:10
+,ElectricityPurchased:Facility,18.70,1512.51,01-JUL-04:00,16645.30,20-JUL-15:00
+,ElectricityPurchased:Plant,18.70,1512.51,01-JUL-04:00,16645.30,20-JUL-15:00
+,Cogeneration:ElectricityPurchased,18.70,1512.51,01-JUL-04:00,16645.30,20-JUL-15:00
+,ElectricitySurplusSold:Facility,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,ElectricitySurplusSold:Plant,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,Cogeneration:ElectricitySurplusSold,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,ElectricityNet:Facility,18.70,1512.51,01-JUL-04:00,16645.30,20-JUL-15:00
+,ElectricityNet:Plant,18.70,1512.51,01-JUL-04:00,16645.30,20-JUL-15:00
+,Cogeneration:ElectricityNet,18.70,1512.51,01-JUL-04:00,16645.30,20-JUL-15:00
+,ExteriorLights:Electricity,1.34,0.00,01-JUL-04:00,1514.09,01-JUL-00:10
+,Exterior Facade Lighting:ExteriorLights:Electricity,1.34,0.00,01-JUL-04:00,1514.09,01-JUL-00:10
+,Electricity:HVAC,7.09,0.00,01-JUL-00:10,7982.71,20-JUL-15:00
+,Cooling:Electricity,1.63,0.00,01-JUL-00:10,4046.19,20-JUL-15:00
+,Heating:Electricity,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,Fans:Electricity,5.47,0.00,01-JUL-00:10,3936.53,02-JUL-05:10
+,Fan Energy:Fans:Electricity,5.47,0.00,01-JUL-00:10,3936.53,02-JUL-05:10
+,Electricity:Plant,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,Pumps:Electricity,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+
+
+Annual and Peak Values - Gas
+
+,,Gas Annual Value [GJ],Gas Minimum Value [W],Timestamp of Minimum,Gas Maximum Value [W],Timestamp of Maximum
+,Gas:Facility,0.91,20.00,01-JUL-00:10,5356.80,30-JUL-04:10
+,Gas:Plant,0.88,20.00,01-JUL-00:10,2618.90,05-JUL-11:50
+,WaterSystems:Gas,0.88,20.00,01-JUL-00:10,2618.90,05-JUL-11:50
+,Water Heater:WaterSystems:Gas,0.88,20.00,01-JUL-00:10,2618.90,05-JUL-11:50
+,Gas:HVAC,0.03,0.00,01-JUL-00:10,5336.80,30-JUL-04:10
+,Heating:Gas,0.03,0.00,01-JUL-00:10,5336.80,30-JUL-04:10
+
+
+Annual and Peak Values - Cooling
+
+,,Cooling Annual Value [GJ],Cooling Minimum Value [W],Timestamp of Minimum,Cooling Maximum Value [W],Timestamp of Maximum
+,None,,,,,
+
+
+Annual and Peak Values - Water
+
+,,Annual Value [m3],Minimum Value [m3/s],Timestamp of Minimum,Maximum Value [m3/s],Timestamp of Maximum
+,Water:Facility,1.47,0.00,01-JUL-00:10,0.00,02-JUL-11:10
+,Water:Plant,1.47,0.00,01-JUL-00:10,0.00,02-JUL-11:10
+,WaterSystems:Water,1.47,0.00,01-JUL-00:10,0.00,02-JUL-11:10
+,Water Heater:WaterSystems:Water,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,MainsWater:Facility,1.47,0.00,01-JUL-00:10,0.00,02-JUL-11:10
+,MainsWater:Plant,1.47,0.00,01-JUL-00:10,0.00,02-JUL-11:10
+,WaterSystems:MainsWater,1.47,0.00,01-JUL-00:10,0.00,02-JUL-11:10
+,Water Heater:WaterSystems:MainsWater,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,General:WaterSystems:Water,1.47,0.00,01-JUL-00:10,0.00,02-JUL-11:10
+,General:WaterSystems:MainsWater,1.47,0.00,01-JUL-00:10,0.00,02-JUL-11:10
+
+
+Annual and Peak Values - Other by Weight/Mass
+
+,,Annual Value [kg],Minimum Value [kg/s],Timestamp of Minimum,Maximum Value [kg/s],Timestamp of Maximum
+,CO2:Facility,4197.87,0.000,01-JUL-04:00,0.004,20-JUL-16:00
+,ElectricEmissions:CO2,4150.44,0.000,01-JUL-04:00,0.004,20-JUL-15:00
+,CO:Facility,1.78,0.000,01-JUL-04:00,0.000,20-JUL-16:00
+,ElectricEmissions:CO,1.74,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,CH4:Facility,11.33,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,ElectricEmissions:CH4,11.33,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,NOx:Facility,6.85,0.000,01-JUL-04:00,0.000,20-JUL-16:00
+,ElectricEmissions:NOx,6.81,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,N2O:Facility,0.09,0.000,01-JUL-04:00,0.000,20-JUL-16:00
+,ElectricEmissions:N2O,0.09,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,SO2:Facility,28.58,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,ElectricEmissions:SO2,28.58,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,PM:Facility,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,ElectricEmissions:PM,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PM10:Facility,0.21,0.000,01-JUL-04:00,0.000,20-JUL-16:00
+,ElectricEmissions:PM10,0.21,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,PM2.5:Facility,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,ElectricEmissions:PM2.5,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,NH3:Facility,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,ElectricEmissions:NH3,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,NMVOC:Facility,0.15,0.000,01-JUL-04:00,0.000,20-JUL-16:00
+,ElectricEmissions:NMVOC,0.15,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,Hg:Facility,0.00,0.000,01-JUL-04:00,0.000,20-JUL-16:00
+,ElectricEmissions:Hg,0.00,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,Pb:Facility,0.00,0.000,01-JUL-04:00,0.000,20-JUL-16:00
+,ElectricEmissions:Pb,0.00,0.000,01-JUL-04:00,0.000,20-JUL-15:00
+,Nuclear High:Facility,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,ElectricEmissions:Nuclear High,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,NaturalGasEmissions:CO2,47.43,0.000,01-JUL-00:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:CO,0.04,0.000,01-JUL-00:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:CH4,0.00,0.000,01-JUL-00:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:NOx,0.04,0.000,01-JUL-00:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:N2O,0.00,0.000,01-JUL-00:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:SO2,0.00,0.000,03-JUL-05:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:PM,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,NaturalGasEmissions:PM10,0.00,0.000,01-JUL-00:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:PM2.5,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,NaturalGasEmissions:NH3,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,NaturalGasEmissions:NMVOC,0.00,0.000,01-JUL-00:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:Hg,0.00,0.000,03-JUL-05:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:Pb,0.00,0.000,01-JUL-00:10,0.000,30-JUL-04:10
+,NaturalGasEmissions:Nuclear High,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:CO2,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:CO,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:CH4,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:NOx,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:N2O,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:SO2,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:PM,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:PM10,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:PM2.5,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:NH3,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:NMVOC,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:Hg,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:Pb,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:Nuclear High,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:CO2,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:CO,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:CH4,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:NOx,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:N2O,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:SO2,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:PM,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:PM10,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:PM2.5,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:NH3,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:NMVOC,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:Hg,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:Pb,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:Nuclear High,0.00,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,Carbon Equivalent:Facility,1223.03,0.000,01-JUL-04:00,0.001,20-JUL-16:00
+,CarbonEquivalentEmissions:Carbon Equivalent,1223.03,0.000,01-JUL-04:00,0.001,20-JUL-16:00
+
+
+Annual and Peak Values - Other Volumetric
+
+,,Annual Value [m3],Minimum Value [m3/s],Timestamp of Minimum,Maximum Value [m3/s],Timestamp of Maximum
+,Nuclear Low:Facility,0.000,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,ElectricEmissions:Nuclear Low,0.000,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,NaturalGasEmissions:Nuclear Low,0.000,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:Nuclear Low,0.000,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:Nuclear Low,0.000,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+
+
+Annual and Peak Values - Other Liquid/Gas
+
+,,Annual Value [L],Minimum Value [L],Timestamp of Minimum,Maximum Value [L],Timestamp of Maximum
+,WaterEnvironmentalFactors:Facility,142535.582,0.012,01-JUL-04:00,0.127,20-JUL-15:00
+,ElectricEmissions:WaterEnvironmentalFactors,142535.582,0.012,01-JUL-04:00,0.127,20-JUL-15:00
+,NaturalGasEmissions:WaterEnvironmentalFactors,0.000,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,FuelOil#1Emissions:WaterEnvironmentalFactors,0.000,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+,PropaneEmissions:WaterEnvironmentalFactors,0.000,0.000,01-JUL-00:10,0.000,01-JUL-00:10
+
+
+Annual and Peak Values - Other
+
+,,Annual Value [GJ],Minimum Value [W],Timestamp of Minimum,Maximum Value [W],Timestamp of Maximum
+,PlantLoopHeatingDemand:Facility,0.11,9.45,29-JUL-00:20,140.84,02-JUL-11:30
+,PlantLoopHeatingDemand:Plant,0.11,9.45,29-JUL-00:20,140.84,02-JUL-11:30
+,WaterSystems:PlantLoopHeatingDemand,0.11,9.45,29-JUL-00:20,140.84,02-JUL-11:30
+,Water Heater:WaterSystems:PlantLoopHeatingDemand,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,EnergyTransfer:Facility,7.58,9.45,29-JUL-00:20,18273.75,20-JUL-15:10
+,EnergyTransfer:Building,2.53,0.00,01-JUL-00:10,5522.84,20-JUL-15:10
+,EnergyTransfer:Zone:CORE_ZN,0.55,0.00,01-JUL-00:10,1079.76,19-JUL-16:00
+,Heating:EnergyTransfer,0.48,0.00,01-JUL-00:10,3808.51,30-JUL-04:10
+,Heating:EnergyTransfer:Zone:CORE_ZN,0.09,0.00,01-JUL-00:10,922.55,14-JUL-13:00
+,Cooling:EnergyTransfer,2.05,0.00,01-JUL-00:10,5522.84,20-JUL-15:10
+,Cooling:EnergyTransfer:Zone:CORE_ZN,0.46,0.00,01-JUL-00:10,1079.76,19-JUL-16:00
+,EnergyTransfer:Zone:PERIMETER_ZN_1,0.76,0.00,01-JUL-00:10,1765.60,24-JUL-14:30
+,Heating:EnergyTransfer:Zone:PERIMETER_ZN_1,0.10,0.00,01-JUL-00:10,1065.12,30-JUL-04:10
+,Cooling:EnergyTransfer:Zone:PERIMETER_ZN_1,0.66,0.00,01-JUL-00:10,1765.60,24-JUL-14:30
+,EnergyTransfer:Zone:PERIMETER_ZN_2,0.44,0.00,01-JUL-00:10,954.08,20-JUL-15:20
+,Heating:EnergyTransfer:Zone:PERIMETER_ZN_2,0.07,0.00,01-JUL-00:10,595.77,30-JUL-04:10
+,Cooling:EnergyTransfer:Zone:PERIMETER_ZN_2,0.37,0.00,01-JUL-00:10,954.08,20-JUL-15:20
+,EnergyTransfer:Zone:PERIMETER_ZN_3,0.38,0.00,01-JUL-00:10,1618.27,30-JUL-04:10
+,Heating:EnergyTransfer:Zone:PERIMETER_ZN_3,0.14,0.00,01-JUL-00:10,1502.17,30-JUL-04:10
+,Cooling:EnergyTransfer:Zone:PERIMETER_ZN_3,0.24,0.00,01-JUL-00:10,950.48,20-JUL-16:00
+,EnergyTransfer:Zone:PERIMETER_ZN_4,0.41,0.00,01-JUL-00:10,1157.03,10-JUL-16:00
+,Heating:EnergyTransfer:Zone:PERIMETER_ZN_4,0.08,0.00,01-JUL-00:10,649.62,30-JUL-04:50
+,Cooling:EnergyTransfer:Zone:PERIMETER_ZN_4,0.33,0.00,01-JUL-00:10,1157.03,10-JUL-16:00
+,EnergyTransfer:Zone:ATTIC,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,Heating:EnergyTransfer:Zone:ATTIC,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,Cooling:EnergyTransfer:Zone:ATTIC,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,EnergyTransfer:Plant,0.11,9.45,29-JUL-00:20,140.84,02-JUL-11:30
+,WaterSystems:EnergyTransfer,0.11,9.45,29-JUL-00:20,140.84,02-JUL-11:30
+,General:WaterSystems:EnergyTransfer,0.11,9.45,29-JUL-00:20,140.84,02-JUL-11:30
+,EnergyTransfer:HVAC,4.93,0.00,01-JUL-00:10,12649.82,20-JUL-15:00
+,CoolingCoils:EnergyTransfer,4.91,0.00,01-JUL-00:10,12649.82,20-JUL-15:00
+,HeatingCoils:EnergyTransfer,0.02,0.00,01-JUL-00:10,4269.44,30-JUL-04:10
+,Source:Facility,134.80,10842.37,01-JUL-04:00,121736.71,20-JUL-16:00
+,ElectricEmissions:Source,66.90,5410.27,01-JUL-04:00,59540.24,20-JUL-15:00
+,PurchasedElectricEmissions:Source,66.90,5410.27,01-JUL-04:00,59540.24,20-JUL-15:00
+,SoldElectricEmissions:Source,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,NaturalGasEmissions:Source,0.99,21.84,03-JUL-05:10,5849.63,30-JUL-04:10
+,FuelOil#1Emissions:Source,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+,PropaneEmissions:Source,0.00,0.00,01-JUL-00:10,0.00,01-JUL-00:10
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Sensible Heat Gain Summary
+FOR:,Entire Facility
+Annual Building Sensible Heat Gain Components
+
+,,HVAC Input Sensible Air Heating [GJ],HVAC Input Sensible Air Cooling [GJ],HVAC Input Heated Surface Heating [GJ],HVAC Input Cooled Surface Cooling [GJ],People Sensible Heat Addition [GJ],Lights Sensible Heat Addition [GJ],Equipment Sensible Heat Addition [GJ],Window Heat Addition [GJ],Interzone Air Transfer Heat Addition [GJ],Infiltration Heat Addition [GJ],Opaque Surface Conduction and Other Heat Addition [GJ],Equipment Sensible Heat Removal [GJ],Window Heat Removal [GJ],Interzone Air Transfer Heat Removal [GJ],Infiltration Heat Removal [GJ],Opaque Surface Conduction and Other Heat Removal [GJ]
+,CORE_ZN,0.093,-0.457,0.000,0.000,0.407,1.385,1.622,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,-3.050
+,PERIMETER_ZN_1,0.102,-0.657,0.000,0.000,0.307,1.050,1.230,1.882,0.000,0.002,0.000,0.000,-0.427,0.000,-0.858,-2.631
+,PERIMETER_ZN_2,0.066,-0.374,0.000,0.000,0.181,0.623,0.729,0.991,0.000,0.001,0.000,0.000,-0.221,0.000,-0.542,-1.455
+,PERIMETER_ZN_3,0.137,-0.241,0.000,0.000,0.309,1.050,1.230,0.801,0.000,0.003,0.000,0.000,-0.317,0.000,-0.820,-2.151
+,PERIMETER_ZN_4,0.081,-0.326,0.000,0.000,0.182,0.623,0.729,0.961,0.000,0.001,0.000,0.000,-0.249,0.000,-0.544,-1.459
+,ATTIC,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.035,3.644,0.000,0.000,0.000,-3.679,0.000
+,Total Facility,0.479,-2.054,0.000,0.000,1.387,4.730,5.541,4.634,0.000,0.042,3.646,0.000,-1.213,0.000,-6.443,-10.747
+
+
+Peak Cooling Sensible Heat Gain Components
+
+,,Time of Peak,HVAC Input Sensible Air Heating [W],HVAC Input Sensible Air Cooling [W],HVAC Input Heated Surface Heating [W],HVAC Input Cooled Surface Cooling [W],People Sensible Heat Addition [W],Lights Sensible Heat Addition [W],Equipment Sensible Heat Addition [W],Window Heat Addition [W],Interzone Air Transfer Heat Addition [W],Infiltration Heat Addition [W],Opaque Surface Conduction and Other Heat Addition [W],Equipment Sensible Heat Removal [W],Window Heat Removal [W],Interzone Air Transfer Heat Removal [W],Infiltration Heat Removal [W],Opaque Surface Conduction and Other Heat Removal [W]
+,CORE_ZN,19-JUL-16:00,0.00,-1079.71,0.00,0.00,531.88,1449.28,1086.96,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,-1988.42
+,PERIMETER_ZN_1,24-JUL-14:30,0.00,-1765.45,0.00,0.00,403.20,1098.65,823.99,2832.26,0.00,0.00,0.00,0.00,0.00,0.00,-32.71,-3359.94
+,PERIMETER_ZN_2,20-JUL-15:20,0.00,-954.10,0.00,0.00,239.18,651.73,488.80,502.30,0.00,0.00,0.00,0.00,0.00,0.00,-5.65,-922.27
+,PERIMETER_ZN_3,20-JUL-16:00,0.00,-950.50,0.00,0.00,403.19,1098.65,823.99,674.26,0.00,0.00,0.00,0.00,0.00,0.00,-12.55,-2037.04
+,PERIMETER_ZN_4,10-JUL-16:00,0.00,-1157.07,0.00,0.00,239.18,651.73,488.80,2190.19,0.00,0.00,0.00,0.00,0.00,0.00,-6.89,-2405.94
+,ATTIC,-,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Total Facility,20-JUL-15:10,0.00,-5522.87,0.00,0.00,1816.63,4950.05,3712.54,4533.87,0.00,0.00,0.00,0.00,0.00,0.00,-34.28,-9455.93
+
+
+Peak Heating Sensible Heat Gain Components
+
+,,Time of Peak,HVAC Input Sensible Air Heating [W],HVAC Input Sensible Air Cooling [W],HVAC Input Heated Surface Heating [W],HVAC Input Cooled Surface Cooling [W],People Sensible Heat Addition [W],Lights Sensible Heat Addition [W],Equipment Sensible Heat Addition [W],Window Heat Addition [W],Interzone Air Transfer Heat Addition [W],Infiltration Heat Addition [W],Opaque Surface Conduction and Other Heat Addition [W],Equipment Sensible Heat Removal [W],Window Heat Removal [W],Interzone Air Transfer Heat Removal [W],Infiltration Heat Removal [W],Opaque Surface Conduction and Other Heat Removal [W]
+,CORE_ZN,14-JUL-13:00,922.60,0.00,0.00,0.00,56.15,241.55,422.71,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,-1643.00
+,PERIMETER_ZN_1,30-JUL-04:05,2130.18,0.00,0.00,0.00,0.00,122.07,366.22,0.00,0.00,0.00,0.00,0.00,-575.91,0.00,-917.08,-1125.47
+,PERIMETER_ZN_2,30-JUL-04:05,1191.51,0.00,0.00,0.00,0.00,72.41,217.24,0.00,0.00,0.00,0.00,0.00,-331.53,0.00,-578.61,-571.03
+,PERIMETER_ZN_3,30-JUL-04:05,3004.24,0.00,0.00,0.00,0.00,122.07,366.22,0.00,0.00,0.00,0.00,0.00,-482.50,0.00,-915.85,-2094.17
+,PERIMETER_ZN_4,30-JUL-04:45,1299.23,0.00,0.00,0.00,0.00,72.41,217.24,0.00,0.00,0.00,0.00,0.00,-299.40,0.00,-591.17,-698.33
+,ATTIC,-,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Total Facility,30-JUL-04:05,7616.78,0.00,0.00,0.00,0.00,550.01,1650.02,0.00,0.00,0.00,0.00,0.00,-1722.43,0.00,-5762.54,-2331.83
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Standard 62.1 Summary
+FOR:,Entire Facility
+System Ventilation Requirements for Cooling
+
+,,Sum of Zone Primary Air Flow - Vpz-sum [m3/s],System Population - Ps,Sum of Zone Population - Pz-sum,Occupant Diversity - D,Uncorrected Outdoor Air Intake Airflow - Vou [m3/s],System Primary Airflow - Vps [m3/s],Average Outdoor Air Fraction - Xs,System Ventilation Efficiency - Ev,Outdoor Air Intake Flow - Vot [m3/s],Percent Outdoor Air - %OA
+,None,,,,,,,,,,
+
+
+System Ventilation Requirements for Heating
+
+,,Sum of Zone Primary Air Flow - Vpz-sum [m3/s],System Population - Ps,Sum of Zone Population - Pz-sum,Occupant Diversity - D,Uncorrected Outdoor Air Intake Airflow - Vou [m3/s],System Primary Airflow - Vps [m3/s],Average Outdoor Air Fraction - Xs,System Ventilation Efficiency - Ev,Outdoor Air Intake Flow Vot [m3/s],Percent Outdoor Air - %OA
+,None,,,,,,,,,,
+
+
+Zone Ventilation Parameters
+
+,,AirLoop Name,People Outdoor Air Rate - Rp [m3/s-person],Zone Population - Pz,Area Outdoor Air Rate - Ra [m3/s-m2],Zone Floor Area - Az [m2],Breathing Zone Outdoor Airflow - Vbz [m3/s],Cooling Zone Air Distribution Effectiveness - Ez-clg,Cooling Zone Outdoor Airflow - Voz-clg [m3/s],Heating Zone Air Distribution Effectiveness - Ez-htg,Heating Zone Outdoor Airflow - Voz-htg [m3/s]
+,None,,,,,,,,,,
+
+
+System Ventilation Parameters
+
+,,People Outdoor Air Rate - Rp [m3/s-person],Sum of Zone Population - Pz-sum,Area Outdoor Air Rate - Ra [m3/s-m2],Sum of Zone Floor Area - Az-sum [m2],Breathing Zone Outdoor Airflow - Vbz [m3/s],Cooling Zone Outdoor Airflow - Voz-clg [m3/s],Heating Zone Outdoor Airflow - Voz-htg [m3/s]
+,None,,,,,,,
+
+
+Zone Ventilation Calculations for Cooling Design
+
+,,AirLoop Name,Box Type,Zone Primary Airflow - Vpz [m3/s],Zone Discharge Airflow - Vdz [m3/s],Minimum Zone Primary Airflow - Vpz-min [m3/s],Zone Outdoor Airflow Cooling - Voz-clg [m3/s],Primary Outdoor Air Fraction - Zpz,Primary Air Fraction - Ep,Secondary Recirculation Fraction- Er,Supply Air Fraction- Fa,Mixed Air Fraction - Fb,Outdoor Air Fraction - Fc,Zone Ventilation Efficiency - Evz
+,None,,,,,,,,,,,,,
+
+
+System Ventilation Calculations for Cooling Design
+
+,,Sum of Zone Primary Airflow - Vpz-sum [m3/s],System Primary Airflow - Vps [m3/s],Sum of Zone Discharge Airflow - Vdz-sum [m3/s],Sum of Min Zone Primary Airflow - Vpz-min [m3/s],Zone Outdoor Airflow Cooling - Voz-clg [m3/s],Zone Ventilation Efficiency - Evz-min
+,None,,,,,,
+
+
+Zone Ventilation Calculations for Heating Design
+
+,,AirLoop Name,Box Type,Zone Primary Airflow - Vpz [m3/s],Zone Discharge Airflow - Vdz [m3/s],Minimum Zone Primary Airflow - Vpz-min [m3/s],Zone Outdoor Airflow Heating - Voz-htg [m3/s],Primary Outdoor Air Fraction - Zpz,Primary Air Fraction - Ep,Secondary Recirculation Fraction- Er,Supply Air Fraction- Fa,Mixed Air Fraction - Fb,Outdoor Air Fraction - Fc,Zone Ventilation Efficiency - Evz
+,None,,,,,,,,,,,,,
+
+
+System Ventilation Calculations for Heating Design
+
+,,Sum of Zone Primary Airflow - Vpz-sum [m3/s],System Primary Airflow - Vps [m3/s],Sum of Zone Discharge Airflow - Vdz-sum [m3/s],Sum of Min Zone Primary Airflow - Vpz-min [m3/s],Zone Outdoor Airflow Heating - Voz-htg [m3/s],Zone Ventilation Efficiency - Evz-min
+,None,,,,,,
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,LEED Summary
+FOR:,Entire Facility
+Sec1.1A-General Information
+
+,,Data
+,Weather File,4250290 - UK WG data WMO#=03534
+,HDD and CDD data source,Weather File Stat
+,Total gross floor area [m2],1079.13
+,Principal Heating Source,Natural Gas
+
+
+EAp2-1. Space Usage Type
+
+,,Space Area [m2],Regularly Occupied Area [m2],Unconditioned Area [m2],Typical Hours/Week in Operation [hr/wk]
+,CORE_ZN,149.66,149.66,0.00,95.29
+,PERIMETER_ZN_1,113.45,113.45,0.00,95.29
+,PERIMETER_ZN_2,67.30,67.30,0.00,95.29
+,PERIMETER_ZN_3,113.45,113.45,0.00,95.29
+,PERIMETER_ZN_4,67.30,67.30,0.00,95.29
+,ATTIC,567.98,0.00,567.98,0.00
+,Totals,1079.13,511.16,567.98,
+
+
+EAp2-2. Advisory Messages
+
+,,Data
+,Number of hours heating loads not met,0.00
+,Number of hours cooling loads not met,0.00
+,Number of hours not met,0.00
+
+
+EAp2-3. Energy Type Summary
+
+,,Utility Rate,Virtual Rate [$/unit energy],Units of Energy,Units of Demand
+,Electricity,NEVADAPOWER_LGS-1_LARGEGENERAL,0.138,kWh,kW
+,Natural Gas,NV_EIAMONTHLYRATEGAS,9.447,MCF,MCF/Hr
+,Other,,,,
+
+
+EAp2-4/5. Performance Rating Method Compliance
+
+,,Electric Energy Use [GJ],Electric Demand [W],Natural Gas Energy Use [GJ],Natural Gas Demand [W],Additional Energy Use [GJ],Additional Demand [W]
+,Interior Lighting,4.73,4950.05,0.00,0.00,0.00,0.00
+,Exterior Lighting,1.34,0.00,0.00,0.00,0.00,0.00
+,Space Heating,0.00,0.00,0.03,5336.80,0.00,0.00
+,Space Cooling,1.63,4046.19,0.00,0.00,0.00,0.00
+,Pumps,0.00,0.00,0.00,0.00,0.00,0.00
+,Heat Rejection,0.00,0.00,0.00,0.00,0.00,0.00
+,Fans-Interior,5.47,3936.53,0.00,0.00,0.00,0.00
+,Fans-Parking Garage,0.00,0.00,0.00,0.00,0.00,0.00
+,Service Water Heating,0.00,0.00,0.88,20.00,0.00,0.00
+,Receptacle Equipment,5.54,3712.54,0.00,0.00,0.00,0.00
+,Interior Lighting (process),0.00,0.00,0.00,0.00,0.00,0.00
+,Refrigeration Equipment,0.00,0.00,0.00,0.00,0.00,0.00
+,Cooking,0.00,0.00,0.00,0.00,0.00,0.00
+,Industrial Process,0.00,0.00,0.00,0.00,0.00,0.00
+,Elevators and Escalators,0.00,0.00,0.00,0.00,0.00,0.00
+,Total Line,18.70,,0.91,,0.00,
+
+
+EAp2-6. Energy Use Summary
+
+,,Process Subtotal [GJ],Total Energy Use [GJ]
+,Electricity,5.54,18.70
+,Natural Gas,0.00,0.91
+,Total,5.54,19.61
+,Additional,0.00,0.00
+
+
+EAp2-7. Energy Cost Summary
+
+,,Process Subtotal [$],Total Energy Cost [$]
+,Electricity,211.87,715.23
+,Natural Gas,0.00,8.15
+,Other,,0.00
+,Total,211.87,723.38
+,Additional,0.00,
+Process energy cost based on ratio of process to total energy.
+
+
+L-1. Renewable Energy Source Summary
+
+,,Rated Capacity [kW],Annual Energy Generated [GJ]
+,Photovoltaic,0.00,0.00
+,Wind,0.00,0.00
+
+
+EAp2-17a. Energy Use Intensity - Electricity
+
+,,Electricty [MJ/m2]
+,Interior Lighting,4.38
+,Space Heating,0.00
+,Space Cooling,1.51
+,Fans-Interior,5.06
+,Service Water Heating,0.00
+,Receptacle Equipment,5.13
+,Miscellaneous,1.24
+,Subtotal,17.33
+
+
+EAp2-17b. Energy Use Intensity - Natural Gas
+
+,,Natural Gas [MJ/m2]
+,Space Heating,0.03
+,Service Water Heating,0.82
+,Miscellaneous,-0.00
+,Subtotal,0.84
+
+
+EAp2-17c. Energy Use Intensity - Additional
+
+,,Additional [MJ/m2]
+,Miscellaneous,0.00
+,Subtotal,0.00
+
+
+EAp2-18. End Use Percentage
+
+,,Percent [%]
+,Interior Lighting,24.12
+,Space Heating,0.14
+,Space Cooling,8.30
+,Fans-Interior,27.86
+,Service Water Heating,4.50
+,Receptacle Equipment,28.25
+,Miscellaneous,6.83
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Component Sizing Summary
+FOR:,Entire Facility
+AirTerminal:SingleDuct:Uncontrolled
+
+,,Design Size Maximum Air Flow Rate [m3/s]
+,CORE_ZN DIRECT AIR,0.401643
+,PERIMETER_ZN_1 DIRECT AIR,0.547778
+,PERIMETER_ZN_2 DIRECT AIR,0.351510
+,PERIMETER_ZN_3 DIRECT AIR,0.439774
+,PERIMETER_ZN_4 DIRECT AIR,0.335246
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+Branch
+
+,,Maximum Flow Rate [m3/s]
+,PSZ-AC:1 AIR LOOP MAIN BRANCH,0.401643
+,PSZ-AC:2 AIR LOOP MAIN BRANCH,0.547778
+,PSZ-AC:3 AIR LOOP MAIN BRANCH,0.351510
+,PSZ-AC:4 AIR LOOP MAIN BRANCH,0.439774
+,PSZ-AC:5 AIR LOOP MAIN BRANCH,0.335246
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+AirLoopHVAC
+
+,,Design Supply Air Flow Rate [m3/s]
+,PSZ-AC:1,0.401643
+,PSZ-AC:2,0.547778
+,PSZ-AC:3,0.351510
+,PSZ-AC:4,0.439774
+,PSZ-AC:5,0.335246
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+Controller:OutdoorAir
+
+,,Maximum Outdoor Air Flow Rate [m3/s],Minimum Outdoor Air Flow Rate [m3/s]
+,PSZ-AC:1_OA_CONTROLLER,0.401643,0.080516
+,PSZ-AC:2_OA_CONTROLLER,0.547778,0.061036
+,PSZ-AC:3_OA_CONTROLLER,0.351510,0.036207
+,PSZ-AC:4_OA_CONTROLLER,0.439774,0.061036
+,PSZ-AC:5_OA_CONTROLLER,0.335246,0.036207
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+Coil:Cooling:DX:SingleSpeed
+
+,,Design Size Rated Air Flow Rate [m3/s],Design Size Rated Total Cooling Capacity (gross) [W],Design Size Rated Sensible Heat Ratio
+,PSZ-AC:1_COOLC DXCOIL,0.401643,6648.62,0.798655
+,PSZ-AC:2_COOLC DXCOIL,0.547778,9153.33,0.795215
+,PSZ-AC:3_COOLC DXCOIL,0.351510,5818.74,0.798655
+,PSZ-AC:4_COOLC DXCOIL,0.439774,7279.82,0.798655
+,PSZ-AC:5_COOLC DXCOIL,0.335246,5549.51,0.798655
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+Coil:Heating:Gas
+
+,,Design Size Nominal Capacity [W]
+,PSZ-AC:1_HEATC,4942.58
+,PSZ-AC:2_HEATC,5435.71
+,PSZ-AC:3_HEATC,3409.52
+,PSZ-AC:4_HEATC,4685.69
+,PSZ-AC:5_HEATC,3296.56
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+Fan:ConstantVolume
+
+,,Design Size Maximum Flow Rate [m3/s]
+,PSZ-AC:1 FAN,0.401643
+,PSZ-AC:2 FAN,0.547778
+,PSZ-AC:3 FAN,0.351510
+,PSZ-AC:4 FAN,0.439774
+,PSZ-AC:5 FAN,0.335246
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+PlantLoop
+
+,,Maximum Loop Flow Rate [m3/s],Plant Loop Volume [m3]
+,SHWSYS1,0.000003,0.002366
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+WaterHeater:Mixed
+
+,,Use Side Design Flow Rate [m3/s]
+,SHWSYS1 WATER HEATER,0.000003
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+Pump:ConstantSpeed
+
+,,Rated Flow Rate [m3/s],Rated Power Consumption [W]
+,SHWSYS1 PUMP,0.000003,0.000000
+User-Specified values were used. Design Size values were used if no User-Specified values were provided.
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Surface Shadowing Summary
+FOR:,Entire Facility
+Surfaces (Walls, Roofs, etc) that may be Shadowed by Other Surfaces
+
+,,None
+
+
+Subsurfaces (Windows and Doors) that may be Shadowed by Surfaces
+
+,,Possible Shadow Receivers
+,PERIMETER_ZN_1_WALL_SOUTH,PERIMETER_ZN_1_WALL_SOUTH_WINDOW_1 |PERIMETER_ZN_1_WALL_SOUTH_WINDOW_2 |PERIMETER_ZN_1_WALL_SOUTH_WINDOW_3 |PERIMETER_ZN_1_WALL_SOUTH_WINDOW_4 |PERIMETER_ZN_1_WALL_SOUTH_WINDOW_5 |PERIMETER_ZN_1_WALL_SOUTH_WINDOW_6 |PERIMETER_ZN_1_WALL_SOUTH_DOOR |
+,PERIMETER_ZN_2_WALL_EAST,PERIMETER_ZN_2_WALL_EAST_WINDOW_4 |PERIMETER_ZN_2_WALL_EAST_WINDOW_3 |PERIMETER_ZN_2_WALL_EAST_WINDOW_2 |PERIMETER_ZN_2_WALL_EAST_WINDOW_1 |
+,PERIMETER_ZN_3_WALL_NORTH,PERIMETER_ZN_3_WALL_NORTH_WINDOW_1 |PERIMETER_ZN_3_WALL_NORTH_WINDOW_2 |PERIMETER_ZN_3_WALL_NORTH_WINDOW_3 |PERIMETER_ZN_3_WALL_NORTH_WINDOW_4 |PERIMETER_ZN_3_WALL_NORTH_WINDOW_5 |PERIMETER_ZN_3_WALL_NORTH_WINDOW_6 |
+,PERIMETER_ZN_4_WALL_WEST,PERIMETER_ZN_4_WALL_WEST_WINDOW_4 |PERIMETER_ZN_4_WALL_WEST_WINDOW_3 |PERIMETER_ZN_4_WALL_WEST_WINDOW_2 |PERIMETER_ZN_4_WALL_WEST_WINDOW_1 |
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Component Cost Economics Summary
+FOR:,Entire Facility
+Construction Cost Estimate Summary
+
+,,Reference Bldg.,Current Bldg. Model,Difference
+,Line Item SubTotal ($),0.00,55483.71,55483.71
+,Misc. Costs ($),0.00,0.00,0.00
+,Regional Adjustment ($),0.00,0.00,0.00
+,Design Fee ($),0.00,0.00,0.00
+,Contractor Fee ($),0.00,0.00,0.00
+,Contingency ($),0.00,0.00,0.00
+,Permits, Bonds, Insurance ($),0.00,0.00,0.00
+,Commissioning ($),0.00,0.00,0.00
+,Cost Estimate Total ($),0.00,55483.71,55483.71
+,Cost Per Conditioned Building Area ($/m2),0.00,108.55,108.55
+
+
+Cost Line Item Details
+
+,,Line No.,Item Name,Quantity.,Units,$ per Qty.,SubTo$
+,--,1,INTERIOR FURNISHINGS,1022.31,m2,1.00,1022.31
+,--,2,INTERIOR FLOOR,511.16,m2,15.00,7667.36
+,--,3,INTERIOR FLOOR SLAB,0.00,m2,35.00,0.00
+,--,4,DROP CEILING,0.00,m2,10.00,0.00
+,--,5,SLOPED METAL ROOF,0.00,m2,1.00,0.00
+,--,6,GABLE WALL,0.00,m2,1.00,0.00
+,--,7,AIR WALL,0.00,m2,1.00,0.00
+,--,8,SWINGING DOOR CONDITIONED,0.00,m2,1.00,0.00
+,--,9,SWINGING DOOR SEMI-CONDITIONED,0.00,m2,1.00,0.00
+,--,10,OVERHEAD DOOR,0.00,m2,1.00,0.00
+,--,11,SOUTH:WINDOW_SOUTH,17.85,m2,243.62,4348.63
+,--,12,EAST:WINDOW_EAST,11.16,m2,243.62,2717.78
+,--,13,NORTH:WINDOW_NORTH,16.73,m2,243.62,4076.67
+,--,14,WEST:WINDOW_WEST,11.16,m2,243.62,2717.78
+,--,15,SKYLIGHTCONST:WINDOW_SKYLIGHTCONST,0.00,m2,205.75,0.00
+,--,16,ROOFS:ROOFS,598.76,m2,14.93,8937.06
+,--,17,INT-WALLS:INT-WALLS,245.78,m2,1.00,245.78
+,--,18,EXT-WALLS:EXT-WALLS,221.83,m2,41.16,9130.58
+,--,19,EXT-SLAB:EXT-SLAB,511.16,m2,24.86,12707.37
+,--,20,EXPOSED-FLOOR:EXPOSED-FLOOR,56.82,m2,33.00,1874.87
+,--,21,ATTIC-FLOOR:ATTIC-FLOOR,0.00,m2,15.02,0.00
+,--,22,ATTIC-ROOF:ATTIC-ROOF,0.00,m2,34.39,0.00
+,--,23,DOOR:DOOR,0.00,m2,1.00,0.00
+,--,24,NON-SWINGING-DOOR:NON-SWINGING-DOOR,0.00,m2,1.00,0.00
+,--,25,PEOPLE:CORE_ZN,8.05,Ea.,1.00,8.05
+,--,26,LIGHTING EQUIP:CORE_ZN,1.61,kW,1.00,1.61
+,--,27,ELECTRICEQUIPMENT:CORE_ZN:MISCPLUG,1.21,Ea.,1.00,1.21
+,--,28,INFILTRATION:PERIMETER_ZN_1,0.06,Ea.,1.00,0.06
+,--,29,PEOPLE:PERIMETER_ZN_1,6.10,Ea.,1.00,6.10
+,--,30,LIGHTING EQUIP:PERIMETER_ZN_1,1.22,kW,1.00,1.22
+,--,31,ELECTRICEQUIPMENT:PERIMETER_ZN_1:MISCPLUG,0.92,Ea.,1.00,0.92
+,--,32,INFILTRATION:PERIMETER_ZN_2,0.04,Ea.,1.00,0.04
+,--,33,PEOPLE:PERIMETER_ZN_2,3.62,Ea.,1.00,3.62
+,--,34,LIGHTING EQUIP:PERIMETER_ZN_2,0.72,kW,1.00,0.72
+,--,35,ELECTRICEQUIPMENT:PERIMETER_ZN_2:MISCPLUG,0.54,Ea.,1.00,0.54
+,--,36,INFILTRATION:PERIMETER_ZN_3,0.06,Ea.,1.00,0.06
+,--,37,PEOPLE:PERIMETER_ZN_3,6.10,Ea.,1.00,6.10
+,--,38,LIGHTING EQUIP:PERIMETER_ZN_3,1.22,kW,1.00,1.22
+,--,39,ELECTRICEQUIPMENT:PERIMETER_ZN_3:MISCPLUG,0.92,Ea.,1.00,0.92
+,--,40,INFILTRATION:PERIMETER_ZN_4,0.04,Ea.,1.00,0.04
+,--,41,PEOPLE:PERIMETER_ZN_4,3.62,Ea.,1.00,3.62
+,--,42,LIGHTING EQUIP:PERIMETER_ZN_4,0.72,kW,1.00,0.72
+,--,43,ELECTRICEQUIPMENT:PERIMETER_ZN_4:MISCPLUG,0.54,Ea.,1.00,0.54
+,--,44,INFILTRATION:ATTIC,0.20,Ea.,1.00,0.20
+,Line Item SubTotal,--,--,--,--,--,55483.71
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Adaptive Comfort Summary
+FOR:,Entire Facility
+Time Not Meeting the Adaptive Comfort Models during Occupied Hours
+
+,,ASHRAE55 90% Acceptability Limits [Hours],ASHRAE55 80% Acceptability Limits  [Hours],CEN15251 Category I Acceptability Limits [Hours],CEN15251 Category II Acceptability Limits [Hours],CEN15251 Category III Acceptability Limits [Hours]
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Economics Results Summary Report
+FOR:,Entire Facility
+Annual Cost
+
+,,Electric,Gas,Other,Total
+,Cost [$],715.23,8.15,0.00,723.38
+,Cost per Total Building Area [$/m2],0.66,0.01,0.00,0.67
+,Cost per Net Conditioned Building Area [$/m2],1.40,0.02,0.00,1.42
+
+
+Tariff Summary
+
+,,Selected,Qualified,Meter,Buy or Sell,Group,Annual Cost ($)
+,NEVADAPOWER_LGS-3_LARGEGENERAL,No,No,ELECTRICITY:FACILITY,Buy,COMM ELECT,3008.57
+,NEVADAPOWER_LGS-2_LARGEGENERAL,No,No,ELECTRICITY:FACILITY,Buy,COMM ELECT,2931.93
+,NEVADAPOWER_LGS-1_LARGEGENERAL,Yes,Yes,ELECTRICITY:FACILITY,Buy,COMM ELECT,715.23
+,NEVADAPOWER_GS_GENERALSERVICE,No,No,ELECTRICITY:FACILITY,Buy,COMM ELECT,644.70
+,NV_EIAMONTHLYRATEGAS,Yes,Yes,GAS:FACILITY,Buy,COMM GAS,8.15
+
+
+----------------------------------------------------------------------------------------------------
+REPORT:,Tariff Report
+FOR:,NEVADAPOWER_LGS-3_LARGEGENERAL
+General
+
+,,Parameter
+,Meter,ELECTRICITY:FACILITY
+,Selected,No
+,Group,COMM ELECT
+,Qualified,No
+,Disqualifier,MINDEMAND1000KW
+,Computation,automatic
+,Units,kWh
+
+
+Categories
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,EnergyCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,422.41,0.00,0.00,0.00,0.00,0.00,422.41,422.41
+,DemandCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,194.54,0.00,0.00,0.00,0.00,0.00,194.54,194.54
+,ServiceCharges ($),184.00,184.00,184.00,184.00,184.00,184.00,184.00,184.00,184.00,184.00,184.00,184.00,2208.00,184.00
+,Basis ($),184.00,184.00,184.00,184.00,184.00,184.00,800.95,184.00,184.00,184.00,184.00,184.00,2824.95,800.95
+,Adjustment ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Surcharge ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Subtotal ($),184.00,184.00,184.00,184.00,184.00,184.00,800.95,184.00,184.00,184.00,184.00,184.00,2824.95,800.95
+,Taxes ($),11.96,11.96,11.96,11.96,11.96,11.96,52.06,11.96,11.96,11.96,11.96,11.96,183.62,52.06
+,Total ($),195.96,195.96,195.96,195.96,195.96,195.96,853.01,195.96,195.96,195.96,195.96,195.96,3008.57,853.01
+
+
+Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max,Category
+,SUMMERPEAKENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,160.20,0.00,0.00,0.00,0.00,0.00,160.20,160.20,EnergyCharges
+,SUMMEROFFPEAKENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,85.72,0.00,0.00,0.00,0.00,0.00,85.72,85.72,EnergyCharges
+,SUMMERSHOULDERENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,109.98,0.00,0.00,0.00,0.00,0.00,109.98,109.98,EnergyCharges
+,WINTERENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,EnergyCharges
+,DEFERREDACCOUNTINGENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,66.51,0.00,0.00,0.00,0.00,0.00,66.51,66.51,EnergyCharges
+,FACILITIESDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,48.90,0.00,0.00,0.00,0.00,0.00,48.90,48.90,DemandCharges
+,WINTERDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,DemandCharges
+,SUMMERONPEAKDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,139.06,0.00,0.00,0.00,0.00,0.00,139.06,139.06,DemandCharges
+,SUMMERSHOULDERDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,6.57,0.00,0.00,0.00,0.00,0.00,6.57,6.57,DemandCharges
+,TAXOFSIXPTFIVEPERCENT ($),11.96,11.96,11.96,11.96,11.96,11.96,52.06,11.96,11.96,11.96,11.96,11.96,183.62,52.06,Taxes
+
+
+Corresponding Sources for Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,Subtotal,184.00,184.00,184.00,184.00,184.00,184.00,800.95,184.00,184.00,184.00,184.00,184.00,2824.95,800.95
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,TotalDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1867.16,0.00,0.00,0.00,0.00,0.00,1867.16,1867.16
+,PeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1557.83,0.00,0.00,0.00,0.00,0.00,1557.83,1557.83
+,ShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,15.29,0.00,0.00,0.00,0.00,0.00,15.29,15.29
+,OffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1771.00,0.00,0.00,0.00,0.00,0.00,1771.00,1771.00
+
+
+Ratchets
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+
+
+Qualifies
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,MINDEMAND1000KW,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,0.00,-1.0,-1.0,-1.0,-1.0,-1.0,-11.0,0.00
+,MINENERGY3500KWH,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,1.00,-1.0,-1.0,-1.0,-1.0,-1.0,-10.0,1.00
+
+
+Native Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,TotalDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1867.16,0.00,0.00,0.00,0.00,0.00,1867.16,1867.16
+,PeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1557.83,0.00,0.00,0.00,0.00,0.00,1557.83,1557.83
+,ShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,15.29,0.00,0.00,0.00,0.00,0.00,15.29,15.29
+,OffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1771.00,0.00,0.00,0.00,0.00,0.00,1771.00,1771.00
+,OffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,14.27,0.00,0.00,0.00,0.00,0.00,14.27,14.27
+,MidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,MidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsOffPeak,0.00,0.00,0.00,0.00,0.00,0.00,2.36,0.00,0.00,0.00,0.00,0.00,2.36,2.36
+,OffPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsMidPeak,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,MidPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsShoulder,0.00,0.00,0.00,0.00,0.00,0.00,1.35,0.00,0.00,0.00,0.00,0.00,1.35,1.35
+,ShoulderExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsWinter,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotWinter,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsSpring,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotSpring,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsSummer,0.00,0.00,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,1.00,1.00
+,IsNotSummer,1.00,1.00,1.00,1.00,1.00,1.00,0.00,1.00,1.00,1.00,1.00,1.00,11.00,1.00
+,IsAutumn,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotAutumn,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,PeakAndShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,3424.99,0.00,0.00,0.00,0.00,0.00,3424.99,3424.99
+,PeakAndShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakAndMidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1867.16,0.00,0.00,0.00,0.00,0.00,1867.16,1867.16
+,PeakAndMidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,3328.84,0.00,0.00,0.00,0.00,0.00,3328.84,3328.84
+,ShoulderAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,15.29,0.00,0.00,0.00,0.00,0.00,15.29,15.29
+,PeakAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,3638.16,0.00,0.00,0.00,0.00,0.00,3638.16,3638.16
+,PeakAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,RealTimePriceCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Other Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,NotIncluded,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Computation -  Automatic
+MINDEMAND1000KW FROM TotalDemand
+MINENERGY3500KWH FROM TotalEnergy
+SUMMERPEAKENERGYCHARGE FROM PeakEnergy
+SUMMEROFFPEAKENERGYCHARGE FROM OffPeakEnergy
+SUMMERSHOULDERENERGYCHARGE FROM ShoulderEnergy
+WINTERENERGYCHARGE FROM TotalEnergy
+DEFERREDACCOUNTINGENERGYCHARGE FROM TotalEnergy
+FACILITIESDEMANDCHARGE FROM TotalDemand
+WINTERDEMANDCHARGE FROM TotalDemand
+SUMMERONPEAKDEMANDCHARGE FROM PeakDemand
+SUMMERSHOULDERDEMANDCHARGE FROM ShoulderDemand
+EnergyCharges SUM SUMMERPEAKENERGYCHARGE SUMMEROFFPEAKENERGYCHARGE SUMMERSHOULDERENERGYCHARGE WINTERENERGYCHARGE DEFERREDACCOUNTINGENERGYCHARGE
+DemandCharges SUM FACILITIESDEMANDCHARGE WINTERDEMANDCHARGE SUMMERONPEAKDEMANDCHARGE SUMMERSHOULDERDEMANDCHARGE
+Basis SUM EnergyCharges DemandCharges ServiceCharges
+Subtotal SUM Basis Adjustment Surcharge
+TAXOFSIXPTFIVEPERCENT FROM Subtotal
+Taxes SUM TAXOFSIXPTFIVEPERCENT
+Total SUM Subtotal Taxes
+----------------------------------------------------------------------------------------------------
+REPORT:,Tariff Report
+FOR:,NEVADAPOWER_LGS-2_LARGEGENERAL
+General
+
+,,Parameter
+,Meter,ELECTRICITY:FACILITY
+,Selected,No
+,Group,COMM ELECT
+,Qualified,No
+,Disqualifier,MINDEMAND300KW
+,Computation,automatic
+,Units,kWh
+
+
+Categories
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,EnergyCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,434.35,0.00,0.00,0.00,0.00,0.00,434.35,434.35
+,DemandCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,170.64,0.00,0.00,0.00,0.00,0.00,170.64,170.64
+,ServiceCharges ($),179.00,179.00,179.00,179.00,179.00,179.00,179.00,179.00,179.00,179.00,179.00,179.00,2148.00,179.00
+,Basis ($),179.00,179.00,179.00,179.00,179.00,179.00,783.99,179.00,179.00,179.00,179.00,179.00,2752.99,783.99
+,Adjustment ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Surcharge ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Subtotal ($),179.00,179.00,179.00,179.00,179.00,179.00,783.99,179.00,179.00,179.00,179.00,179.00,2752.99,783.99
+,Taxes ($),11.63,11.63,11.63,11.63,11.63,11.63,50.96,11.63,11.63,11.63,11.63,11.63,178.94,50.96
+,Total ($),190.63,190.63,190.63,190.63,190.63,190.63,834.95,190.63,190.63,190.63,190.63,190.63,2931.93,834.95
+
+
+Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max,Category
+,SUMMERPEAKENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,165.99,0.00,0.00,0.00,0.00,0.00,165.99,165.99,EnergyCharges
+,SUMMEROFFPEAKENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,88.90,0.00,0.00,0.00,0.00,0.00,88.90,88.90,EnergyCharges
+,SUMMERSHOULDERENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,112.94,0.00,0.00,0.00,0.00,0.00,112.94,112.94,EnergyCharges
+,WINTERENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,EnergyCharges
+,DEFERREDACCOUNTINGENERGYCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,66.51,0.00,0.00,0.00,0.00,0.00,66.51,66.51,EnergyCharges
+,FACILITIESDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,45.58,0.00,0.00,0.00,0.00,0.00,45.58,45.58,DemandCharges
+,WINTERDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,DemandCharges
+,SUMMERONPEAKDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,119.10,0.00,0.00,0.00,0.00,0.00,119.10,119.10,DemandCharges
+,SUMMERSHOULDERDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,5.96,0.00,0.00,0.00,0.00,0.00,5.96,5.96,DemandCharges
+,TAXOFSIXPTFIVEPERCENT ($),11.63,11.63,11.63,11.63,11.63,11.63,50.96,11.63,11.63,11.63,11.63,11.63,178.94,50.96,Taxes
+
+
+Corresponding Sources for Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,Subtotal,179.00,179.00,179.00,179.00,179.00,179.00,783.99,179.00,179.00,179.00,179.00,179.00,2752.99,783.99
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,TotalDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1867.16,0.00,0.00,0.00,0.00,0.00,1867.16,1867.16
+,PeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1557.83,0.00,0.00,0.00,0.00,0.00,1557.83,1557.83
+,ShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,15.29,0.00,0.00,0.00,0.00,0.00,15.29,15.29
+,OffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1771.00,0.00,0.00,0.00,0.00,0.00,1771.00,1771.00
+
+
+Ratchets
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+
+
+Qualifies
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,MINDEMAND300KW,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,0.00,-1.0,-1.0,-1.0,-1.0,-1.0,-11.0,0.00
+,MINENERGY3500KWH,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,1.00,-1.0,-1.0,-1.0,-1.0,-1.0,-10.0,1.00
+,MAXDEMAND1000KW,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,1.00,-1.0,-1.0,-1.0,-1.0,-1.0,-10.0,1.00
+
+
+Native Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,TotalDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1867.16,0.00,0.00,0.00,0.00,0.00,1867.16,1867.16
+,PeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1557.83,0.00,0.00,0.00,0.00,0.00,1557.83,1557.83
+,ShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,15.29,0.00,0.00,0.00,0.00,0.00,15.29,15.29
+,OffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1771.00,0.00,0.00,0.00,0.00,0.00,1771.00,1771.00
+,OffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,14.27,0.00,0.00,0.00,0.00,0.00,14.27,14.27
+,MidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,MidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsOffPeak,0.00,0.00,0.00,0.00,0.00,0.00,2.36,0.00,0.00,0.00,0.00,0.00,2.36,2.36
+,OffPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsMidPeak,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,MidPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsShoulder,0.00,0.00,0.00,0.00,0.00,0.00,1.35,0.00,0.00,0.00,0.00,0.00,1.35,1.35
+,ShoulderExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsWinter,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotWinter,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsSpring,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotSpring,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsSummer,0.00,0.00,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,1.00,1.00
+,IsNotSummer,1.00,1.00,1.00,1.00,1.00,1.00,0.00,1.00,1.00,1.00,1.00,1.00,11.00,1.00
+,IsAutumn,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotAutumn,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,PeakAndShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,3424.99,0.00,0.00,0.00,0.00,0.00,3424.99,3424.99
+,PeakAndShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakAndMidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,1867.16,0.00,0.00,0.00,0.00,0.00,1867.16,1867.16
+,PeakAndMidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,3328.84,0.00,0.00,0.00,0.00,0.00,3328.84,3328.84
+,ShoulderAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,15.29,0.00,0.00,0.00,0.00,0.00,15.29,15.29
+,PeakAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,3638.16,0.00,0.00,0.00,0.00,0.00,3638.16,3638.16
+,PeakAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,RealTimePriceCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Other Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,NotIncluded,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Computation -  Automatic
+MINDEMAND300KW FROM TotalDemand
+MINENERGY3500KWH FROM TotalEnergy
+MAXDEMAND1000KW FROM TotalDemand
+SUMMERPEAKENERGYCHARGE FROM PeakEnergy
+SUMMEROFFPEAKENERGYCHARGE FROM OffPeakEnergy
+SUMMERSHOULDERENERGYCHARGE FROM ShoulderEnergy
+WINTERENERGYCHARGE FROM TotalEnergy
+DEFERREDACCOUNTINGENERGYCHARGE FROM TotalEnergy
+FACILITIESDEMANDCHARGE FROM TotalDemand
+WINTERDEMANDCHARGE FROM TotalDemand
+SUMMERONPEAKDEMANDCHARGE FROM PeakDemand
+SUMMERSHOULDERDEMANDCHARGE FROM ShoulderDemand
+EnergyCharges SUM SUMMERPEAKENERGYCHARGE SUMMEROFFPEAKENERGYCHARGE SUMMERSHOULDERENERGYCHARGE WINTERENERGYCHARGE DEFERREDACCOUNTINGENERGYCHARGE
+DemandCharges SUM FACILITIESDEMANDCHARGE WINTERDEMANDCHARGE SUMMERONPEAKDEMANDCHARGE SUMMERSHOULDERDEMANDCHARGE
+Basis SUM EnergyCharges DemandCharges ServiceCharges
+Subtotal SUM Basis Adjustment Surcharge
+TAXOFSIXPTFIVEPERCENT FROM Subtotal
+Taxes SUM TAXOFSIXPTFIVEPERCENT
+Total SUM Subtotal Taxes
+----------------------------------------------------------------------------------------------------
+REPORT:,Tariff Report
+FOR:,NEVADAPOWER_LGS-1_LARGEGENERAL
+General
+
+,,Parameter
+,Meter,ELECTRICITY:FACILITY
+,Selected,Yes
+,Group,COMM ELECT
+,Qualified,Yes
+,Disqualifier,n/a
+,Computation,automatic
+,Units,kWh
+
+
+Categories
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,EnergyCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,402.17,0.00,0.00,0.00,0.00,0.00,402.17,402.17
+,DemandCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,81.01,0.00,0.00,0.00,0.00,0.00,81.01,81.01
+,ServiceCharges ($),15.70,15.70,15.70,15.70,15.70,15.70,15.70,15.70,15.70,15.70,15.70,15.70,188.40,15.70
+,Basis ($),15.70,15.70,15.70,15.70,15.70,15.70,498.88,15.70,15.70,15.70,15.70,15.70,671.58,498.88
+,Adjustment ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Surcharge ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Subtotal ($),15.70,15.70,15.70,15.70,15.70,15.70,498.88,15.70,15.70,15.70,15.70,15.70,671.58,498.88
+,Taxes ($),1.02,1.02,1.02,1.02,1.02,1.02,32.43,1.02,1.02,1.02,1.02,1.02,43.65,32.43
+,Total ($),16.72,16.72,16.72,16.72,16.72,16.72,531.31,16.72,16.72,16.72,16.72,16.72,715.23,531.31
+
+
+Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max,Category
+,ANNUALELECTCONSUMPCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,335.66,0.00,0.00,0.00,0.00,0.00,335.66,335.66,EnergyCharges
+,ANNUALDEFFERREDACCOUNTINGCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,66.51,0.00,0.00,0.00,0.00,0.00,66.51,66.51,EnergyCharges
+,ANNUALFACILITIESDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,62.71,0.00,0.00,0.00,0.00,0.00,62.71,62.71,DemandCharges
+,ANNUALDEMANDCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,18.30,0.00,0.00,0.00,0.00,0.00,18.30,18.30,DemandCharges
+,TAXOFSIXPTFIVEPERCENT ($),1.02,1.02,1.02,1.02,1.02,1.02,32.43,1.02,1.02,1.02,1.02,1.02,43.65,32.43,Taxes
+
+
+Corresponding Sources for Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,Subtotal,15.70,15.70,15.70,15.70,15.70,15.70,498.88,15.70,15.70,15.70,15.70,15.70,671.58,498.88
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,TotalDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+
+
+Ratchets
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+
+
+Qualifies
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,MAXDEMAND300KW,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,1.00,-1.0,-1.0,-1.0,-1.0,-1.0,-10.0,1.00
+,MINENERGY3500KWH,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,1.00,-1.0,-1.0,-1.0,-1.0,-1.0,-10.0,1.00
+
+
+Native Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,TotalDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,PeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,ShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,OffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,OffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,MidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,MidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsOffPeak,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,OffPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsMidPeak,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,MidPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsShoulder,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsWinter,0.00,0.00,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,1.00,1.00
+,IsNotWinter,1.00,1.00,1.00,1.00,1.00,1.00,0.00,1.00,1.00,1.00,1.00,1.00,11.00,1.00
+,IsSpring,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotSpring,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsSummer,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotSummer,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsAutumn,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotAutumn,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,PeakAndShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,PeakAndShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakAndMidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,PeakAndMidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,ShoulderAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,PeakAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,RealTimePriceCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Other Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,NotIncluded,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Computation -  Automatic
+MAXDEMAND300KW FROM TotalDemand
+MINENERGY3500KWH FROM TotalEnergy
+ANNUALELECTCONSUMPCHARGE FROM TotalEnergy
+ANNUALDEFFERREDACCOUNTINGCHARGE FROM TotalEnergy
+ANNUALFACILITIESDEMANDCHARGE FROM TotalDemand
+ANNUALDEMANDCHARGE FROM TotalDemand
+EnergyCharges SUM ANNUALELECTCONSUMPCHARGE ANNUALDEFFERREDACCOUNTINGCHARGE
+DemandCharges SUM ANNUALFACILITIESDEMANDCHARGE ANNUALDEMANDCHARGE
+Basis SUM EnergyCharges DemandCharges ServiceCharges
+Subtotal SUM Basis Adjustment Surcharge
+TAXOFSIXPTFIVEPERCENT FROM Subtotal
+Taxes SUM TAXOFSIXPTFIVEPERCENT
+Total SUM Subtotal Taxes
+----------------------------------------------------------------------------------------------------
+REPORT:,Tariff Report
+FOR:,NEVADAPOWER_GS_GENERALSERVICE
+General
+
+,,Parameter
+,Meter,ELECTRICITY:FACILITY
+,Selected,No
+,Group,COMM ELECT
+,Qualified,No
+,Disqualifier,MAXENERGY3500KWH
+,Computation,automatic
+,Units,kWh
+
+
+Categories
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,EnergyCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,473.36,0.00,0.00,0.00,0.00,0.00,473.36,473.36
+,DemandCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,ServiceCharges ($),11.00,11.00,11.00,11.00,11.00,11.00,11.00,11.00,11.00,11.00,11.00,11.00,132.00,11.00
+,Basis ($),11.00,11.00,11.00,11.00,11.00,11.00,484.36,11.00,11.00,11.00,11.00,11.00,605.36,484.36
+,Adjustment ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Surcharge ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Subtotal ($),11.00,11.00,11.00,11.00,11.00,11.00,484.36,11.00,11.00,11.00,11.00,11.00,605.36,484.36
+,Taxes ($),0.7150,0.7150,0.7150,0.7150,0.7150,0.7150,31.48,0.7150,0.7150,0.7150,0.7150,0.7150,39.35,31.48
+,Total ($),11.71,11.71,11.71,11.71,11.71,11.71,515.84,11.71,11.71,11.71,11.71,11.71,644.70,515.84
+
+
+Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max,Category
+,ANNUALELECTCONSUMPCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,406.85,0.00,0.00,0.00,0.00,0.00,406.85,406.85,EnergyCharges
+,ANNUALDEFFERREDACCOUNTINGCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,66.51,0.00,0.00,0.00,0.00,0.00,66.51,66.51,EnergyCharges
+,TAXOFSIXPTFIVEPERCENT ($),0.7150,0.7150,0.7150,0.7150,0.7150,0.7150,31.48,0.7150,0.7150,0.7150,0.7150,0.7150,39.35,31.48,Taxes
+
+
+Corresponding Sources for Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,Subtotal,11.00,11.00,11.00,11.00,11.00,11.00,484.36,11.00,11.00,11.00,11.00,11.00,605.36,484.36
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+
+
+Ratchets
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+
+
+Qualifies
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,MAXDEMAND300KW,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,1.00,-1.0,-1.0,-1.0,-1.0,-1.0,-10.0,1.00
+,MAXENERGY3500KWH,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,0.00,-1.0,-1.0,-1.0,-1.0,-1.0,-11.0,0.00
+
+
+Native Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,TotalDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,PeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,ShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,OffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,OffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,MidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,MidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsOffPeak,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,OffPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsMidPeak,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,MidPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsShoulder,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsWinter,0.00,0.00,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,1.00,1.00
+,IsNotWinter,1.00,1.00,1.00,1.00,1.00,1.00,0.00,1.00,1.00,1.00,1.00,1.00,11.00,1.00
+,IsSpring,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotSpring,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsSummer,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotSummer,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsAutumn,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotAutumn,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,PeakAndShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,PeakAndShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,PeakAndMidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,PeakAndMidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,ShoulderAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,ShoulderAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,5196.00,0.00,0.00,0.00,0.00,0.00,5196.00,5196.00
+,PeakAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,16.63,0.00,0.00,0.00,0.00,0.00,16.63,16.63
+,RealTimePriceCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Other Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,NotIncluded,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Computation -  Automatic
+MAXDEMAND300KW FROM TotalDemand
+MAXENERGY3500KWH FROM TotalEnergy
+ANNUALELECTCONSUMPCHARGE FROM TotalEnergy
+ANNUALDEFFERREDACCOUNTINGCHARGE FROM TotalEnergy
+EnergyCharges SUM ANNUALELECTCONSUMPCHARGE ANNUALDEFFERREDACCOUNTINGCHARGE
+Basis SUM EnergyCharges DemandCharges ServiceCharges
+Subtotal SUM Basis Adjustment Surcharge
+TAXOFSIXPTFIVEPERCENT FROM Subtotal
+Taxes SUM TAXOFSIXPTFIVEPERCENT
+Total SUM Subtotal Taxes
+----------------------------------------------------------------------------------------------------
+REPORT:,Tariff Report
+FOR:,NV_EIAMONTHLYRATEGAS
+General
+
+,,Parameter
+,Meter,GAS:FACILITY
+,Selected,Yes
+,Group,COMM GAS
+,Qualified,Yes
+,Disqualifier,n/a
+,Computation,automatic
+,Units,MCF
+
+
+Categories
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,EnergyCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,7.65,0.00,0.00,0.00,0.00,0.00,7.65,7.65
+,DemandCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,ServiceCharges ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Basis ($),0.00,0.00,0.00,0.00,0.00,0.00,7.65,0.00,0.00,0.00,0.00,0.00,7.65,7.65
+,Adjustment ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Surcharge ($),0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,Subtotal ($),0.00,0.00,0.00,0.00,0.00,0.00,7.65,0.00,0.00,0.00,0.00,0.00,7.65,7.65
+,Taxes ($),0.00,0.00,0.00,0.00,0.00,0.00,0.4975,0.00,0.00,0.00,0.00,0.00,0.50,0.50
+,Total ($),0.00,0.00,0.00,0.00,0.00,0.00,8.15,0.00,0.00,0.00,0.00,0.00,8.15,8.15
+
+
+Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max,Category
+,MONTHLYRATEGASCHARGE ($),0.00,0.00,0.00,0.00,0.00,0.00,7.65,0.00,0.00,0.00,0.00,0.00,7.65,7.65,EnergyCharges
+,TAXOFSIXPTFIVEPERCENT ($),0.00,0.00,0.00,0.00,0.00,0.00,0.4975,0.00,0.00,0.00,0.00,0.00,0.50,0.50,Taxes
+
+
+Corresponding Sources for Charges
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,Subtotal,0.00,0.00,0.00,0.00,0.00,0.00,7.65,0.00,0.00,0.00,0.00,0.00,7.65,7.65
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.8629,0.00,0.00,0.00,0.00,0.00,0.86,0.86
+
+
+Ratchets
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+
+
+Qualifies
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+
+
+Native Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,TotalEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.8629,0.00,0.00,0.00,0.00,0.00,0.86,0.86
+,TotalDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.0133,0.00,0.00,0.00,0.00,0.00,0.01,0.01
+,PeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.8629,0.00,0.00,0.00,0.00,0.00,0.86,0.86
+,PeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.0133,0.00,0.00,0.00,0.00,0.00,0.01,0.01
+,ShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,ShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,OffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,OffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,MidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,MidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsOffPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.0133,0.00,0.00,0.00,0.00,0.00,0.01,0.01
+,OffPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsMidPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.0133,0.00,0.00,0.00,0.00,0.00,0.01,0.01
+,MidPeakExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakExceedsShoulder,0.00,0.00,0.00,0.00,0.00,0.00,0.0133,0.00,0.00,0.00,0.00,0.00,0.01,0.01
+,ShoulderExceedsPeak,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsWinter,0.00,0.00,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,1.00,1.00
+,IsNotWinter,1.00,1.00,1.00,1.00,1.00,1.00,0.00,1.00,1.00,1.00,1.00,1.00,11.00,1.00
+,IsSpring,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotSpring,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsSummer,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotSummer,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,IsAutumn,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,IsNotAutumn,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,1.00,12.00,1.00
+,PeakAndShoulderEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.8629,0.00,0.00,0.00,0.00,0.00,0.86,0.86
+,PeakAndShoulderDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.0133,0.00,0.00,0.00,0.00,0.00,0.01,0.01
+,PeakAndMidPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.8629,0.00,0.00,0.00,0.00,0.00,0.86,0.86
+,PeakAndMidPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.0133,0.00,0.00,0.00,0.00,0.00,0.01,0.01
+,ShoulderAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,ShoulderAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,PeakAndOffPeakEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.8629,0.00,0.00,0.00,0.00,0.00,0.86,0.86
+,PeakAndOffPeakDemand,0.00,0.00,0.00,0.00,0.00,0.00,0.0133,0.00,0.00,0.00,0.00,0.00,0.01,0.01
+,RealTimePriceCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseCosts,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,AboveCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,BelowCustomerBaseEnergy,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+
+
+Other Variables
+
+,,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Sum,Max
+,NotIncluded,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+,NV_MONTHLYGASRATES,7.51,7.65,7.82,7.88,7.78,8.22,8.87,9.26,9.02,9.31,7.45,7.24,98.01,9.31
+
+
+Computation -  Automatic
+MONTHLYRATEGASCHARGE FROM TotalEnergy NV_MONTHLYGASRATES
+EnergyCharges SUM MONTHLYRATEGASCHARGE
+Basis SUM EnergyCharges DemandCharges ServiceCharges
+Subtotal SUM Basis Adjustment Surcharge
+TAXOFSIXPTFIVEPERCENT FROM Subtotal
+Taxes SUM TAXOFSIXPTFIVEPERCENT
+Total SUM Subtotal Taxes

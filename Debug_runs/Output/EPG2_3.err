@@ -1,0 +1,267 @@
+Program Version,EnergyPlus-Darwin-64 8.1.0.009, YMD=2016.07.06 13:23,IDD_Version 8.1.0.009
+   ** Warning ** CheckEnvironmentSpecifications: SimulationControl specified doing design day simulations, but no design environments specified.
+   **   ~~~   ** ...No design environment results produced. For these results, add appropriate SizingPeriod:* objects for your simulation.
+   ** Warning ** Site:GroundTemperature:BuildingSurface: Some values fall outside the range of 15-25C.
+   **   ~~~   ** These values may be inappropriate.  Please consult the Input Output Reference for more details.
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BEDROOM1_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BEDROOM1_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_BEDROOM1_PRESENCE_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_BEDROOM1_METABOLISM_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_BEDROOM1_APPLIANCE_NIST_MOBILEPHONES" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_BEDROOM1_APPLIANCE_LIGHTS" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_HALL_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_HALL_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_LIVING_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_LIVING_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_LIVING_APPLIANCE_LIGHTS" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_LIVING_APPLIANCE_NIST_TV" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_LIVING_PRESENCE_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_LIVING_METABOLISM_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_LIVING_APPLIANCE_NIST_MOBILEPHONES" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BATH1_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BATH1_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_BATH1_PRESENCE_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_BATH1_METABOLISM_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_BATH1_APPLIANCE_CIBSE_SHOWER_MOISTURE" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_BATH1_EXHAUSTFAN_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="WORKINGADULT1_BATH1_APPLIANCE_LIGHTS" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BEDROOM4_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BEDROOM4_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BEDROOM2_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BEDROOM2_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_LOO_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_LOO_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_KITCHEN_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_KITCHEN_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="DOORS_AWESOME_KITCHEN_DOOR_HALL" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_ENSUITE_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_ENSUITE_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_DINING_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_DINING_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BEDROOM3_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_BEDROOM3_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_STAIRCASE_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_STAIRCASE_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_UTILITY_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_UTILITY_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_TOPHALL_HEATING_" has missing day types in Through=04/30
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** ProcessScheduleInput: Schedule:Compact="HEAT_CIBSE_FAMILY_TOPHALL_HEATING_" has missing day types in Through=12/31
+   **   ~~~   ** Last "For" field=FOR: WEEKENDS
+   **   ~~~   ** Missing day types="Holiday","SummerDesignDay","WinterDesignDay","CustomDay1","CustomDay2"
+   **   ~~~   ** Missing day types will have 0.0 as Schedule Values
+   ** Warning ** CalcSurfaceCentroid: 7 Surfaces have the Z coordinate < 0.
+   **   ~~~   ** ...in any calculations, Wind Speed will be 0.0 for these surfaces.
+   **   ~~~   ** ...in any calculations, Outside temperatures will be the outside temperature + 9.750E-003 for these surfaces.
+   **   ~~~   ** ...that is, these surfaces will have conditions as though at ground level.
+   ** Warning ** GetInternalHeatGains: People="CHILD3_BEDROOM4", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="CHILD3_BEDROOM4_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="CHILD2_BEDROOM3", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="CHILD2_BEDROOM3_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="CHILD1_BEDROOM2", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="CHILD1_BEDROOM2_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="WORKINGADULT2_BEDROOM1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="WORKINGADULT2_BEDROOM1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,80.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="WORKINGADULT1_BEDROOM1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="WORKINGADULT1_BEDROOM1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,80.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="WORKINGADULT1_BATH1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="WORKINGADULT1_BATH1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="CHILD2_BATH1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="CHILD2_BATH1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="CHILD3_BATH1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="CHILD3_BATH1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="CHILD1_BATH1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="CHILD1_BATH1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="WORKINGADULT2_BATH1", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="WORKINGADULT2_BATH1_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="WORKINGADULT2_KITCHEN", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="WORKINGADULT2_KITCHEN_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="WORKINGADULT1_LIVING", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="WORKINGADULT1_LIVING_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="WORKINGADULT2_LIVING", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="WORKINGADULT2_LIVING_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ** Warning ** GetInternalHeatGains: People="CHILD1_LIVING", Activity Level Schedule Name values
+   **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
+   **   ~~~   ** Odd comfort values may result; Schedule="CHILD1_LIVING_METABOLISM_".
+   **   ~~~   ** Entered min/max range=[0.0,100.0] W/person.
+   ************* Testing Individual Branch Integrity
+   ************* All Branches passed integrity testing
+   ************* Testing Individual Supply Air Path Integrity
+   ************* All Supply Air Paths passed integrity testing
+   ************* Testing Individual Return Air Path Integrity
+   ************* All Return Air Paths passed integrity testing
+   ************* No node connection errors were found.
+   ************* Beginning Simulation
+   ************* Simulation Error Summary *************
+   ** Warning ** The following Report Variables were requested but not generated
+   **   ~~~   ** because IDF did not contain these elements or misspelled variable name -- check .rdd file
+   ************* Key=KITCHEN_L1, VarName=HAMT SURFACE INSIDE FACE TEMPERATURE, Frequency=Hourly
+   ************* Key=KITCHEN_L2, VarName=HAMT SURFACE INSIDE FACE TEMPERATURE, Frequency=Hourly
+   ************* Key=KITCHEN_L3, VarName=HAMT SURFACE INSIDE FACE TEMPERATURE, Frequency=Hourly
+   ************* Key=KITCHEN_L4, VarName=HAMT SURFACE INSIDE FACE TEMPERATURE, Frequency=Hourly
+   ************* Key=KITCHEN_L1, VarName=HAMT SURFACE INSIDE FACE RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=KITCHEN_L2, VarName=HAMT SURFACE INSIDE FACE RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=KITCHEN_L3, VarName=HAMT SURFACE INSIDE FACE RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=KITCHEN_L4, VarName=HAMT SURFACE INSIDE FACE RELATIVE HUMIDITY, Frequency=Hourly
+   ************* Key=KITCHEN_L1, VarName=HAMT SURFACE INSIDE FACE VAPOR PRESSURE, Frequency=Hourly
+   ************* Key=KITCHEN_L2, VarName=HAMT SURFACE INSIDE FACE VAPOR PRESSURE, Frequency=Hourly
+   ************* Key=KITCHEN_L3, VarName=HAMT SURFACE INSIDE FACE VAPOR PRESSURE, Frequency=Hourly
+   ************* Key=KITCHEN_L4, VarName=HAMT SURFACE INSIDE FACE VAPOR PRESSURE, Frequency=Hourly
+   ************* There are 1 unused objects in input.
+   ************* Use Output:Diagnostics,DisplayUnusedObjects; to see them.
+   ************* There are 4 unused schedules in input.
+   ************* Use Output:Diagnostics,DisplayUnusedSchedules; to see them.
+   ************* EnergyPlus Warmup Error Summary. During Warmup: 0 Warning; 0 Severe Errors.
+   ************* EnergyPlus Sizing Error Summary. During Sizing: 0 Warning; 0 Severe Errors.
+   ************* EnergyPlus Completed Successfully-- 61 Warning; 0 Severe Errors; Elapsed Time=00hr 00min 33.43sec
